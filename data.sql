@@ -8,7 +8,7 @@ INSERT into student values('21EC10045',7,'Mahesh','ECE');
 INSERT into student values('21AG10092',8,'Piyush','AG');
 INSERT into student values('21EE10013',9,'Aniket','EE');
 INSERT into student values('21AG10053',10,'Chetan','AG');
-INSERT into student values('21EE10061',11,'Vivek','EE');
+INSERT into student values('21CS10077',11,'Vivek','CSE');
 INSERT into student values('21BT10070',12,'Scott','BT');
 INSERT into student values('21EC10029',13,'Mayank','ECE');
 INSERT into student values('21BT10099',14,'Sandeep','BT');
@@ -67,12 +67,12 @@ INSERT into student values('21AG10095',66,'Shreyas','AG');
 INSERT into student values('21CS10014',67,'Mohan','CSE');
 INSERT into student values('21EE10021',68,'Jeff','EE');
 INSERT into student values('21EE10095',69,'Dhananjay','EE');
-INSERT into student values('21EC10030',70,'Piyush','ECE')
+INSERT into student values('21EC10030',70,'Piyush','ECE');
 INSERT into student values('21EC10084',71,'Ajit','ECE');
 INSERT into student values('21CS10053',72,'Omkar','CSE');
 INSERT into student values('21BT10028',73,'Manish','BT');
 INSERT into student values('21CS10038',74,'Jatin','CSE');
-INSERT into student values('21AG10036',75,'Sushil','AG')
+INSERT into student values('21AG10036',75,'Sushil','AG');
 INSERT into student values('21EE10096',76,'Vinay','EE');
 INSERT into student values('21AG10029',77,'Justin','AG');
 INSERT into student values('21MA10068',78,'Dhruv','MA');
@@ -120,6 +120,7 @@ INSERT into ext_participant values(1000,'Vikas','IIT Bombay',1);
 INSERT into ext_participant values(1001,'Manish','IIT Madras',2);
 INSERT into ext_participant values(1002,'David','IIT Delhi',3);
 INSERT into ext_participant values(1003,'Amit','IIT Kanpur',4);
+INSERT into ext_participant values(1004,'Tarun','IIT Madras',1);
 INSERT into ext_participant values(1005,'Aryan','IIT Roorkee',1);
 INSERT into ext_participant values(1006,'Mahesh','IIT Guwahati',2);
 INSERT into ext_participant values(1007,'Piyush','IIT Ropar',3);
@@ -166,11 +167,11 @@ INSERT into volunteering values(92,1);
 
 
 
-INSERT into participating_ext values(1,1);
-INSERT into participating_ext values(2,2);
-INSERT into participating_ext values(3,3);
-INSERT into participating_ext values(4,4);
-INSERT into participating_ext values(5,5);
+INSERT into participating_ext values(1000,1);
+INSERT into participating_ext values(1002,2);
+INSERT into participating_ext values(1003,3);
+INSERT into participating_ext values(1004,4);
+INSERT into participating_ext values(1005,5);
 
 INSERT into participating_int values(6,1);
 INSERT into participating_int values(7,2);
