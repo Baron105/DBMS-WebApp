@@ -1,0 +1,180 @@
+INSERT into student values('21CS10049',1,'Vikas','CSE');
+INSERT into student values('21AG10043',2,'Manish','AG');
+INSERT into student values('21MA10088',3,'David','MA');
+INSERT into student values('21MA10026',4,'Amit','MA');
+INSERT into student values('21BT10097',5,'Tarun','BT');
+INSERT into student values('21BT10057',6,'Aryan','BT');
+INSERT into student values('21EC10045',7,'Mahesh','ECE');
+INSERT into student values('21AG10092',8,'Piyush','AG');
+INSERT into student values('21EE10013',9,'Aniket','EE');
+INSERT into student values('21AG10053',10,'Chetan','AG');
+INSERT into student values('21EE10061',11,'Vivek','EE');
+INSERT into student values('21BT10070',12,'Scott','BT');
+INSERT into student values('21EC10029',13,'Mayank','ECE');
+INSERT into student values('21BT10099',14,'Sandeep','BT');
+INSERT into student values('21EE10097',15,'Pranav','EE');
+INSERT into student values('21AG10022',16,'Amit','AG');
+INSERT into student values('21BT10042',17,'Hemant','BT');
+INSERT into student values('21MA10097',18,'Rahul','MA');
+INSERT into student values('21BT10056',19,'Lakshya','BT');
+INSERT into student values('21EC10087',20,'Jeff','ECE');
+INSERT into student values('21MA10033',21,'Krishna','MA');
+INSERT into student values('21AG10023',22,'Karan','AG');
+INSERT into student values('21BT10034',23,'Pradeep','BT');
+INSERT into student values('21BT10055',24,'Yash','BT');
+INSERT into student values('21CS10013',25,'Sushil','CSE');
+INSERT into student values('21AG10060',26,'Ajit','AG');
+INSERT into student values('21EC10011',27,'Justin','ECE');
+INSERT into student values('21BT10065',28,'Sagar','BT');
+INSERT into student values('21CS10031',29,'Brijesh','CSE');
+INSERT into student values('21BT10045',30,'Brian','BT');
+INSERT into student values('21MA10069',31,'Dharmesh','MA');
+INSERT into student values('21AG10021',32,'David','AG');
+INSERT into student values('21MA10069',33,'Vaibhav','MA');
+INSERT into student values('21AG10027',34,'Mahesh','AG');
+INSERT into student values('21EE10014',35,'Tarun','EE');
+INSERT into student values('21CS10058',36,'Hemant','CSE');
+INSERT into student values('21BT10078',37,'Darshan','BT');
+INSERT into student values('21EE10018',38,'Ankit','EE');
+INSERT into student values('21MA10090',39,'Dev','MA');
+INSERT into student values('21AG10018',40,'Naveen','AG');
+INSERT into student values('21BT10083',41,'Piyush','BT');
+INSERT into student values('21CS10040',42,'Pradeep','CSE');
+INSERT into student values('21EC10036',43,'Naveen','ECE');
+INSERT into student values('21EC10053',44,'Gaurav','ECE');
+INSERT into student values('21BT10027',45,'Kevin','BT');
+INSERT into student values('21AG10065',46,'Mukesh','AG');
+INSERT into student values('21EE10071',47,'Umesh','EE');
+INSERT into student values('21MA10087',48,'Kunal','MA');
+INSERT into student values('21EE10088',49,'Yash','EE');
+INSERT into student values('21MA10017',50,'Sushil','MA');
+INSERT into student values('21CS10099',51,'John','CSE');
+INSERT into student values('21MA10055',52,'Rakesh','MA');
+INSERT into student values('21MA10083',53,'Brian','MA');
+INSERT into student values('21EC10017',54,'Eric','ECE');
+INSERT into student values('21BT10089',55,'Manish','BT');
+INSERT into student values('21MA10098',56,'Scott','MA');
+INSERT into student values('21MA10063',57,'Aditya','MA');
+INSERT into student values('21AG10013',58,'Vikas','AG');
+INSERT into student values('21MA10078',59,'Brijesh','MA');
+INSERT into student values('21AG10077',60,'Uday','AG');
+INSERT into student values('21EE10028',61,'Arjun','EE');
+INSERT into student values('21BT10029',62,'Eric','BT');
+INSERT into student values('21EE10038',63,'Ganesh','EE');
+INSERT into student values('21CS10096',64,'Krishna','CSE');
+INSERT into student values('21EC10075',65,'Suraj','ECE');
+INSERT into student values('21AG10095',66,'Shreyas','AG');
+INSERT into student values('21CS10014',67,'Mohan','CSE');
+INSERT into student values('21EE10021',68,'Jeff','EE');
+INSERT into student values('21EE10095',69,'Dhananjay','EE');
+INSERT into student values('21EC10030',70,'Piyush','ECE')
+INSERT into student values('21EC10084',71,'Ajit','ECE');
+INSERT into student values('21CS10053',72,'Omkar','CSE');
+INSERT into student values('21BT10028',73,'Manish','BT');
+INSERT into student values('21CS10038',74,'Jatin','CSE');
+INSERT into student values('21AG10036',75,'Sushil','AG')
+INSERT into student values('21EE10096',76,'Vinay','EE');
+INSERT into student values('21AG10029',77,'Justin','AG');
+INSERT into student values('21MA10068',78,'Dhruv','MA');
+INSERT into student values('21EC10044',79,'Mayank','ECE');
+INSERT into student values('21CS10011',80,'Hrishikesh','CSE');
+INSERT into student values('21EE10045',81,'Justin','EE');
+INSERT into student values('21BT10037',82,'Sagar','BT');
+INSERT into student values('21BT10014',83,'Brijesh','BT');
+INSERT into student values('21MA10071',84,'Vivek','MA');
+INSERT into student values('21AG10028',85,'Brijesh','AG');
+INSERT into student values('21EC10052',86,'Luke','ECE');
+INSERT into student values('21CS10011',87,'Eklavya','CSE');
+INSERT into student values('21AG10052',88,'Scott','AG');
+INSERT into student values('21MA10059',89,'Rajesh','MA');
+INSERT into student values('21EE10066',90,'Harshal','EE');
+INSERT into student values('21EC10073',91,'Jatin','ECE');
+INSERT into student values('21EE10057',92,'Tarun','EE');
+INSERT into student values('21BT10013',93,'Kunal','BT');
+INSERT into student values('21AG10086',94,'Deepak','AG');
+INSERT into student values('21EE10083',95,'Shreyas','EE');
+INSERT into student values('21EE10047',96,'Umesh','EE');
+INSERT into student values('21AG10084',97,'Deepak','AG');
+INSERT into student values('21EC10074',98,'Aniket','ECE');
+INSERT into student values('21MA10045',99,'Yuvraj','MA');
+
+INSERT into event values(1,'Dance','2021-10-01','08:00:00','Auditorium','Cultural','Dance competition',NULL);
+INSERT into event values(2,'Music','2021-10-02','10:00:00','Auditorium','Cultural','Music competition',NULL);
+INSERT into event values(3,'Coding','2021-10-03','12:00:00','Auditorium','Technical','Coding competition',NULL);
+INSERT into event values(4,'Debate','2021-10-04','14:00:00','Auditorium','Cultural','Debate competition',NULL);
+INSERT into event values(5,'Quiz','2021-10-05','15:00:00','Auditorium','Technical','Quiz competition',NULL);
+INSERT into event values(6,'Drama','2021-10-06','13:00:00','Auditorium','Cultural','Drama competition',NULL);
+INSERT into event values(7,'Hackathon','2021-10-07','17:00:00','Auditorium','Technical','Hackathon competition',NULL);
+INSERT into event values(8,'Singing','2021-10-08','12:00:00','Auditorium','Cultural','Singing competition',NULL);
+INSERT into event values(9,'Gaming','2021-10-09','12:00:00','Gymkhana','Technical','Gaming competition',NULL);
+
+
+INSERT into accomodation values(1,'A',100);
+INSERT into accomodation values(2,'B',200);
+INSERT into accomodation values(3,'C',100);
+INSERT into accomodation values(4,'D',100);
+
+
+
+INSERT into ext_participant values(1000,'Vikas','IIT Bombay',1);
+INSERT into ext_participant values(1001,'Manish','IIT Madras',2);
+INSERT into ext_participant values(1002,'David','IIT Delhi',3);
+INSERT into ext_participant values(1003,'Amit','IIT Kanpur',4);
+INSERT into ext_participant values(1005,'Aryan','IIT Roorkee',1);
+INSERT into ext_participant values(1006,'Mahesh','IIT Guwahati',2);
+INSERT into ext_participant values(1007,'Piyush','IIT Ropar',3);
+INSERT into ext_participant values(1008,'Aniket','NIT Trichy',4);
+INSERT into ext_participant values(1009,'Chetan','NIT Surat',1);
+INSERT into ext_participant values(1010,'Vivek','NIT Warangal',2);
+INSERT into ext_participant values(1011,'Scott','NIT Calicut',3);
+INSERT into ext_participant values(1012,'Mayank','NIT Surat',4);
+INSERT into ext_participant values(1013,'Sandeep','NIT Warangal',4);
+INSERT into ext_participant values(1014,'Pranav','BITS Pilani',1);
+INSERT into ext_participant values(1015,'Amit','BITS Goa',2);
+INSERT into ext_participant values(1016,'Hemant','BITS Hyderabad',3);
+INSERT into ext_participant values(1017,'Rahul','BITS Goa',4);
+INSERT into ext_participant values(1018,'Lakshya','BITS Hyderabad',1);
+INSERT into ext_participant values(1019,'Jeff','IIT Bombay',2);
+INSERT into ext_participant values(1020,'Krishna','IIT Madras',3);
+INSERT into ext_participant values(1021,'Karan','IIT Delhi',4);
+INSERT into ext_participant values(1022,'Pradeep','IIT Kanpur',1);
+
+
+
+
+INSERT into organising values(1,1);
+INSERT into organising values(11,2);
+INSERT into organising values(21,3);
+INSERT into organising values(31,4);
+INSERT into organising values(41,5);
+INSERT into organising values(51,6);
+INSERT into organising values(61,7);
+INSERT into organising values(71,8);
+INSERT into organising values(81,9);
+INSERT into organising values(91,1);
+
+INSERT into volunteering values(2,1);
+INSERT into volunteering values(12,2);
+INSERT into volunteering values(22,3);
+INSERT into volunteering values(32,4);
+INSERT into volunteering values(42,5);
+INSERT into volunteering values(52,6);
+INSERT into volunteering values(62,7);
+INSERT into volunteering values(72,8);
+INSERT into volunteering values(82,9);
+INSERT into volunteering values(92,1);
+
+
+
+INSERT into participating_ext values(1,1);
+INSERT into participating_ext values(2,2);
+INSERT into participating_ext values(3,3);
+INSERT into participating_ext values(4,4);
+INSERT into participating_ext values(5,5);
+
+INSERT into participating_int values(6,1);
+INSERT into participating_int values(7,2);
+INSERT into participating_int values(8,3);
+INSERT into participating_int values(9,4);
+INSERT into participating_int values(10,5);
+INSERT into participating_int values(11,6);
