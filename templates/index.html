@@ -24,10 +24,12 @@
                 <td>{{event[4]}}</td>
             </tr>
         {%endfor%}
-
+    {% else %}
+        <p align = "center">You have not participated in any event yet</p>
     {%endif%}  
    
     {% if non_participating_event%}
+        <h2>Events to participate</h2>
         <table style="width:60%">
             <tr>
             <th >Event Name</th>
@@ -43,10 +45,13 @@
                 <td>{{event[1]}}</td>
                 <td>{{event[2]}}</td>
                 <td>{{event[3]}}</td>
-                <td><a href="{{url_for('register')}}">Participate</a></td>
+                <!-- the participate button will put the event from list to -->
+                <td><a href="">Participate</a></td>
             </tr>
         {%endfor%}
-    </table>
+        </table>
+    {% else %}
+        <p align = "center">No events to participate</p>
     {%endif%}
 
 {% endblock%}
