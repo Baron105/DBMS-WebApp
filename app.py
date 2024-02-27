@@ -17,8 +17,11 @@ app = Flask(__name__)
 @app.route("/", methods=["GET", "POST"])
 def home():
     """Home page"""
-    return render_template("home.html")
 
+    cursor = conn.cursor()
+    cursor.execute("SELECT event_name, event_venue, event_date, event_time, event_type FROM event ORDER BY RANDOM() LIMIT 3;")
+    events = cursor.fetchall();
+    return render_template('home.html', events=events)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -167,13 +170,15 @@ def register():
             cursor.close()
 
             flag = 1
-            return render_template("register.html", flag=flag, fest_id=fest_id)
 
-        # add the part where user is asked to enter again
-        return redirect(url_for("register"))
-
-    else:
-        return render_template("register.html")
+            return render_template('register.html',flag = flag ,fest_id = fest_id)
+        else:
+            # add the part where user is asked to enter again 
+            flag = -1
+            return render_template('register.html',flag = flag)
+        
+    else : 
+        return render_template('register.html')
 
 
 if __name__ == "__main__":
