@@ -4,7 +4,8 @@ CREATE TABLE student
     roll VARCHAR(9) NOT NULL,
     fest_id NUMERIC(5) PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    dept VARCHAR(50) NOT NULL
+    dept VARCHAR(50) NOT NULL,
+    pass VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE event
