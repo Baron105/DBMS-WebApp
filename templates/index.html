@@ -26,25 +26,27 @@
         {%endfor%}
 
     {%endif%}  
-    
+   
     {% if non_participating_event%}
-        <table>
-            <th>Event Name</th>
-            <th>Event Date</th>
+        <table style="width:60%">
+            <tr>
+            <th >Event Name</th>
+            <th >Event Date</th>
             <th>Event Time</th>
             <th>Event Venue</th>
             <th>Participate</th>
-        </table>
+            </tr>
+        
         {% for event in non_participating_event%}
             <tr>
                 <td>{{event[0]}}</td>
                 <td>{{event[1]}}</td>
                 <td>{{event[2]}}</td>
                 <td>{{event[3]}}</td>
-                <td><a href="">wef</a></td>
+                <td><a href="{{url_for('register')}}">Participate</a></td>
             </tr>
         {%endfor%}
-        
+    </table>
     {%endif%}
 
 {% endblock%}

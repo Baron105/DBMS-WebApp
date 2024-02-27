@@ -74,7 +74,6 @@ def index(fest_id,organise,student):
     
     participating_event = []
     non_participating_event = []
-    
     if fest_id > 1000 :
         cursor.execute(f"SELECT event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_ext where fest_id = {fest_id}")
         participating_event = cursor.fetchall()
@@ -89,7 +88,7 @@ def index(fest_id,organise,student):
         cursor.execute(f"SELECT event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_int where fest_id = {fest_id})")
         non_participating_event = cursor.fetchall()
         
-    
+
     print(participating_event)
     print(non_participating_event)    
     

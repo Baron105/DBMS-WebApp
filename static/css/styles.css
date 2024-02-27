@@ -11,6 +11,16 @@ html, body {
     box-sizing: border-box;
 }
 
+table, th, td {
+    border: 1px solid white;
+    border-collapse: collapse;
+    text-align: center;
+  }
+
+th, td {
+    background-color: #96D4D4;
+  }
+
 .home-navbar {
     display: flex;
     align-items: center;
