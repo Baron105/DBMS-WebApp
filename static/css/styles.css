@@ -1,6 +1,108 @@
-body {
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
+* {
     margin: 0;
     padding: 0;
+    scroll-behavior: smooth;
+}
+
+html, body {
+    background-color: #f0f0f0;
+    font-size: 16px;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+.home-navbar {
+    display: flex;
+    align-items: center;
+    font-size: 1.5vh;
+    font-family: 'Poppins', sans-serif;
+    justify-content: space-between;
+    background-color: #fff;
+    height: 10vh;
+    width: 100%;
+    padding: 0rem 1rem; 
+    position: fixed;
+    top: 0;
+}
+
+.nav-logo {
+    font-size: 1.5rem;
+}
+
+.nav-el {
+    display: flex;
+    list-style-type: none;
+    font-size: 1rem;
+    display: flex;
+    margin: 0 1rem;
+}
+
+.nav-el > a {
+    padding: 1rem 2rem;
+}
+
+.nav-el > a:hover {
+    background-color: grey;
+    color: black;
+    cursor: pointer;
+    transition: ease-in-out;
+}
+
+.home-welcome {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0rem 2rem;
+}
+
+.home-events {
+    height: 50vh;
+    background-color: grey;
+}
+
+.home-about {
+    height: 50vh;
+    background-color: #fff;
+}
+
+.home-footer {
+    height: 30vh;
+}
+
+.welcome-text {
+    font-size: 2rem;
+    margin: 2rem 0;
+}
+
+.welcome-text > p {
+    margin-top: 1rem;
+}
+
+.home-buttons {
+    display: flex;
+    flex-direction: row;
+    width: 30%;
+}
+
+.home-buttons > a {
+    background-color: green;
+    font-size: 1.2rem;
+    padding: 1rem 2rem;
+    color: white;
+    border-radius: 7px;
+    margin-right: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.home-buttons > a:hover{
+    box-shadow: 0 0 10px 5px green;
+    cursor: pointer;
+    background-color: white;
+    color: green;
+    transition: ease-in-out;
 }
