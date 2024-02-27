@@ -63,5 +63,16 @@
         <h2 align = "center">Already registered? <a href="{{url_for('login')}}">Login</a></h2>
         <p align = "center">If you are an existing user, please login.</p>
     </div>
+
+    {% if flag %}
+        <div class="content">
+            <h2 align = "center">Registration Successful</h2>
+            <p align = "center">Your username is 24FEST{{fest_id}}</p>
+        </div>
+        <a href="{{url_for('login')}}">Login</a>
+
+    {%endif%}
+   
+    
     
 {% endblock %}
