@@ -34,20 +34,29 @@ def login():
             return render_template('login.html',flag = flag)
         password = request.form['password']
         
+        fest_id = 0
+        print(username, password)
         
         if(username > 1000) :
             organise = 0
             student = 0
             cursor.execute(f"SELECT fest_id from ext_participant where fest_id = '{username}' and pass = '{password}'")
+            fest_id = cursor.fetchone()
         else :
-            
             cursor.execute(f"SELECT fest_id from student where fest_id = '{username}' and pass = '{password}'")
-        fest_id = cursor.fetchone()
+            fest_id = cursor.fetchone()
+            cursor.execute(f"SELECT fest_id from organising where fest_id = '{username}'")
+            fest_id_organise = cursor.fetchone()
+            if fest_id_organise is not None:
+                organise = 1
+            else:
+                organise = 0
+            
         
         cursor.close()
         if fest_id is not None:
             fest_id = fest_id[0]
-            return render_template('home.html',fest_id = fest_id)
+            return redirect(url_for('index',fest_id = fest_id,organise = organise,student = student))
         else:
             flag = 1
             return render_template('login.html',flag = flag)
@@ -55,6 +64,36 @@ def login():
     else :
         return render_template('login.html')
 
+@app.route('/index/<int:fest_id>/<int:organise>/<int:student>', methods = ['GET', 'POST'])
+def index(fest_id,organise,student):
+    """INDEX page"""
+    
+    
+    
+    cursor = conn.cursor()
+    
+    participating_event = []
+    non_participating_event = []
+    
+    if fest_id > 1000 :
+        cursor.execute(f"SELECT event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_ext where fest_id = {fest_id}")
+        participating_event = cursor.fetchall()
+    
+        cursor.execute(f"SELECT event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_ext where fest_id = {fest_id})")
+        non_participating_event = cursor.fetchall()
+    
+    else :
+        cursor.execute(f"SELECT event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_int where fest_id = {fest_id}")
+        participating_event = cursor.fetchall()
+    
+        cursor.execute(f"SELECT event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_int where fest_id = {fest_id})")
+        non_participating_event = cursor.fetchall()
+        
+    
+    print(participating_event)
+    print(non_participating_event)    
+    
+    return render_template('index.html',fest_id = fest_id,organise = organise,student = student,participating_event = participating_event,non_participating_event = non_participating_event)
 
 
 @app.route('/register', methods = ['GET', 'POST'])
@@ -93,9 +132,6 @@ def register():
             cursor.execute(f"UPDATE accomodation SET capacity = capacity - 1 WHERE acc_id = {acc_id}")
             conn.commit()
             cursor.close()
-            
-            # write a popup to show the username of the user using flash
-            flash(f'Account created for 24FEST{fest_id}!', 'success')
             
             flag = 1
             return render_template('register.html',flag = flag ,fest_id = fest_id)
