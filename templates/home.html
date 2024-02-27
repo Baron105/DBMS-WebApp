@@ -5,14 +5,35 @@
 {% endblock %}
 
 {% block body %}
-    <div class="content">
-        <h1 align = "center">IIT Kharagpur Fest Website</h1>
-        <p align = "center">Welcome to the home page of our Website!</p>
+    <div class="home-navbar">
+        <h1 class="nav-logo">Fest 2024</h1>
+        <ul class="nav-el">
+            <a href="#welcome"><li>Home</li></a>
+            <a href="#events"><li>Events</li></a>
+            <a href="#about"><li>About</li></a>
+        </ul>
+    </div>
+    <div id="welcome" class="home-welcome">
+        <div class="welcome-text">
+            <h1>IIT Kharagpur Fest Website</h1>
+            <p>Welcome to the home page of our Website!</p>
+        </div>
+        <div class="home-login">
+            <div class="home-buttons">
+                <a href="{{ url_for('login') }}"><p>Login</p></a>
+                <a href="{{ url_for('register') }}"><p>Register</p></a>
+            </div>
+        </div>
     </div>
 
-    <div class="content">
-        <h2 align = "center">Login or <a href="{{url_for('register')}}">Register </a></h2>
-        <p align = "center">Please login or register to access the website.</p>
-        <p align = "center">If you are a new user, please register. If you are an existing user, please login.</p>
+    <div id="events" class="home-events">
+        <h1>Events</h1>
     </div>
+
+    </div>
+
+    <div class="home-footer">
+        <h1>Contact</h1>
+    </div>
+
 {% endblock %}
