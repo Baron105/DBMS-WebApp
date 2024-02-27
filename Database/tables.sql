@@ -31,8 +31,9 @@ CREATE TABLE ext_participant
     fest_id NUMERIC(5) NOT NULL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     college VARCHAR(50) NOT NULL,
-    acc_id NUMERIC(5) NOT NULL,
-    FOREIGN KEY (acc_id) REFERENCES accomodation(acc_id) ON DELETE CASCADE ON UPDATE CASCADE
+    acc_id NUMERIC(5) NOT NULL ,
+    FOREIGN KEY (acc_id) REFERENCES accomodation(acc_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    pass VARCHAR(50) NOT NULL
 );
 
 -- relationships 
