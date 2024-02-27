@@ -170,6 +170,25 @@ a {
     transition: ease-in-out;
 }
 
+.login-button {
+    background-color: #04AA6D;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    margin: 4px auto;
+    text-align: center;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: white;
+    color: #04AA6D;
+    box-shadow: 0 0 10px 5px #04AA6D;
+    transition: ease-in-out;
+}
+
 .img-subtxt {
     margin-bottom: 2rem;
 }
@@ -193,4 +212,8 @@ a {
 
 .image-box > a {
     margin-top: 5rem;
+}
+
+.mg-top-4 {
+    margin-top: 4px;
 }

@@ -8,9 +8,18 @@
     <div class="register-content">
         <div class="form-box">
             <div class="image-box">
+                {% if flag %}
+                <div class="content">
+                    <h1 class="img-txt">Registration Successful !</h1>
+                    <p class="img-subtxt mg-top-4">Your username is '24FEST{{fest_id}}'</p>
+                    <a href="{{url_for('login')}}"><p class="login-button">Login</p></a>
+                </div>
+
+                {% else %}
                 <h1 class="img-txt">Fest 2024</h1>
                 <p class="img-subtxt">Register for the world's best fest!</p>
                 <p class="img-login">Already registered? <a href="{{url_for('login')}}">Login</a></p>
+                {%endif%}
                 <a href="{{url_for('home')}}"><p class="go-back-btn">Go back</p></a>
             </div>
             <div class="register-form">
@@ -63,14 +72,6 @@
         </div>
     </div>
 
-    {% if flag %}
-        <div class="content">
-            <h2 align = "center">Registration Successful</h2>
-            <p align = "center">Your username is 24FEST{{fest_id}}</p>
-        </div>
-        <a href="{{url_for('login')}}">Login</a>
-
-    {%endif%}
    
     
     
