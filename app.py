@@ -93,23 +93,23 @@ def index(fest_id, organise, student):
 
     if fest_id > 1000:
         cursor.execute(
-            f"SELECT event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_ext where fest_id = {fest_id}"
+            f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_ext where fest_id = {fest_id}"
         )
         participating_event = cursor.fetchall()
 
         cursor.execute(
-            f"SELECT event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_ext where fest_id = {fest_id})"
+            f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_ext where fest_id = {fest_id})"
         )
         non_participating_event = cursor.fetchall()
 
     else:
         cursor.execute(
-            f"SELECT event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_int where fest_id = {fest_id}"
+            f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_int where fest_id = {fest_id}"
         )
         participating_event = cursor.fetchall()
 
         cursor.execute(
-            f"SELECT event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_int where fest_id = {fest_id})"
+            f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_int where fest_id = {fest_id})"
         )
         non_participating_event = cursor.fetchall()
 
@@ -126,6 +126,21 @@ def index(fest_id, organise, student):
         non_participating_event=non_participating_event,
     )
 
+@app.route("/participate/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>", methods=["GET", "POST"])
+def participate(fest_id, event_id,organise,student):
+    """Participate page"""
+    cursor = conn.cursor()
+    if fest_id > 1000:
+        cursor.execute(
+            f"INSERT INTO participating_ext VALUES ({fest_id},{event_id})"
+        )
+    else:
+        cursor.execute(
+            f"INSERT INTO participating_int VALUES ({fest_id},{event_id})"
+        )
+    conn.commit()
+    cursor.close()
+    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student))
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

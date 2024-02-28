@@ -20,12 +20,12 @@
 
 {% for event in participating_event%}
     <tr>
-        <td>{{event[0]}}</td>
         <td>{{event[1]}}</td>
         <td>{{event[2]}}</td>
         <td>{{event[3]}}</td>
-        <!-- the participate button will put the event from list to -->
         <td>{{event[4]}}</td>
+        <!-- the participate button will put the event from list to -->
+        <td>{{event[5]}}</td>
     </tr>
 {%endfor%}
 </table>
@@ -46,12 +46,12 @@
         
         {% for event in non_participating_event%}
             <tr>
-                <td>{{event[0]}}</td>
                 <td>{{event[1]}}</td>
                 <td>{{event[2]}}</td>
                 <td>{{event[3]}}</td>
+                <td>{{event[4]}}</td>
                 <!-- the participate button will put the event from list to -->
-                <td><a href="">Participate</a></td>
+                <td><a href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student )}}">Participate</a></td>
             </tr>
         {%endfor%}
         </table>
