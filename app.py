@@ -3,10 +3,10 @@ from flask import Flask, render_template, redirect, request, url_for
 import psycopg2
 
 conn = psycopg2.connect(
-    dbname="21CS30032",
-    user="21CS30032",
-    password="21CS30032",
-    host="10.5.18.70",
+    dbname="21CS10048",
+    user="21CS10048",
+    password="21CS10048",
+    host="10.5.18.69",
     port="5432",
 )
 
@@ -94,6 +94,8 @@ def index(fest_id, organise, student):
     non_volunteering_event = []
     other_events = []
     organising_event = []
+    participant_event=[]
+    volunteer_event = []
     if fest_id > 1000:
         cursor.execute(
             f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_ext where fest_id = {fest_id}"
@@ -121,11 +123,8 @@ def index(fest_id, organise, student):
         #get the list of events in which the student is not volunteering
         # cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from volunteering where fest_id = {fest_id})")
         # non_volunteering_event = cursor.fetchall()
-        if organise == 1:
-            cursor.execute(
-                f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id in (select event_id from organising where fest_id = {fest_id})"
-            )
-            organising_event = cursor.fetchall()
+        participant_event_2 = []
+
             
         # merge the tables of participating, volunteering and organising events and return all the events not in these tables such that the student can participate in them
         cursor.execute(
@@ -133,6 +132,31 @@ def index(fest_id, organise, student):
         )
         other_events = cursor.fetchall()
 
+        #Organising events
+
+        if organise == 1:
+            
+            cursor.execute(
+                f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event where event_id in (select event_id from organising where fest_id = {fest_id})"
+            )
+            organising_event = cursor.fetchone()
+            cursor.execute(
+                f"SELECT fest_id, name from participating_ext natural join ext_participant where event_id = {organising_event[0]}"
+            )
+
+            participant_event = cursor.fetchall()
+            cursor.execute(
+                f"SELECT fest_id, name from participating_int natural join student where event_id = {organising_event[0]}"
+            )
+            participant_event += cursor.fetchall()
+            cursor.execute(
+                f"SELECT roll, name from volunteering natural join student where event_id = {organising_event[0]}"
+            )
+            volunteer_event = cursor.fetchall()
+            for participant in participant_event:
+                participant2 = list(participant)
+                participant2[0]="24FEST"+str(participant[0]).zfill(4)
+                participant_event_2.append(participant2)
     cursor.close()
 
 
@@ -147,7 +171,20 @@ def index(fest_id, organise, student):
         non_volunteering_event = non_volunteering_event,
         organising_event=organising_event,
         other_events=other_events,
+        participant_event = participant_event_2,
+        volunteer_event = volunteer_event
     )
+
+@app.route("/winner/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>/<winner_name>", methods=["GET", "POST"])
+def winner(fest_id, event_id,organise,student,winner_name):
+    """Winner page"""
+    cursor = conn.cursor()
+    cursor.execute(
+        f"UPDATE event SET event_winner = '{winner_name}' WHERE event_id = {event_id}"
+    )
+    conn.commit()
+    cursor.close()
+    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student))
 
 @app.route("/participate/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>", methods=["GET", "POST"])
 def participate(fest_id, event_id,organise,student):
