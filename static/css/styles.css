@@ -274,6 +274,7 @@ a {
 
 .raise-error {
     color: rgb(255, 110, 42);
+    font-style: italic;
 }
 
 .event-card {
