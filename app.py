@@ -19,7 +19,7 @@ def home():
     """Home page"""
 
     cursor = conn.cursor()
-    cursor.execute("SELECT event_name, event_venue, event_date, event_time, event_type FROM event ORDER BY RANDOM() LIMIT 3;")
+    cursor.execute("SELECT event_id, event_name, event_venue, event_description, event_date, event_time, event_type FROM event ORDER BY RANDOM() LIMIT 3;")
     events = cursor.fetchall();
     return render_template('home.html', events=events)
 
