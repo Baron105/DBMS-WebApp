@@ -90,7 +90,9 @@ def index(fest_id, organise, student):
 
     participating_event = []
     non_participating_event = []
-
+    volunteering_event = []
+    non_volunteering_event = []
+    organising_event = []
     if fest_id > 1000:
         cursor.execute(
             f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_ext where fest_id = {fest_id}"
@@ -112,10 +114,20 @@ def index(fest_id, organise, student):
             f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_int where fest_id = {fest_id})"
         )
         non_participating_event = cursor.fetchall()
+        #get the list of events in which the student is volunteering
+        cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id in (select event_id from volunteering where fest_id = {fest_id})")
+        volunteering_event = cursor.fetchall()
+        #get the list of events in which the student is not volunteering
+        cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from volunteering where fest_id = {fest_id})")
+        non_volunteering_event = cursor.fetchall()
+        if organise == 1:
+            cursor.execute(
+                f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id in (select event_id from organising where fest_id = {fest_id})"
+            )
+            organising_event = cursor.fetchall()
 
+    cursor.close()
 
-    print(participating_event)
-    print(non_participating_event)
 
     return render_template(
         "index.html",
@@ -124,6 +136,9 @@ def index(fest_id, organise, student):
         student=student,
         participating_event=participating_event,
         non_participating_event=non_participating_event,
+        volunteering_event = volunteering_event,
+        non_volunteering_event = non_volunteering_event,
+        organising_event=organising_event,
     )
 
 @app.route("/participate/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>", methods=["GET", "POST"])
@@ -138,6 +153,17 @@ def participate(fest_id, event_id,organise,student):
         cursor.execute(
             f"INSERT INTO participating_int VALUES ({fest_id},{event_id})"
         )
+    conn.commit()
+    cursor.close()
+    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student))
+
+@app.route("/volunteer/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>", methods=["GET", "POST"])
+def volunteer(fest_id, event_id,organise,student):
+    """Volunteer page"""
+    cursor = conn.cursor()
+    cursor.execute(
+        f"INSERT INTO volunteering VALUES ({fest_id},{event_id})"
+    )
     conn.commit()
     cursor.close()
     return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student))
