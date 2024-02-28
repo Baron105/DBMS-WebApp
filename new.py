@@ -91,9 +91,9 @@ def index(fest_id, organise, student):
     participating_event = []
     non_participating_event = []
     volunteering_event = []
-    non_volunteering_event = []
     other_events = []
     organising_event = []
+    
     if fest_id > 1000:
         cursor.execute(
             f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_ext where fest_id = {fest_id}"
@@ -123,18 +123,26 @@ def index(fest_id, organise, student):
         # non_volunteering_event = cursor.fetchall()
         if organise == 1:
             cursor.execute(
-                f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id in (select event_id from organising where fest_id = {fest_id})"
+                f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event where event_id in (select event_id from organising where fest_id = {fest_id})"
             )
             organising_event = cursor.fetchall()
             
-        # merge the tables of participating, volunteering and organising events and return all the events not in these tables such that the student can participate in them
-        cursor.execute(
-            f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_int where fest_id = {fest_id}) and event_id not in (select event_id from volunteering where fest_id = {fest_id}) and event_id not in (select event_id from organising where fest_id = {fest_id})"
-        )
-        other_events = cursor.fetchall()
+        # list of all the events he has not participated in and is not volunteering for and is not organising
+        cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_int where fest_id = {fest_id})")
+        new = []
+        new = cursor.fetchall()
+        other_events.append(new)
+        cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from volunteering where fest_id = {fest_id})")
+        new = []
+        new = cursor.fetchall()
+        other_events.append(new)
+        cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from organising where fest_id = {fest_id})")
+        new = []
+        new = cursor.fetchall()
+        other_events.append(new)
+        print(other_events, "\n")
 
     cursor.close()
-
 
     return render_template(
         "index.html",
@@ -144,9 +152,8 @@ def index(fest_id, organise, student):
         participating_event=participating_event,
         non_participating_event=non_participating_event,
         volunteering_event = volunteering_event,
-        non_volunteering_event = non_volunteering_event,
+        other_events = other_events,
         organising_event=organising_event,
-        other_events=other_events,
     )
 
 @app.route("/participate/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>", methods=["GET", "POST"])
