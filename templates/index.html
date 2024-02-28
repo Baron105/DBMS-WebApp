@@ -7,23 +7,28 @@
 {% block body%}
 
 
-    {% if participating_event%}
-        <table>
-            <th>Event Name</th>
-            <th>Event Date</th>
-            <th>Event Time</th>
-            <th>Event Venue</th>
-            <th>Winners</th>
-        </table>
-        {% for event in participating_event%}
-            <tr>
-                <td>{{event[0]}}</td>
-                <td>{{event[1]}}</td>
-                <td>{{event[2]}}</td>
-                <td>{{event[3]}}</td>
-                <td>{{event[4]}}</td>
-            </tr>
-        {%endfor%}
+{% if participating_event%}
+<h2>Events you are participating</h2>
+<table style="width:60%">
+    <tr>
+    <th >Event Name</th>
+    <th >Event Date</th>
+    <th>Event Time</th>
+    <th>Event Venue</th>
+    <th>Winners</th>
+    </tr>
+
+{% for event in participating_event%}
+    <tr>
+        <td>{{event[0]}}</td>
+        <td>{{event[1]}}</td>
+        <td>{{event[2]}}</td>
+        <td>{{event[3]}}</td>
+        <!-- the participate button will put the event from list to -->
+        <td>{{event[4]}}</td>
+    </tr>
+{%endfor%}
+</table>
     {% else %}
         <p align = "center">You have not participated in any event yet</p>
     {%endif%}  
