@@ -227,6 +227,7 @@ a {
     margin: 4px auto;
     text-align: center;
     cursor: pointer;
+    transition-duration: 500ms;
 }
 
 .login-button:hover {
@@ -234,6 +235,7 @@ a {
     color: var(--da);
     box-shadow: 0 0 10px 5px var(--da);
     transition: ease-in-out;
+    transition-duration: 100ms;
 }
 
 .img-subtxt {
