@@ -37,13 +37,14 @@ def login():
     if request.method == "POST":
         cursor = conn.cursor()
         username = request.form["username"]
-        username = username[6:]
+        username = username[6:] 
 
         try:
             username = int(username)
-        except():
+        except:
             flag = 1
             return render_template("login.html", flag=flag)
+        
         password = request.form["password"]
 
         fest_id = 0
