@@ -1,3 +1,11 @@
+:root {
+    --ls: #F2EFF3;
+    --la: #997F5C;
+    --mn: #a0acae;
+    --da: #4F708D;
+    --ds: #7B5C4D;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,7 +14,7 @@
 }
 
 html, body {
-    background-color: #f0f0f0;
+    background-color: var(--ls);
     font-size: 16px;
     
     box-sizing: border-box;
@@ -23,11 +31,12 @@ th, td {
   }
 
 .home-navbar {
+    color: var(--ls);
     display: flex;
     align-items: center;
     font-size: 1.5vh;
     justify-content: space-between;
-    background-color: #fff;
+    background-color: var(--la);
     height: 10vh;
     width: 100%;
     padding: 0rem 1rem; 
@@ -50,13 +59,15 @@ th, td {
 
 .nav-el > a {
     padding: 1rem 2rem;
+    transition-duration: 500ms;
 }
 
 .nav-el > a:hover {
-    background-color: grey;
-    color: black;
+    background-color: var(--mn);
+    color: var(--ls);
     cursor: pointer;
     transition: ease-in-out;
+    transition-duration: 100ms;
 }
 
 .home-welcome {
@@ -68,8 +79,9 @@ th, td {
 }
 
 .home-events {
+    color: var(--ls);
     height: 70vh;
-    background-color: grey;
+    background-color: var(--ds);
     display: flex;
     align-items: center;
     padding: 0 2rem;
@@ -79,14 +91,21 @@ th, td {
 .home-about {
     padding: 2rem 5rem;
     min-height: 50vh;
-    background-color: #fff;
-    display: grid;
+    background-color: var(--ls);
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    grid-template-columns: 1fr 2fr;
+    justify-content: space-around;
 }
 
 .home-footer {
+    background-color: var(--mn);
     height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem 2rem;
 }
 
 .welcome-text {
@@ -96,6 +115,7 @@ th, td {
 
 .welcome-text > p {
     margin-top: 1rem;
+    color: var(--ds);
 }
 
 .home-buttons {
@@ -105,12 +125,13 @@ th, td {
 }
 
 .home-buttons > a {
-    background-color: #04AA6D;;
+    background-color: var(--da);;
     font-size: 1.2rem;
     padding: 1rem 2rem;
-    color: white;
+    color: var(--ls);
     border-radius: 7px;
     margin-right: 1rem;
+    transition-duration: 500ms;
 }
 
 a {
@@ -119,11 +140,12 @@ a {
 }
 
 .home-buttons > a:hover{
-    box-shadow: 0 0 10px 5px #04AA6D;;
+    box-shadow: 0 0 10px 5px var(--da);
     cursor: pointer;
-    background-color: white;
-    color: #04AA6D;;
+    background-color: var(--ls);
+    color: var(--da);
     transition: ease-in-out;
+    transition-duration: 100ms;
 }
 
 .register-content {
@@ -142,18 +164,20 @@ a {
     overflow: hidden;
     margin: 2rem 0rem;
     min-height: 50vh;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .image-box{
-    background-color: grey;
+    background-color: var(--ds);
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 2rem;
+    color: var(--ls)
 }
 
 .register-form {
-    background-color: #fff;
+    background-color: var(--mn);
     padding: 2rem 3rem;
     font-size: 0.8rem;
     align-items: center;
@@ -173,29 +197,31 @@ a {
 }
 
 .submit-button {
-    background-color: #04AA6D;
+    background-color: var(--da);
     border: none;
     border-radius: 5px;
-    color: white;
+    color: var(--ls);
     padding: 1rem 2rem;
     text-decoration: none;
     margin: 4px auto;
     transform: translateX(75%);
     cursor: pointer;
+    transition-duration: 500ms;
 }
 
 .submit-button:hover {
-    background-color: white;
-    color: #04AA6D;
-    box-shadow: 0 0 10px 5px #04AA6D;
+    background-color: var(--ls);
+    color: var(--da);
+    box-shadow: 0 0 10px 5px var(--da);
     transition: ease-in-out;
+    transition-duration: 100ms;
 }
 
 .login-button {
-    background-color: #04AA6D;
+    background-color: var(--da);
     border: none;
     border-radius: 5px;
-    color: white;
+    color: var(--ls);
     padding: 1rem 2rem;
     text-decoration: none;
     margin: 4px auto;
@@ -204,9 +230,9 @@ a {
 }
 
 .login-button:hover {
-    background-color: white;
-    color: #04AA6D;
-    box-shadow: 0 0 10px 5px #04AA6D;
+    background-color: var(--ls);
+    color: var(--da);
+    box-shadow: 0 0 10px 5px var(--da);
     transition: ease-in-out;
 }
 
@@ -216,19 +242,26 @@ a {
 
 .img-login > a {
     text-decoration: underline;
+    color: var(--mn);
 }
 
 .img-login > a:hover {
-    color: white;
+    color: var(--ls);
 }
 
 .go-back-btn {
-    background-color: black;
-    color: white;
+    background-color: var(--ls);
+    color: var(--da);
     padding: 1rem 2rem;
     border-radius: 1rem;
     text-align: center;
     max-width: fit-content;
+    transition-duration: 500ms;
+}
+
+.go-back-btn:hover {
+    box-shadow: 0 0px 8px 0 var(--ls);
+    transition-duration: 100ms;
 }
 
 .image-box > a {
@@ -241,25 +274,27 @@ a {
 
 .raise-error {
     color: rgb(255, 110, 42);
+    font-style: italic;
 }
 
 .event-card {
-    width: 15rem;
+    color: #000;
+    width: 30rem;
     height: 80%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
-    background-color: rgb(240, 240, 240, 80%);
+    background-color: var(--ls);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 10px;
     padding: 1rem;
     transition-duration: 1s;
     font-size: 0.8rem;
+    position: relative;
 }
 
 .event-card:hover {
-    box-shadow: 0 0px 8px 0 rgba(255, 255, 255);
+    box-shadow: 0 0px 8px 0 var(--ls);
     transform: scale(101%);
     transition-duration: 0.5s;
 }
@@ -269,24 +304,56 @@ a {
     height: 60%;
     width: 100%;
     border-radius: 10px;
+    margin-bottom: 0.8rem;
+}
+
+.event-head {
+    width: 100%;
+}
+
+.event-desc {
+    width: 100%;
+    margin: 0.2rem 0;
+}
+
+.read-more-btn {
+    border: none;
+    padding: 0.2rem 0.6rem;
+    border-radius: 5px;
+    background-color: var(--la);
+    font-size: 0.8rem;
+    color: var(--ls);
+    cursor: pointer;
+    display: block;
+    margin: 0.1rem;
+}
+
+.full-desc {
+    display: none;
 }
 
 .event-body {
-    width: 100%;
+    width: 90%;
+    position: absolute;
+    bottom: 1rem;
 }
 
 .event-name {
     font-size: 1.4rem;
     width: 100%;
+    color: var(--da);
 }
 
 .event-venue {
     width: 100%;
+    font-style: italic;
+    color: var(--ds)
 }
 
 .event-type {
     font-size: 1rem;
     width: 100%;
+    color: var(--da);
 }
 
 .event-timings {
@@ -299,14 +366,30 @@ a {
 .hr-line {
     height: 1.5px;
     width: 100%;
-    background-color: #000000;
-    margin: 1rem 0;
+    background-color: var(--ds);
+    margin: 0.5rem 0 1rem 0;
 }
 
 .about-head {
     text-align: center;
+    color: var(--ds);
 }
 
 .about-body {
     text-align: center;
+    width: 50%;
+}
+
+.contact-body {
+    width: 70%;
+    border: none;
+}
+
+.contact-td {
+    background-color: inherit;
+    border: none;
+}
+
+.email {
+    font-style: italic;
 }
