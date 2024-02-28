@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-    <title>Participant</title>
+<title>Participant</title>
 {% endblock %}
 
 {% block body%}
@@ -11,14 +11,14 @@
 <h2>Events you are participating</h2>
 <table style="width:60%">
     <tr>
-    <th >Event Name</th>
-    <th >Event Date</th>
-    <th>Event Time</th>
-    <th>Event Venue</th>
-    <th>Winners</th>
+        <th>Event Name</th>
+        <th>Event Date</th>
+        <th>Event Time</th>
+        <th>Event Venue</th>
+        <th>Winners</th>
     </tr>
 
-{% for event in participating_event%}
+    {% for event in participating_event%}
     <tr>
         <td>{{event[1]}}</td>
         <td>{{event[2]}}</td>
@@ -27,103 +27,106 @@
         <!-- the participate button will put the event from list to -->
         <td>{{event[5]}}</td>
     </tr>
-{%endfor%}
+    {% endfor %}
 </table>
-    {% else %}
-        <p align = "center">You have not participated in any event yet</p>
-    {%endif%}  
-   
-    {% if non_participating_event%}
-        <h2>Events to participate</h2>
-        <table style="width:60%">
-            <tr>
-            <th >Event Name</th>
-            <th >Event Date</th>
-            <th>Event Time</th>
-            <th>Event Venue</th>
-            <th>Participate</th>
-            </tr>
-        
-        {% for event in non_participating_event%}
-            <tr>
-                <td>{{event[1]}}</td>
-                <td>{{event[2]}}</td>
-                <td>{{event[3]}}</td>
-                <td>{{event[4]}}</td>
-                <!-- the participate button will put the event from list to -->
-                <td><a href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student )}}">Participate</a></td>
-            </tr>
-        {%endfor%}
-        </table>
-    {% else %}
-        <p align = "center">No events to participate</p>
-    {%endif%}
-    {% if student%}
-        {% if volunteering_event%}
-            <h2>Events you are volunteering</h2>
-            <table style="width:60%">
-                <tr>
-                <th >Event Name</th>
-                <th >Event Date</th>
-                <th>Event Time</th>
-                <th>Event Venue</th>
-                <th>Event Winners</th>
-                </tr>
-                {%for event in volunteering_event%}
-                    <tr>
-                        <td>{{event[1]}}</td>
-                        <td>{{event[2]}}</td>
-                        <td>{{event[3]}}</td>
-                        <td>{{event[4]}}</td>
-                        <td>{{event[5]}}</td>
-                    </tr>
-                {%endfor%}
-            </table>
-        {%endif%}
-        {%if non_volunteering_event%}
-            <h2>Events to volunteer</h2>
-            <table style="width:60%">
-                <tr>
-                <th >Event Name</th>
-                <th >Event Date</th>
-                <th>Event Time</th>
-                <th>Event Venue</th>
-                <th>Volunteer</th>
-                </tr>
-                {%for event in non_volunteering_event%}
-                    <tr>
-                        <td>{{event[1]}}</td>
-                        <td>{{event[2]}}</td>
-                        <td>{{event[3]}}</td>
-                        <td>{{event[4]}}</td>
-                        <td><a href="{{url_for('volunteer',fest_id=fest_id,event_id =event[0],organise=organise,student=student )}}">Volunteer</a></td>
-                    </tr>
-                {%endfor%}
-            </table>
-        {%endif%}
-    {%endif%}
-    {% if organise%}
-        {% if organising_event%}
-            <h2>Events you are organising</h2>
-            <table style="width:60%">
-                <tr>
-                <th >Event Name</th>
-                <th >Event Date</th>
-                <th>Event Time</th>
-                <th>Event Venue</th>
-                </tr>
-                {%for event in organising_event%}
-                    <tr>
-                        <td>{{event[1]}}</td>
-                        <td>{{event[2]}}</td>
-                        <td>{{event[3]}}</td>
-                        <td>{{event[4]}}</td>
-                    </tr>
-                {%endfor%}
-            </table>
-        {%endif%}
-    {%endif%}
+{% else %}
+<p align="center">You have not participated in any event yet</p>
+{% endif %}
+
+{% if non_participating_event %}
+<h2>Events to participate</h2>
+<table style="width:60%">
+    <tr>
+        <th>Event Name</th>
+        <th>Event Date</th>
+        <th>Event Time</th>
+        <th>Event Venue</th>
+        <th>Participate</th>
+    </tr>
+
+    {% for event in non_participating_event %}
+    <tr>
+        <td>{{event[1]}}</td>
+        <td>{{event[2]}}</td>
+        <td>{{event[3]}}</td>
+        <td>{{event[4]}}</td>
+        <!-- the participate button will put the event from list to -->
+        <td><a
+                href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student )}}">Participate</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p align="center">No events to participate</p>
+{% endif %}
+{% if student %}
+{% if volunteering_event %}
+<h2>Events you are volunteering</h2>
+<table style="width:60%">
+    <tr>
+        <th>Event Name</th>
+        <th>Event Date</th>
+        <th>Event Time</th>
+        <th>Event Venue</th>
+        <th>Event Winners</th>
+    </tr>
+    {% for event in volunteering_event %}
+    <tr>
+        <td>{{event[1]}}</td>
+        <td>{{event[2]}}</td>
+        <td>{{event[3]}}</td>
+        <td>{{event[4]}}</td>
+        <td>{{event[5]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% if non_volunteering_event %}
+<h2>Events to volunteer</h2>
+<table style="width:60%">
+    <tr>
+        <th>Event Name</th>
+        <th>Event Date</th>
+        <th>Event Time</th>
+        <th>Event Venue</th>
+        <th>Volunteer</th>
+    </tr>
+    {% for event in non_volunteering_event %}
+    <tr>
+        <td>{{event[1]}}</td>
+        <td>{{event[2]}}</td>
+        <td>{{event[3]}}</td>
+        <td>{{event[4]}}</td>
+        <td><a
+                href="{{url_for('volunteer',fest_id=fest_id,event_id =event[0],organise=organise,student=student )}}">Volunteer</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endif %}
+{% if organise %}
+{% if organising_event %}
+<h2>Events you are organising</h2>
+<table style="width:60%">
+    <tr>
+        <th>Event Name</th>
+        <th>Event Date</th>
+        <th>Event Time</th>
+        <th>Event Venue</th>
+    </tr>
+    {% for event in organising_event %}
+    <tr>
+        <td>{{event[1]}}</td>
+        <td>{{event[2]}}</td>
+        <td>{{event[3]}}</td>
+        <td>{{event[4]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endif %}
 
 
-{% endblock%}
-
+{% endblock %}
