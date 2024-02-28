@@ -2,12 +2,13 @@
     margin: 0;
     padding: 0;
     scroll-behavior: smooth;
+    font-family: 'Poppins', sans-serif;
 }
 
 html, body {
     background-color: #f0f0f0;
     font-size: 16px;
-    font-family: sans-serif;
+    
     box-sizing: border-box;
 }
 
@@ -25,7 +26,6 @@ th, td {
     display: flex;
     align-items: center;
     font-size: 1.5vh;
-    font-family: 'Poppins', sans-serif;
     justify-content: space-between;
     background-color: #fff;
     height: 10vh;
@@ -33,6 +33,7 @@ th, td {
     padding: 0rem 1rem; 
     position: fixed;
     top: 0;
+    z-index: 1;
 }
 
 .nav-logo {
@@ -67,13 +68,21 @@ th, td {
 }
 
 .home-events {
-    height: 50vh;
+    height: 70vh;
     background-color: grey;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    gap: 10rem;
 }
 
 .home-about {
-    height: 50vh;
+    padding: 2rem 5rem;
+    min-height: 50vh;
     background-color: #fff;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 2fr;
 }
 
 .home-footer {
@@ -96,7 +105,7 @@ th, td {
 }
 
 .home-buttons > a {
-    background-color: green;
+    background-color: #04AA6D;;
     font-size: 1.2rem;
     padding: 1rem 2rem;
     color: white;
@@ -110,9 +119,194 @@ a {
 }
 
 .home-buttons > a:hover{
-    box-shadow: 0 0 10px 5px green;
+    box-shadow: 0 0 10px 5px #04AA6D;;
     cursor: pointer;
     background-color: white;
-    color: green;
+    color: #04AA6D;;
     transition: ease-in-out;
+}
+
+.register-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.form-box {
+    width: 50%;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 2rem 0rem;
+    min-height: 50vh;
+}
+
+.image-box{
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.register-form {
+    background-color: #fff;
+    padding: 2rem 3rem;
+    font-size: 0.8rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-control {
+    width: 100%; /* Full width */
+    padding: 12px; /* Some padding */ 
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 4px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 16px; /* Bottom margin */
+}
+
+.submit-button {
+    background-color: #04AA6D;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    margin: 4px auto;
+    transform: translateX(75%);
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: white;
+    color: #04AA6D;
+    box-shadow: 0 0 10px 5px #04AA6D;
+    transition: ease-in-out;
+}
+
+.login-button {
+    background-color: #04AA6D;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    margin: 4px auto;
+    text-align: center;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: white;
+    color: #04AA6D;
+    box-shadow: 0 0 10px 5px #04AA6D;
+    transition: ease-in-out;
+}
+
+.img-subtxt {
+    margin-bottom: 2rem;
+}
+
+.img-login > a {
+    text-decoration: underline;
+}
+
+.img-login > a:hover {
+    color: white;
+}
+
+.go-back-btn {
+    background-color: black;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    max-width: fit-content;
+}
+
+.image-box > a {
+    margin-top: 5rem;
+}
+
+.mg-top-4 {
+    margin-top: 4px;
+}
+
+.raise-error {
+    color: rgb(255, 110, 42);
+}
+
+.event-card {
+    width: 15rem;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(240, 240, 240, 80%);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    padding: 1rem;
+    transition-duration: 1s;
+    font-size: 0.8rem;
+}
+
+.event-card:hover {
+    box-shadow: 0 0px 8px 0 rgba(255, 255, 255);
+    transform: scale(101%);
+    transition-duration: 0.5s;
+}
+
+
+.event-img {
+    height: 60%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.event-body {
+    width: 100%;
+}
+
+.event-name {
+    font-size: 1.4rem;
+    width: 100%;
+}
+
+.event-venue {
+    width: 100%;
+}
+
+.event-type {
+    font-size: 1rem;
+    width: 100%;
+}
+
+.event-timings {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+.hr-line {
+    height: 1.5px;
+    width: 100%;
+    background-color: #000000;
+    margin: 1rem 0;
+}
+
+.about-head {
+    text-align: center;
+}
+
+.about-body {
+    text-align: center;
 }
