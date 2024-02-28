@@ -113,6 +113,7 @@ def index(fest_id, organise, student):
         )
         non_participating_event = cursor.fetchall()
 
+
     print(participating_event)
     print(non_participating_event)
 

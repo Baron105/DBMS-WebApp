@@ -24,27 +24,34 @@
                 <td>{{event[4]}}</td>
             </tr>
         {%endfor%}
-
+    {% else %}
+        <p align = "center">You have not participated in any event yet</p>
     {%endif%}  
-    
+   
     {% if non_participating_event%}
-        <table>
-            <th>Event Name</th>
-            <th>Event Date</th>
+        <h2>Events to participate</h2>
+        <table style="width:60%">
+            <tr>
+            <th >Event Name</th>
+            <th >Event Date</th>
             <th>Event Time</th>
             <th>Event Venue</th>
             <th>Participate</th>
-        </table>
+            </tr>
+        
         {% for event in non_participating_event%}
             <tr>
                 <td>{{event[0]}}</td>
                 <td>{{event[1]}}</td>
                 <td>{{event[2]}}</td>
                 <td>{{event[3]}}</td>
-                <td><a href="">wef</a></td>
+                <!-- the participate button will put the event from list to -->
+                <td><a href="">Participate</a></td>
             </tr>
         {%endfor%}
-        
+        </table>
+    {% else %}
+        <p align = "center">No events to participate</p>
     {%endif%}
 
 {% endblock%}
