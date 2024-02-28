@@ -40,7 +40,7 @@
     <h1>Events</h1>
     {% for event in events %}
     <div class="event-card">
-        <img class="event-img" src="{{ url_for('static', filename='images/tech_fest.jpg') }}">
+        <img class="event-img" src="{{ url_for('static', filename='images/tech_fest.jpg') }}" alt="tech fest">
         <h1 class="event-name">{{event[0]}}</h1>
         <p class="event-venue">Venue: {{event[1]}}</p>
         <div class="event-body">
