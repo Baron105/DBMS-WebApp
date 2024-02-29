@@ -16,10 +16,17 @@
                 <span class="material-symbols-outlined">Person</span>
                 <button class="tablinks" onclick="toggleDiv1()">Profile</button>
             </li>
+            
+
+            {% if organize == 1 %}
             <li id="organize-tab">
                 <span class="material-symbols-outlined">sort</span>
                 <button class="tablinks" onclick="toggleDiv2()">Organize</button>
             </li>
+            {% else %}
+            <div id="organize-tab"></div>
+            {% endif %}
+
             <li id="edit-tab">
                 <span class="material-symbols-outlined">edit</span>
                 <button class="tablinks" onclick="toggleDiv3()">Edit Profile</button>
@@ -31,14 +38,137 @@
         </ul>
     </div>
     <div class="tab-content">
-        <div id="profile-content">
-            <h1>Profile</h1>
-        </div>
-        <div id="organize-content">
-            <h1>Organize</h1>
-        </div>
-        <div id="edit-content">
-            <h1>Edit Profile</h1>
+        <h1 class="tab-head">Fest 2024</h1>
+        <div class="tab-body">
+            <div id="pf-content" class="pf-content">
+                <div class="pf-col-1">
+                    <div class="profile-card card">
+                        <img class="profile-banner" src="{{ url_for('static', filename='images/abstract_bg.jpg') }}" alt="banner" class="banner-image">
+                        <div class="profile-content">
+                            <h2 class="profile-name">{{details[1]}}</h2>
+                            <p class="profile-id">{{'21FEST' + '%04d'|format(details[0])}}</p>
+                            <p class="profile-ra">{{details[2]}}</p>
+                            <p class="profile-cd">{{details[3]}}</p>
+                        </div>
+                    </div>
+                    <div class="small-card card">
+                        <div class="small-body">
+                            <h5 class="small-title">DESIGNATION</h5>
+                            <p class="small-content">
+                                {% if organize == 1 %}Organizer
+                                {% elif student == 1 %}Student
+                                {% else %}External
+                                {% endif %}
+                            </p>
+                        </div>
+                        <span class="material-symbols-outlined">group</span>
+                    </div>
+                </div>
+                
+                {% if organize == 1 or student == 1 %}
+                <div class="pf-col-2">
+                    <div class="small-card card participate-bg">
+                        <div class="small-body">
+                            <h5 class="color-title small-title" >Participating in</h5>
+                            <p class="small-content bold">{{ participating_event|length }} <span class="spl-font">EVENT(S)</span></p>
+                        </div>
+                        <span class="material-symbols-outlined">sports_score</span>
+                    </div>
+                    <div class="event-list-card">
+                        {% for event in participating_event %}
+                        <div class="event-list-el">
+                            <div class="event-list-el-col1">
+                                <h4 class="e-name">{{event[1]}}</h4>
+                                <p class="e-venue">{{event[4]}}</p>
+                                <p class="e-winner">Winner: {{event[5]}}</p>
+                            </div>
+                            <div class="event-list-el-col2">
+                                <p class="e-date">{{event[2]}}</p>
+                                <p class="e-time">{{event[3]}}</p>
+                            </div>
+                        </div>
+                        <div class="event-list-hr"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="pf-col-3">
+                    <div class="small-card card volunteer-bg">
+                        <div class="small-body">
+                            <h5 class="color-title small-title" >Volunteering in</h5>
+                            <p class="small-content bold">{{ volunteering_event|length }} <span class="spl-font">EVENT(S)</span></p>
+                        </div>
+                        <span class="material-symbols-outlined">volunteer_activism</span>
+                    </div>
+                    <div class="event-list-card">
+                        {% for event in volunteering_event %}
+                        <div class="event-list-el">
+                            <div class="event-list-el-col1">
+                                <h4 class="e-name">{{event[1]}}</h4>
+                                <p class="e-venue">{{event[4]}}</p>
+                                <p class="e-winner">Winner: {{event[5]}}</p>
+                            </div>
+                            <div class="event-list-el-col2">
+                                <p class="e-date">{{event[2]}}</p>
+                                <p class="e-time">{{event[3]}}</p>
+                            </div>
+                        </div>
+                        <div class="event-list-hr"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="pf-col-4">
+                    <div class="small-card card all-events-bg">
+                        <div class="small-body">
+                            <h5 class="color-title small-title" >Upcoming Events</h5>
+                            <p class="small-content bold">{{ volunteering_event|length }} <span class="spl-font">EVENT(S)</span></p>
+                        </div>
+                        <span class="material-symbols-outlined">calendar_month</span>
+                        <div class="event-list-actions">
+                            <p class="small-content bold spl-font">VOLUNTEER</p>
+                            <p class="small-content bold spl-font">PARTICIPATE</p>
+                        </div>
+                    </div>
+                    <div class="event-list-card">
+                        {% for event in other_events %}
+                        <div class="event-list-el tri-grid">
+                            <div class="event-list-el-col1">
+                                <h4 class="e-name">{{event[1]}}</h4>
+                                <p class="e-venue">{{event[4]}}</p>
+                                <p class="e-winner">Winner: {{event[5]}}</p>
+                            </div>
+                            <div class="event-list-el-col2">
+                                <p class="e-date">{{event[2]}}</p>
+                                <p class="e-time">{{event[3]}}</p>
+                            </div>
+                            <div class="event-list-el-actions">
+                                <a href="{{url_for('volunteer',fest_id=fest_id,event_id =event[0],organise=organise,student=student)}}">
+                                    <span class="material-symbols-outlined color-la">
+                                        add_circle
+                                    </span>
+                                </a>
+                                <a href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student )}}">
+                                    <span class="material-symbols-outlined color-da">
+                                        person_add
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="event-list-hr"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <div id="organize-content">
+                <h1>Organize</h1>
+            </div>
+            
+            <div id="edit-content">
+                <h1>Edit Profile</h1>
+            </div>
+        
         </div>
     </div>
 </div>
