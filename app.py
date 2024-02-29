@@ -79,7 +79,7 @@ def login():
         if fest_id is not None:
             fest_id = fest_id[0]
             return redirect(
-                url_for("index", fest_id=fest_id, organise=organise, student=student,x=0)
+                url_for("index", fest_id=fest_id, organise=organise, student=student,x=2)
             )
         else:
             flag = 1
