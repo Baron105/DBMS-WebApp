@@ -191,7 +191,6 @@ def index(fest_id, organise, student,x):
         non_volunteering_event=non_volunteering_event,
         organising_event=organising_event,
         other_events=other_events,
-        x=x,
         participant_event=participant_event_2,
         volunteer_event=volunteer_event,
         details=details,

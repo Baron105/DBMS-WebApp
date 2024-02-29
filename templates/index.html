@@ -18,13 +18,13 @@
             </li>
             
 
-            {% if organize == 1 %}
-            <li id="organize-tab">
+            {% if organise == 1 %}
+            <li id="organise-tab">
                 <span class="material-symbols-outlined">sort</span>
-                <button class="tablinks" onclick="toggleDiv2()">Organize</button>
+                <button class="tablinks" onclick="toggleDiv2()">Organise</button>
             </li>
             {% else %}
-            <div id="organize-tab"></div>
+            <div id="organise-tab"></div>
             {% endif %}
 
             <li id="edit-tab">
@@ -55,7 +55,7 @@
                         <div class="small-body">
                             <h5 class="small-title">DESIGNATION</h5>
                             <p class="small-content">
-                                {% if organize == 1 %}Organizer
+                                {% if organise == 1 %}Organiser
                                 {% elif student == 1 %}Student
                                 {% else %}External
                                 {% endif %}
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 
-                {% if organize == 1 or student == 1 %}
+                {% if organise == 1 or student == 1 %}
                 <div class="pf-col-2">
                     <div class="small-card card participate-bg">
                         <div class="small-body">
@@ -122,7 +122,7 @@
                     <div class="small-card card all-events-bg">
                         <div class="small-body">
                             <h5 class="color-title small-title" >Upcoming Events</h5>
-                            <p class="small-content bold">{{ volunteering_event|length }} <span class="spl-font">EVENT(S)</span></p>
+                            <p class="small-content bold">{{ other_events|length }} <span class="spl-font">EVENT(S)</span></p>
                         </div>
                         <span class="material-symbols-outlined">calendar_month</span>
                         <div class="event-list-actions">
@@ -161,8 +161,8 @@
                 </div>
             </div>
             
-            <div id="organize-content">
-                <h1>Organize</h1>
+            <div id="organise-content">
+                <h1>Organise</h1>
             </div>
             
             <div id="edit-content">
