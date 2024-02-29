@@ -74,7 +74,7 @@ def login():
         if fest_id is not None:
             fest_id = fest_id[0]
             return redirect(
-                url_for("index", fest_id=fest_id, organise=organise, student=student)
+                url_for("index", fest_id=fest_id, organise=organise, student=student,x=0)
             )
         else:
             flag = 1
@@ -84,8 +84,8 @@ def login():
         return render_template("login.html")
 
 
-@app.route("/index/<int:fest_id>/<int:organise>/<int:student>", methods=["GET", "POST"])
-def index(fest_id, organise, student):
+@app.route("/index/<int:fest_id>/<int:organise>/<int:student>/<int:x>", methods=["GET", "POST"])
+def index(fest_id, organise, student,x):
     """INDEX page"""
 
     cursor = conn.cursor()
@@ -175,7 +175,8 @@ def index(fest_id, organise, student):
         organising_event=organising_event,
         other_events=other_events,
         participant_event = participant_event_2,
-        volunteer_event = volunteer_event
+        volunteer_event = volunteer_event,
+        x=x
     )
 
 @app.route("/winner/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>/<winner_name>", methods=["GET", "POST"])
@@ -187,7 +188,7 @@ def winner(fest_id, event_id,organise,student,winner_name):
     )
     conn.commit()
     cursor.close()
-    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student))
+    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=1))
 
 @app.route("/participate/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>", methods=["GET", "POST"])
 def participate(fest_id, event_id,organise,student):
@@ -203,7 +204,7 @@ def participate(fest_id, event_id,organise,student):
         )
     conn.commit()
     cursor.close()
-    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student))
+    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=0))
 
 @app.route("/volunteer/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>", methods=["GET", "POST"])
 def volunteer(fest_id, event_id,organise,student):
@@ -214,7 +215,7 @@ def volunteer(fest_id, event_id,organise,student):
     )
     conn.commit()
     cursor.close()
-    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student))
+    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=0))
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
