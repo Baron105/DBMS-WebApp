@@ -19,3 +19,56 @@ function changeReadMore(eventId) {
         eventTiming.style.display = 'flex';
     }
 }
+
+function toggleDiv1() {
+    var div = document.getElementById('profile-tab');
+    var div2 = document.getElementById('organize-tab');
+    var div3 = document.getElementById('edit-tab');
+    var profile = document.getElementById('pf-content');
+    var organize = document.getElementById('organize-content');
+    var edit = document.getElementById('edit-content');
+    div.style.backgroundColor = "#F2EFF3";
+    div.style.color = "#4F708D"
+    profile.style.display = "flex";
+    div2.style.backgroundColor = "inherit";
+    div2.style.color = "inherit";
+    organize.style.display = "none";
+    div3.style.backgroundColor = "inherit";
+    div3.style.color = "inherit";
+    edit.style.display = "none";
+}
+function toggleDiv2() {
+    var div = document.getElementById('profile-tab');
+    var div2 = document.getElementById('organize-tab');
+    var div3 = document.getElementById('edit-tab');
+    var profile = document.getElementById('pf-content');
+    var organize = document.getElementById('organize-content');
+    var edit = document.getElementById('edit-content');
+    div2.style.backgroundColor = "#F2EFF3";
+    div2.style.color = "#4F708D";
+    organize.style.display = "inherit";
+    div.style.backgroundColor = "inherit";
+    div.style.color = "inherit";
+    profile.style.display = "none";
+    div3.style.backgroundColor = "inherit";
+    div3.style.color = "inherit";
+    edit.style.display = "none";
+
+}
+function toggleDiv3() {
+    var div = document.getElementById('profile-tab');
+    var div2 = document.getElementById('organize-tab');
+    var div3 = document.getElementById('edit-tab');
+    var profile = document.getElementById('pf-content');
+    var organize = document.getElementById('organize-content');
+    var edit = document.getElementById('edit-content');
+    div3.style.backgroundColor = "#F2EFF3";
+    div3.style.color = "#4F708D";
+    edit.style.display = "inherit";
+    div.style.backgroundColor = "inherit";
+    div.style.color = "inherit";
+    profile.style.display = "none";
+    div2.style.backgroundColor = "inherit";
+    div2.style.color = "inherit";
+    organize.style.display = "none";
+}
