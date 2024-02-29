@@ -1,4 +1,10 @@
 
+CREATE table admin(
+    username VARCHAR(50) NOT NULL PRIMARY KEY,
+    pass VARCHAR(50) NOT NULL
+);
+
+
 CREATE TABLE student
 (
     roll VARCHAR(9) NOT NULL,
