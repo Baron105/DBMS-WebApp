@@ -45,10 +45,13 @@
             <h1 class="event-name">{{event[1]}}</h1>
             <p class="event-venue">{{event[2]}}</p>
         </div>
-        <p class="event-desc">{{ ' '.join(event[3].split()[:3]) }}<span id="three-dots-{{ event[0] }}" class="three-dots">...</span>
+        <p class="event-desc">{{ ' '.join(event[3].split()[:3]) }}<span id="three-dots-{{ event[0] }}"
+                class="three-dots">...</span>
             <span id="full-desc-{{ event[0] }}" class="full-desc">{{ ' '.join(event[3].split()[3:]) }}</span>
-            <button class="read-more-btn" id="read-more-btn-{{ event[0] }}" onclick="changeReadMore('{{ event[0] }}')">Read More</button></p>
-        
+            <button class="read-more-btn" id="read-more-btn-{{ event[0] }}"
+                onclick="changeReadMore('{{ event[0] }}')">Read More</button>
+        </p>
+
         <div class="event-body">
             <div id="event-timings-{{ event[0] }}" class="event-timings">
                 <p>{{event[4]}}</p>
