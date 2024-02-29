@@ -121,7 +121,7 @@ def index(fest_id, organise, student):
         # )
         # non_participating_event = cursor.fetchall()
         #get the list of events in which the student is volunteering
-        cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id in (select event_id from volunteering where fest_id = {fest_id})")
+        cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event where event_id in (select event_id from volunteering where fest_id = {fest_id})")
         volunteering_event = cursor.fetchall()
         #get the list of events in which the student is not volunteering
         # cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from volunteering where fest_id = {fest_id})")
