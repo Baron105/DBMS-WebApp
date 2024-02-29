@@ -21,6 +21,10 @@ html, body {
     box-sizing: border-box;
 }
 
+li {
+    list-style-type: none;
+}
+
 table, th, td {
     border: 1px solid white;
     border-collapse: collapse;
@@ -392,4 +396,67 @@ a {
 
 .email {
     font-style: italic;
+}
+
+/* DASHBOARD */
+
+.dashboard {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+.tab-navigator {
+    background-color: var(--ds);
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    color: var(--ls);
+}
+
+.dash-title {
+    margin-bottom: 2rem;
+}
+
+.dash-tabs > li {
+    padding: 0 1rem;
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.dash-tabs > li:hover {
+    background-color: var(--mn);
+}
+
+#profile-tab {
+    background-color: var(--ls);
+    color: var(--da);
+}
+
+#organize-content {
+    display: none;
+}
+
+#edit-content {
+    display: none;
+}
+
+.tablinks {
+    border: none;
+    height: 100%;
+    width: 100%;
+    background-color: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+} 
+
+.tab-content {
+    background-color: var(--ls);
+    padding: 2rem;
 }
