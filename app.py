@@ -3,13 +3,15 @@ from flask import Flask, render_template, redirect, request, url_for
 import psycopg2
 
 conn = psycopg2.connect(
-    dbname="21CS30032",
-    user="21CS30032",
-    password="21CS30032",
-    host="10.5.18.70",
-    port="5432",
+    dbname="21CS30032", user="21CS30032", password="21CS30032", host="10.5.18.70"
 )
 
+# conn = psycopg2.connect(
+#     dbname="21CS10014",
+#     user="21CS10014",
+#     password="21CS10014",
+#     host="10.5.18.68"
+# )
 
 app = Flask(__name__)
 
@@ -19,11 +21,14 @@ def home():
     """Home page"""
 
     cursor = conn.cursor()
-    
-    cursor.execute("SELECT event_id, event_name, event_venue, event_description, event_date, event_time, event_type FROM event ORDER BY RANDOM() LIMIT 3;")
+
+    cursor.execute(
+        "SELECT event_id, event_name, event_venue, event_description, event_date, event_time, event_type FROM event ORDER BY RANDOM() LIMIT 3;"
+    )
     events = cursor.fetchall()
 
-    return render_template('home.html', events=events)
+    return render_template("home.html", events=events)
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -37,14 +42,14 @@ def login():
     if request.method == "POST":
         cursor = conn.cursor()
         username = request.form["username"]
-        username = username[6:] 
+        username = username[6:]
 
         try:
             username = int(username)
         except:
             flag = 1
             return render_template("login.html", flag=flag)
-        
+
         password = request.form["password"]
 
         fest_id = 0
@@ -96,18 +101,17 @@ def index(fest_id, organise, student):
     non_volunteering_event = []
     other_events = []
     organising_event = []
-    participant_event=[]
+    participant_event = []
     volunteer_event = []
     participant_event_2 = []
     details = []
     if fest_id > 1000:
-        
         # show details of user
         cursor.execute(
             f"SELECT fest_id, ext_participant.name, college, accomodation.name from ext_participant, accomodation where fest_id = {fest_id} and accomodation.acc_id = ext_participant.acc_id"
         )
         details = cursor.fetchone()
-        
+
         cursor.execute(
             f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_ext where fest_id = {fest_id}"
         )
@@ -119,14 +123,13 @@ def index(fest_id, organise, student):
         non_participating_event = cursor.fetchall()
 
     else:
-        
         # show details of user
-        
+
         cursor.execute(
             f"SELECT fest_id, name, roll, dept from student where fest_id = {fest_id}"
         )
         details = cursor.fetchone()
-        
+
         cursor.execute(
             f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_int where fest_id = {fest_id}"
         )
@@ -136,25 +139,24 @@ def index(fest_id, organise, student):
         #     f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_int where fest_id = {fest_id})"
         # )
         # non_participating_event = cursor.fetchall()
-        #get the list of events in which the student is volunteering
-        cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event where event_id in (select event_id from volunteering where fest_id = {fest_id})")
+        # get the list of events in which the student is volunteering
+        cursor.execute(
+            f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event where event_id in (select event_id from volunteering where fest_id = {fest_id})"
+        )
         volunteering_event = cursor.fetchall()
-        #get the list of events in which the student is not volunteering
+        # get the list of events in which the student is not volunteering
         # cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from volunteering where fest_id = {fest_id})")
         # non_volunteering_event = cursor.fetchall()
-        
 
-            
         # merge the tables of participating, volunteering and organising events and return all the events not in these tables such that the student can participate in them
         cursor.execute(
             f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_int where fest_id = {fest_id}) and event_id not in (select event_id from volunteering where fest_id = {fest_id}) and event_id not in (select event_id from organising where fest_id = {fest_id})"
         )
         other_events = cursor.fetchall()
 
-        #Organising events
+        # Organising events
 
         if organise == 1:
-            
             cursor.execute(
                 f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event where event_id in (select event_id from organising where fest_id = {fest_id})"
             )
@@ -174,10 +176,9 @@ def index(fest_id, organise, student):
             volunteer_event = cursor.fetchall()
             for participant in participant_event:
                 participant2 = list(participant)
-                participant2[0]="24FEST"+str(participant[0]).zfill(4)
+                participant2[0] = "24FEST" + str(participant[0]).zfill(4)
                 participant_event_2.append(participant2)
     cursor.close()
-
 
     return render_template(
         "index.html",
@@ -186,17 +187,21 @@ def index(fest_id, organise, student):
         student=student,
         participating_event=participating_event,
         non_participating_event=non_participating_event,
-        volunteering_event = volunteering_event,
-        non_volunteering_event = non_volunteering_event,
+        volunteering_event=volunteering_event,
+        non_volunteering_event=non_volunteering_event,
         organising_event=organising_event,
         other_events=other_events,
-        participant_event = participant_event_2,
-        volunteer_event = volunteer_event,
-        details = details
+        participant_event=participant_event_2,
+        volunteer_event=volunteer_event,
+        details=details,
     )
 
-@app.route("/winner/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>/<winner_name>", methods=["GET", "POST"])
-def winner(fest_id, event_id,organise,student,winner_name):
+
+@app.route(
+    "/winner/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>/<winner_name>",
+    methods=["GET", "POST"],
+)
+def winner(fest_id, event_id, organise, student, winner_name):
     """Winner page"""
     cursor = conn.cursor()
     cursor.execute(
@@ -204,34 +209,43 @@ def winner(fest_id, event_id,organise,student,winner_name):
     )
     conn.commit()
     cursor.close()
-    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student))
+    return redirect(
+        url_for("index", fest_id=fest_id, organise=organise, student=student)
+    )
 
-@app.route("/participate/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>", methods=["GET", "POST"])
-def participate(fest_id, event_id,organise,student):
+
+@app.route(
+    "/participate/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>",
+    methods=["GET", "POST"],
+)
+def participate(fest_id, event_id, organise, student):
     """Participate page"""
     cursor = conn.cursor()
     if fest_id > 1000:
-        cursor.execute(
-            f"INSERT INTO participating_ext VALUES ({fest_id},{event_id})"
-        )
+        cursor.execute(f"INSERT INTO participating_ext VALUES ({fest_id},{event_id})")
     else:
-        cursor.execute(
-            f"INSERT INTO participating_int VALUES ({fest_id},{event_id})"
-        )
+        cursor.execute(f"INSERT INTO participating_int VALUES ({fest_id},{event_id})")
     conn.commit()
     cursor.close()
-    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student))
+    return redirect(
+        url_for("index", fest_id=fest_id, organise=organise, student=student)
+    )
 
-@app.route("/volunteer/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>", methods=["GET", "POST"])
-def volunteer(fest_id, event_id,organise,student):
+
+@app.route(
+    "/volunteer/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>",
+    methods=["GET", "POST"],
+)
+def volunteer(fest_id, event_id, organise, student):
     """Volunteer page"""
     cursor = conn.cursor()
-    cursor.execute(
-        f"INSERT INTO volunteering VALUES ({fest_id},{event_id})"
-    )
+    cursor.execute(f"INSERT INTO volunteering VALUES ({fest_id},{event_id})")
     conn.commit()
     cursor.close()
-    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student))
+    return redirect(
+        url_for("index", fest_id=fest_id, organise=organise, student=student)
+    )
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -257,7 +271,6 @@ def register():
         confirm_password = request.form["repassword"]
         college = request.form["college"]
 
-
         if password == confirm_password:
             cursor.execute(
                 "SELECT acc_id from accomodation order by capacity desc limit 1"
@@ -277,14 +290,14 @@ def register():
 
             flag = 1
 
-            return render_template('register.html',flag = flag ,fest_id = fest_id)
+            return render_template("register.html", flag=flag, fest_id=fest_id)
         else:
-            # add the part where user is asked to enter again 
+            # add the part where user is asked to enter again
             flag = -1
-            return render_template('register.html',flag = flag)
-        
-    else : 
-        return render_template('register.html')
+            return render_template("register.html", flag=flag)
+
+    else:
+        return render_template("register.html")
 
 
 if __name__ == "__main__":
