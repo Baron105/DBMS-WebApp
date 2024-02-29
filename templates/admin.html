@@ -1,0 +1,35 @@
+{%extends 'base.html'%}
+{%block head%}
+<title>Admin</title>
+{%endblock%}
+{%block body%}
+{%if events%}
+<h2>Events</h2>
+<table style="width:60%">
+    <tr>
+        <th>Event Name</th>
+        <th>Event Date</th>
+        <th>Event Time</th>
+        <th>Event Venue</th>
+        <th>Organisers</th>
+        <th>Add Organiser</th>
+        <th>Remove Organiser</th>
+    </tr>
+    {%for event in events%} 
+    <tr>
+        <td>{{event[1]}}</td>
+        <td>{{event[2]}}</td>
+        <td>{{event[3]}}</td>
+        <td>{{event[4]}}</td>
+        <td>{%for roll in event[5]}
+            {{roll[0]}}<br>
+            {%endfor%}
+
+        </td>
+        <td><a href="{{url_for('add_organiser',event_id=event[0])}}">Add Organiser</a></td>
+        <td><a href="{{url_for('remove_organiser',event_id=event[0])}}">Remove Organiser</a></td>
+    </tr>
+    {%endfor%}
+</table>
+{%endif%}
+{%endblock%}
