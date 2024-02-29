@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
 :root {
     --ls: #F2EFF3;
     --la: #997F5C;
@@ -10,13 +12,12 @@
     margin: 0;
     padding: 0;
     scroll-behavior: smooth;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Ubuntu', 'Roboto', sans-serif;
 }
 
 html, body {
     background-color: var(--ls);
     font-size: 16px;
-    
     box-sizing: border-box;
 }
 
@@ -80,11 +81,10 @@ th, td {
 
 .home-events {
     color: var(--ls);
-    height: 70vh;
     background-color: var(--ds);
     display: flex;
     align-items: center;
-    padding: 0 2rem;
+    padding: 3rem 2rem;
     gap: 10rem;
 }
 
@@ -282,7 +282,6 @@ a {
 .event-card {
     color: #000;
     width: 30rem;
-    height: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -292,7 +291,6 @@ a {
     padding: 1rem;
     transition-duration: 1s;
     font-size: 0.8rem;
-    position: relative;
 }
 
 .event-card:hover {
@@ -335,9 +333,9 @@ a {
 }
 
 .event-body {
-    width: 90%;
-    position: absolute;
     bottom: 1rem;
+    width: 100%;
+    margin-top: 1rem;
 }
 
 .event-name {
