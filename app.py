@@ -3,10 +3,10 @@ from flask import Flask, render_template, redirect, request, url_for
 import psycopg2
 
 conn = psycopg2.connect(
-    dbname="21CS10048",
-    user="21CS10048",
-    password="21CS10048",
-    host="10.5.18.69",
+    dbname="21CS30032",
+    user="21CS30032",
+    password="21CS30032",
+    host="10.5.18.70",
     port="5432",
 )
 
@@ -48,7 +48,6 @@ def login():
         password = request.form["password"]
 
         fest_id = 0
-        print(username, password)
 
         if username > 1000:
             organise = 0
@@ -99,6 +98,7 @@ def index(fest_id, organise, student):
     organising_event = []
     participant_event=[]
     volunteer_event = []
+    participant_event_2 = []
     if fest_id > 1000:
         cursor.execute(
             f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_ext where fest_id = {fest_id}"
@@ -126,7 +126,7 @@ def index(fest_id, organise, student):
         #get the list of events in which the student is not volunteering
         # cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from volunteering where fest_id = {fest_id})")
         # non_volunteering_event = cursor.fetchall()
-        participant_event_2 = []
+        
 
             
         # merge the tables of participating, volunteering and organising events and return all the events not in these tables such that the student can participate in them
@@ -240,7 +240,6 @@ def register():
         confirm_password = request.form["repassword"]
         college = request.form["college"]
 
-        print(fest_id, username, password, confirm_password, college)
 
         if password == confirm_password:
             cursor.execute(
