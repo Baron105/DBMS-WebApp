@@ -6,8 +6,32 @@
 
 {% block body%}
 
+{% if not student %}
+<h2 items-align="center">Your Details</h2>
+<table style = "width:60%">
+    <tr>
+        <td>Fest ID: {{details[0]}}</td>
+        <td>Name: {{details[1]}}</td>
+        <td>College: {{details[2]}}</td>
+        <td>Accomodation: {{details[3]}}</td>
+    </tr>
+</table>
+{% endif %}
 
-{% if participating_event%}
+{% if student %}
+<h2 items-align="center">Your Details</h2>
+<table style = "width:60%">
+    <tr>
+        <td>Fest ID: {{details[0]}}</td>
+        <td>Name: {{details[1]}}</td>
+        <td>Roll Number: {{details[2]}}</td>
+        <td>Department: {{details[3]}}</td>
+    </tr>
+</table>
+{% endif %}
+
+
+{% if participating_event %}
 <h2>Events you are participating</h2>
 <table style="width:60%">
     <tr>

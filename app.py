@@ -21,7 +21,7 @@ def home():
     cursor = conn.cursor()
     
     cursor.execute("SELECT event_id, event_name, event_venue, event_description, event_date, event_time, event_type FROM event ORDER BY RANDOM() LIMIT 3;")
-    events = cursor.fetchall();
+    events = cursor.fetchall()
 
     return render_template('home.html', events=events)
 
@@ -99,7 +99,15 @@ def index(fest_id, organise, student):
     participant_event=[]
     volunteer_event = []
     participant_event_2 = []
+    details = []
     if fest_id > 1000:
+        
+        # show details of user
+        cursor.execute(
+            f"SELECT fest_id, ext_participant.name, college, accomodation.name from ext_participant, accomodation where fest_id = {fest_id} and accomodation.acc_id = ext_participant.acc_id"
+        )
+        details = cursor.fetchone()
+        
         cursor.execute(
             f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_ext where fest_id = {fest_id}"
         )
@@ -111,6 +119,14 @@ def index(fest_id, organise, student):
         non_participating_event = cursor.fetchall()
 
     else:
+        
+        # show details of user
+        
+        cursor.execute(
+            f"SELECT fest_id, name, roll, dept from student where fest_id = {fest_id}"
+        )
+        details = cursor.fetchone()
+        
         cursor.execute(
             f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_int where fest_id = {fest_id}"
         )
@@ -175,7 +191,8 @@ def index(fest_id, organise, student):
         organising_event=organising_event,
         other_events=other_events,
         participant_event = participant_event_2,
-        volunteer_event = volunteer_event
+        volunteer_event = volunteer_event,
+        details = details
     )
 
 @app.route("/winner/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>/<winner_name>", methods=["GET", "POST"])
