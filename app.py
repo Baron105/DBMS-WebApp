@@ -35,6 +35,12 @@ def login():
     if request.method == "POST":
         cursor = conn.cursor()
         username = request.form["username"]
+        password = request.form["password"]
+        cursor.execute(f"SELECT * from admin where username = '{username}' and password = '{password}'")
+        admin = cursor.fetchone()
+        if(admin is not None):
+            return redirect(url_for("admin"))
+        
         username = username[6:]
 
         try:
@@ -42,7 +48,12 @@ def login():
         except():
             flag = 1
             return render_template("login.html", flag=flag)
+<<<<<<< Updated upstream
         password = request.form["password"]
+=======
+
+        
+>>>>>>> Stashed changes
 
         fest_id = 0
         print(username, password)
@@ -81,6 +92,20 @@ def login():
     else:
         return render_template("login.html")
 
+@app.route("/admin", methods=["GET", "POST"])
+def admin():
+    """Admin page"""
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "select event_id,event_name,event_venue,event_description,event_date,event_time,event_type from event"
+        )
+        events = cursor.fetchall()
+    except psycopg2.Error as e:
+        print(e)
+        events = []
+        conn.rollback()
+    return render_template("admin.html", events=events)
 
 @app.route("/index/<int:fest_id>/<int:organise>/<int:student>", methods=["GET", "POST"])
 def index(fest_id, organise, student):
