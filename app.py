@@ -6,12 +6,12 @@ conn = psycopg2.connect(
     dbname="21CS30032", user="21CS30032", password="21CS30032", host="10.5.18.70"
 )
 
-# conn = psycopg2.connect(
-#     dbname="21CS10014",
-#     user="21CS10014",
-#     password="21CS10014",
-#     host="10.5.18.68"
-# )
+conn = psycopg2.connect(
+    dbname="21CS10014",
+    user="21CS10014",
+    password="21CS10014",
+    host="10.5.18.68"
+)
 
 app = Flask(__name__)
 
@@ -79,7 +79,7 @@ def login():
         if fest_id is not None:
             fest_id = fest_id[0]
             return redirect(
-                url_for("index", fest_id=fest_id, organise=organise, student=student)
+                url_for("index", fest_id=fest_id, organise=organise, student=student,x=0)
             )
         else:
             flag = 1
@@ -89,8 +89,8 @@ def login():
         return render_template("login.html")
 
 
-@app.route("/index/<int:fest_id>/<int:organise>/<int:student>", methods=["GET", "POST"])
-def index(fest_id, organise, student):
+@app.route("/index/<int:fest_id>/<int:organise>/<int:student>/<int:x>", methods=["GET", "POST"])
+def index(fest_id, organise, student,x):
     """INDEX page"""
 
     cursor = conn.cursor()
@@ -191,6 +191,7 @@ def index(fest_id, organise, student):
         non_volunteering_event=non_volunteering_event,
         organising_event=organising_event,
         other_events=other_events,
+        x=x,
         participant_event=participant_event_2,
         volunteer_event=volunteer_event,
         details=details,
@@ -209,9 +210,7 @@ def winner(fest_id, event_id, organise, student, winner_name):
     )
     conn.commit()
     cursor.close()
-    return redirect(
-        url_for("index", fest_id=fest_id, organise=organise, student=student)
-    )
+    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=1))
 
 
 @app.route(
@@ -227,10 +226,7 @@ def participate(fest_id, event_id, organise, student):
         cursor.execute(f"INSERT INTO participating_int VALUES ({fest_id},{event_id})")
     conn.commit()
     cursor.close()
-    return redirect(
-        url_for("index", fest_id=fest_id, organise=organise, student=student)
-    )
-
+    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=0))
 
 @app.route(
     "/volunteer/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>",
@@ -242,9 +238,7 @@ def volunteer(fest_id, event_id, organise, student):
     cursor.execute(f"INSERT INTO volunteering VALUES ({fest_id},{event_id})")
     conn.commit()
     cursor.close()
-    return redirect(
-        url_for("index", fest_id=fest_id, organise=organise, student=student)
-    )
+    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=0))
 
 
 @app.route("/register", methods=["GET", "POST"])
