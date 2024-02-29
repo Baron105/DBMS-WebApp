@@ -56,12 +56,12 @@
 </script>
 
 <body onload="load(et)">
-{% if organise %}
-<div class="tab">
+    <div class="tab">
     <button class="tablinks" onclick="toggleDiv3()">Your Details</button>
     <button class="tablinks" onclick="toggleDiv1()">Events</button>
+    {% if organise %}
     <button class="tablinks" onclick="toggleDiv2()">Organising</button>
-{% endif %}
+    {% endif %}
 </div>
 
 <div id ='div3'>
