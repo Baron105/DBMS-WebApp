@@ -1,3 +1,6 @@
+
+INSERT into admin VALUES ('admin', 'admin');
+
 INSERT INTO student (roll, fest_id, name, dept, pass) VALUES
 ('21CS10001', 1, 'Emma', 'CSE', 'bt21'),
 ('21EC10002', 2, 'Liam', 'ECE', 'bt21'),
@@ -426,7 +429,6 @@ INSERT INTO participating_ext (fest_id, event_id) VALUES
 
 -- Inserting data into the participating_int table
 INSERT INTO participating_int (fest_id, event_id) VALUES
-(1, 1),
 (2, 2),
 (3, 3),
 (4, 4),
@@ -436,7 +438,6 @@ INSERT INTO participating_int (fest_id, event_id) VALUES
 (8, 8),
 (9, 9),
 (10, 10),
-(11, 11),
 (12, 12),
 (13, 13),
 (14, 14),
@@ -446,7 +447,6 @@ INSERT INTO participating_int (fest_id, event_id) VALUES
 (18, 18),
 (19, 19),
 (20, 20),
-(21, 1),
 (22, 2),
 (23, 3),
 (24, 4),
@@ -456,7 +456,6 @@ INSERT INTO participating_int (fest_id, event_id) VALUES
 (28, 8),
 (29, 9),
 (30, 10),
-(31, 11),
 (32, 12),
 (33, 13),
 (34, 14),
@@ -466,7 +465,6 @@ INSERT INTO participating_int (fest_id, event_id) VALUES
 (38, 18),
 (39, 19),
 (40, 20),
-(41, 1),
 (42, 2),
 (43, 3),
 (44, 4),
@@ -476,7 +474,6 @@ INSERT INTO participating_int (fest_id, event_id) VALUES
 (48, 8),
 (49, 9),
 (50, 10),
-(51, 11),
 (52, 12),
 (53, 13),
 (54, 14),
@@ -486,7 +483,6 @@ INSERT INTO participating_int (fest_id, event_id) VALUES
 (58, 18),
 (59, 19),
 (60, 20),
-(61, 1),
 (62, 2),
 (63, 3),
 (64, 4),
@@ -496,7 +492,6 @@ INSERT INTO participating_int (fest_id, event_id) VALUES
 (68, 8),
 (69, 9),
 (70, 10),
-(71, 11),
 (72, 12),
 (73, 13),
 (74, 14),
@@ -506,7 +501,6 @@ INSERT INTO participating_int (fest_id, event_id) VALUES
 (78, 18),
 (79, 19),
 (80, 20),
-(81, 1),
 (82, 2),
 (83, 3),
 (84, 4),
@@ -516,7 +510,6 @@ INSERT INTO participating_int (fest_id, event_id) VALUES
 (88, 8),
 (89, 9),
 (90, 10),
-(91, 11),
 (92, 12),
 (93, 13),
 (94, 14),

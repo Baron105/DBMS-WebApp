@@ -64,7 +64,7 @@ def login():
             flag = 1
             return render_template("login.html", flag=flag)
 
-        
+        password = request.form["password"]
 
         fest_id = 0
 

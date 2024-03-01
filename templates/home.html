@@ -41,15 +41,24 @@
     {% for event in events %}
     <div class="event-card">
         <img class="event-img" src="{{ url_for('static', filename='images/tech_fest.jpg') }}" alt="tech fest">
-        <h1 class="event-name">{{event[0]}}</h1>
-        <p class="event-venue">Venue: {{event[1]}}</p>
+        <div class="event-head">
+            <h1 class="event-name">{{event[1]}}</h1>
+            <p class="event-venue">{{event[2]}}</p>
+        </div>
+        <p class="event-desc">{{ ' '.join(event[3].split()[:3]) }}<span id="three-dots-{{ event[0] }}"
+                class="three-dots">...</span>
+            <span id="full-desc-{{ event[0] }}" class="full-desc">{{ ' '.join(event[3].split()[3:]) }}</span>
+            <button class="read-more-btn" id="read-more-btn-{{ event[0] }}"
+                onclick="changeReadMore('{{ event[0] }}')">Read More</button>
+        </p>
+
         <div class="event-body">
-            <div class="event-timings">
-                <p>{{event[2]}}</p>
-                <p>{{event[3]}}</p>
+            <div id="event-timings-{{ event[0] }}" class="event-timings">
+                <p>{{event[4]}}</p>
+                <p>{{event[5]}}</p>
             </div>
             <div class="hr-line"></div>
-            <h2 class="event-type">{{event[4]}}</h2>
+            <h2 class="event-type">{{event[6]}}</h2>
         </div>
     </div>
     {% endfor %}
@@ -68,6 +77,35 @@
 
 <div class="home-footer">
     <h1>Contact</h1>
+    <table class="contact-body">
+        <tr>
+            <td class="contact-td">21CS10012</td>
+            <td class="contact-td">Atul Jayesh</td>
+            <td class="contact-td email">atuljayesh@kgpian.iitkgp.ac.in</td>
+        </tr>
+        <tr>
+            <td class="contact-td">21CS10014</td>
+            <td class="contact-td">Barun Parua</td>
+            <td class="contact-td email">barunparua@kgpian.iitkgp.ac.in</td>
+        </tr>
+        <tr>
+            <td class="contact-td">21CS10048</td>
+            <td class="contact-td">Owais Ahmad Lone</td>
+            <td class="contact-td email">loneowaisahmad@kgpian.iitkgp.ac.in</td>
+        </tr>
+        <tr>
+            <td class="contact-td">21CS10054</td>
+            <td class="contact-td">Ranjim Prabal Das</td>
+            <td class="contact-td email">ranjimxxii@kgpian.iitkgp.ac.in</td>
+        </tr>
+        <tr>
+            <td class="contact-td">21CS30032</td>
+            <td class="contact-td">Navaneeth Shaji</td>
+            <td class="contact-td email">navaneeth1013@kgpian.iitkgp.ac.in</td>
+        </tr>
+    </table>
+    <div class="hr-line"></div>
+    <h4>powered by HeapUnderCut 2024</h4>
 </div>
 
 {% endblock %}
