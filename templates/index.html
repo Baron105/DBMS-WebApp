@@ -112,7 +112,7 @@
             <td>{{event[4]}}</td>
             <!-- the participate button will put the event from list to -->
             <td><a
-                    href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student )}}">Participate</a>
+                    href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student,url_encrypt=url_encrypt )}}">Participate</a>
             </td>
         </tr>
         {% endfor %}
@@ -160,10 +160,10 @@
             <td>{{event[3]}}</td>
             <td>{{event[4]}}</td>
             <td><a
-                    href="{{url_for('volunteer',fest_id=fest_id,event_id =event[0],organise=organise,student=student)}}">Volunteer</a>
+                    href="{{url_for('volunteer',fest_id=fest_id,event_id =event[0],organise=organise,student=student, url_encrypt=url_encrypt)}}">Volunteer</a>
             </td>
             <td><a
-                    href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student )}}">Participate</a>
+                    href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student, url_encrypt=url_encrypt )}}">Participate</a>
         </tr>
         {% endfor %}
     </table>
@@ -192,7 +192,7 @@
             <td>{{participant[0]}}</td>
             <td>{{participant[1]}}</td>
             <td><a
-                    href="{{url_for('winner',fest_id=fest_id,event_id =organising_event[0],participant_id=participant[0],organise=organise,student=student,winner_name = participant[1] )}}">Select
+                    href="{{url_for('winner',fest_id=fest_id,event_id =organising_event[0],participant_id=participant[0],organise=organise,student=student,winner_name = participant[1],url_encrypt=url_encrypt )}}">Select
                 </a></td>
         </tr>
         {% endfor %}
