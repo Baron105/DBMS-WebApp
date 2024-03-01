@@ -184,9 +184,14 @@ def add_event(url_encrypt):
         event_time = request.form["event_time"]
         event_type = request.form["event_type"]
         event_description = request.form["event_description"]
+        cursor.execute(
+            "SELECT event_id from event order by event_id desc limit 1"
+        )
+        event_id = cursor.fetchone()
+        event_id = event_id[0] + 1
         try:
             cursor.execute(
-                f"INSERT into event (event_name, event_venue, event_date, event_time, event_type, event_description) VALUES ('{event_name}','{event_venue}','{event_date}','{event_time}','{event_type}','{event_description}')"
+                f"INSERT into event (event_id,event_name, event_venue, event_date, event_time, event_type, event_description) VALUES ('{event_id}','{event_name}','{event_venue}','{event_date}','{event_time}','{event_type}','{event_description}')"
             )
             conn.commit()
         except psycopg2.Error as e:
