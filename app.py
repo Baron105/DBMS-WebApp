@@ -48,11 +48,19 @@ def login():
     if request.method == "POST":
         cursor = conn.cursor()
         username = request.form["username"]
+        password = request.form["password"]
+        cursor.execute(f"SELECT * from admin where username = '{username}' and pass = '{password}'")
+        admin = cursor.fetchone()
+        
+        if(admin is not None):
+            print(admin)
+            return redirect(url_for("admin"))
+        
         username = username[6:]
 
         try:
             username = int(username)
-        except():
+        except:
             flag = 1
             return render_template("login.html", flag=flag)
 
@@ -111,6 +119,78 @@ def login():
     else:
         return render_template("login.html")
 
+@app.route("/admin")
+def admin():
+    """Admin page"""
+
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "SELECT event_id,event_name, event_venue, event_date, event_time from event"
+        )
+        events = cursor.fetchall()
+        organisers = []
+        events2 = []
+        for event in events:
+            event_id = event[0]
+            cursor.execute(
+                f"SELECT roll from organising NATURAL JOIN student where event_id = {event_id}"
+            )
+            organisers=cursor.fetchall()
+            
+            events2.append((event,organisers))
+            
+    except psycopg2.Error as e:
+        print(e)
+        events2 = []
+        conn.rollback()
+    return render_template("admin.html", events=events2)
+
+@app.route("/add_organiser/<int:event_id>", methods=["GET","POST"])
+def add_organiser(event_id):
+    """Add organiser page"""
+    cursor = conn.cursor()
+    if request.method == "POST":
+        roll = request.form["roll"]
+        cursor.execute(
+                f"SELECT fest_id from student where roll = '{roll}'"
+            )
+        fest_id = cursor.fetchone()
+        try:
+            
+            cursor.execute(
+                f"INSERT into organising VALUES ({fest_id[0]},{event_id})"
+            )
+            conn.commit()
+        except psycopg2.Error as e:
+            print(e)
+            conn.rollback()
+    else:
+        return render_template("add_organiser.html", event_id = event_id)
+    return redirect(url_for("admin"))
+
+@app.route("/remove_organiser/<int:event_id>", methods=["GET", "POST"])
+def remove_organiser(event_id):
+    """Remove organiser page"""
+    cursor = conn.cursor()
+    if request.method == "POST":
+        roll = request.form["roll"]
+        cursor.execute(
+                f"SELECT fest_id from student where roll = '{roll}'"
+            )
+        fest_id = cursor.fetchone()
+        try:
+            
+            cursor.execute(
+                f"DELETE from organising where fest_id = {fest_id[0]} and event_id = {event_id}"
+            )
+            conn.commit()
+        except psycopg2.Error as e:
+            print(e)
+            conn.rollback()
+    else:
+        return render_template("remove_organiser.html", event_id = event_id)
+    return redirect(url_for("admin"))
 
 @app.route("/index/<int:fest_id>/<int:organise>/<int:student>/<int:x>", methods=["GET", "POST"])
 def index(fest_id, organise, student,x):
@@ -414,7 +494,6 @@ def register():
 
     else:
         return render_template("register.html")
-
 
 
 if __name__ == "__main__":
