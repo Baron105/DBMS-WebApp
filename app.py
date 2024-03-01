@@ -23,7 +23,7 @@ def rsa_hash_encrypt(message, key):
     return encrypted_value
 
 conn = psycopg2.connect(
-    dbname="21CS30032", user="21CS30032", password="21CS30032", host="10.5.18.70"
+    dbname="21CS10048", user="21CS10048", password="21CS10048", host="10.5.18.69"
 )
 
 # conn = psycopg2.connect(
