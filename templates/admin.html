@@ -1,0 +1,39 @@
+{%extends 'base.html'%}
+{%block head%}
+<title>Admin</title>
+{%endblock%}
+{%block body%}
+{%if events%}
+<h2>Events</h2>
+<table style="width:60%">
+    <tr>
+        <th>Event Name</th>
+        <th>Event Date</th>
+        <th>Event Time</th>
+        <th>Event Venue</th>
+        <th >Organisers</th>
+
+        <th>Add Organiser</th>
+        <th>Remove Organiser</th>
+    </tr>
+    {%for event in events%} 
+    <tr>
+        <td>{{event[0][1]}}</td>
+        <td>{{event[0][2]}}</td>
+        <td>{{event[0][3]}}</td>
+        <td>{{event[0][4]}}</td>
+        <td  >{%for roll in event[1]%}
+            {{roll[0]}}<br>
+            {%endfor%}
+
+        </td>
+        <td><a href="{{url_for('add_organiser',event_id=event[0][0],url_encrypt=url_encrypt)}}">Add Organiser</a></td>
+        <td><a href="{{url_for('remove_organiser',event_id=event[0][0],url_encrypt=url_encrypt)}}">Remove Organiser</a></td>
+    </tr>
+    {%endfor%}
+</table>
+
+{%endif%}
+<a href="{{url_for('remove_participant',url_encrypt=url_encrypt)}}">Remove Participant</a>
+    
+{%endblock%}
