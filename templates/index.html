@@ -144,12 +144,12 @@
                                 <p class="e-time">{{event[3]}}</p>
                             </div>
                             <div class="event-list-el-actions">
-                                <a href="{{url_for('volunteer',fest_id=fest_id,event_id =event[0],organise=organise,student=student)}}">
+                                <a href="{{url_for('volunteer',fest_id=fest_id,event_id =event[0],organise=organise,student=student,url_encrypt=url_encrypt)}}">
                                     <span class="material-symbols-outlined color-la">
                                         add_circle
                                     </span>
                                 </a>
-                                <a href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student )}}">
+                                <a href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student, url_encrypt=url_encrypt )}}">
                                     <span class="material-symbols-outlined color-da">
                                         person_add
                                     </span>
