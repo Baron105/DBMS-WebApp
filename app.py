@@ -5,7 +5,6 @@ import psycopg2
 import hashlib
 
 key = 23
-
 def sha256_hash(input_string):
     sha256_hash_object = hashlib.sha256()
     sha256_hash_object.update(input_string.encode())
@@ -75,7 +74,8 @@ def login():
         
         if(admin is not None):
             print(admin)
-            return redirect(url_for("admin"))
+            session['admin'] = sha256_hash(str(rsa_hash_encrypt(username,key)))
+            return redirect(url_for("admin",url_encrypt=session['admin']))
         
         username = username[6:]
 
@@ -143,8 +143,8 @@ def login():
     else:
         return render_template("login.html")
 
-@app.route("/admin")
-def admin():
+@app.route("/admin/<url_encrypt>")
+def admin(url_encrypt):
     """Admin page"""
 
     cursor = conn.cursor()
@@ -168,10 +168,13 @@ def admin():
         print(e)
         events2 = []
         conn.rollback()
-    return render_template("admin.html", events=events2)
+    if url_encrypt == session['admin']:
+        return render_template("admin.html", events=events2,url_encrypt=url_encrypt)
+    else:
+        abort(404)
 
-@app.route("/add_organiser/<int:event_id>", methods=["GET","POST"])
-def add_organiser(event_id):
+@app.route("/add_organiser/<int:event_id>/<url_encrypt>", methods=["GET","POST"])
+def add_organiser(event_id,url_encrypt):
     """Add organiser page"""
     cursor = conn.cursor()
     if request.method == "POST":
@@ -190,11 +193,11 @@ def add_organiser(event_id):
             print(e)
             conn.rollback()
     else:
-        return render_template("add_organiser.html", event_id = event_id)
-    return redirect(url_for("admin"))
+        return render_template("add_organiser.html", event_id = event_id,url_encrypt=url_encrypt)
+    return redirect(url_for("admin",url_encrypt=url_encrypt))
 
-@app.route("/remove_organiser/<int:event_id>", methods=["GET", "POST"])
-def remove_organiser(event_id):
+@app.route("/remove_organiser/<int:event_id>/<url_encrypt>", methods=["GET", "POST"])
+def remove_organiser(event_id,url_encrypt):
     """Remove organiser page"""
     cursor = conn.cursor()
     if request.method == "POST":
@@ -213,8 +216,8 @@ def remove_organiser(event_id):
             print(e)
             conn.rollback()
     else:
-        return render_template("remove_organiser.html", event_id = event_id)
-    return redirect(url_for("admin"))
+        return render_template("remove_organiser.html", event_id = event_id,url_encrypt=url_encrypt)
+    return redirect(url_for("admin",url_encrypt=url_encrypt))
 
 @app.route("/index/<int:fest_id>/<int:organise>/<int:student>/<int:x>/<url_encrypt>", methods=["GET", "POST"])
 def index(fest_id, organise, student,x,url_encrypt):

@@ -27,8 +27,8 @@
             {%endfor%}
 
         </td>
-        <td><a href="{{url_for('add_organiser',event_id=event[0][0])}}">Add Organiser</a></td>
-        <td><a href="{{url_for('remove_organiser',event_id=event[0][0])}}">Remove Organiser</a></td>
+        <td><a href="{{url_for('add_organiser',event_id=event[0][0],url_encrypt=url_encrypt)}}">Add Organiser</a></td>
+        <td><a href="{{url_for('remove_organiser',event_id=event[0][0],url_encrypt=url_encrypt)}}">Remove Organiser</a></td>
     </tr>
     {%endfor%}
 </table>
