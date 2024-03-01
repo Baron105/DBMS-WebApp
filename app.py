@@ -290,6 +290,7 @@ def index(fest_id, organise, student,x,url_encrypt):
     participant_event = []
     volunteer_event = []
     participant_event_2 = []
+    events_won = []
     details = []
     url_encrypt = sha256_hash(str(rsa_hash_encrypt(str(fest_id),key)))
 
@@ -447,6 +448,7 @@ def index(fest_id, organise, student,x,url_encrypt):
             x=x,
             participant_event=participant_event_2,
             volunteer_event=volunteer_event,
+          events_won = events_won,
             details=details,
             url_encrypt = url_encrypt
         )
