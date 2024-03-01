@@ -1,6 +1,27 @@
 """imports from the flask module"""
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for,session,abort
 import psycopg2
+
+import hashlib
+
+key = 23
+
+def sha256_hash(input_string):
+    sha256_hash_object = hashlib.sha256()
+    sha256_hash_object.update(input_string.encode())
+    return sha256_hash_object.hexdigest()[0:19]
+
+def rsa_hash_encrypt(message, key):
+    # Hash the message using SHA-256
+    hashed_message = hashlib.sha256(message.encode()).hexdigest()
+
+    # Convert the hash value to an integer
+    hashed_int = int(hashed_message, 16)
+
+    # Perform modular exponentiation
+    encrypted_value = pow(hashed_int, key, 1024)
+
+    return encrypted_value
 
 conn = psycopg2.connect(
     dbname="21CS30032", user="21CS30032", password="21CS30032", host="10.5.18.70"
@@ -109,8 +130,11 @@ def login():
         cursor.close()
         if fest_id is not None:
             fest_id = fest_id[0]
+            session['url_encrypt_global'] = sha256_hash(str(rsa_hash_encrypt(str(fest_id),key)))
+            session['organise'] = organise
+            session['student'] = student
             return redirect(
-                url_for("index", fest_id=fest_id, organise=organise, student=student,x=2)
+                url_for("index", fest_id=fest_id, organise=organise, student=student,x=2,url_encrypt=session['url_encrypt_global'])
             )
         else:
             flag = 1
@@ -192,8 +216,8 @@ def remove_organiser(event_id):
         return render_template("remove_organiser.html", event_id = event_id)
     return redirect(url_for("admin"))
 
-@app.route("/index/<int:fest_id>/<int:organise>/<int:student>/<int:x>", methods=["GET", "POST"])
-def index(fest_id, organise, student,x):
+@app.route("/index/<int:fest_id>/<int:organise>/<int:student>/<int:x>/<url_encrypt>", methods=["GET", "POST"])
+def index(fest_id, organise, student,x,url_encrypt):
     """INDEX page"""
 
     cursor = conn.cursor()
@@ -208,6 +232,10 @@ def index(fest_id, organise, student,x):
     volunteer_event = []
     participant_event_2 = []
     details = []
+    url_encrypt = sha256_hash(str(rsa_hash_encrypt(str(fest_id),key)))
+
+    if student!=session['student'] or organise!=session['organise']:
+        abort(404)
     if fest_id > 1000:
         # show details of user
         try:
@@ -345,29 +373,33 @@ def index(fest_id, organise, student,x):
                 
     cursor.close()
 
-    return render_template(
-        "index.html",
-        fest_id=fest_id,
-        organise=organise,
-        student=student,
-        participating_event=participating_event,
-        non_participating_event=non_participating_event,
-        volunteering_event=volunteering_event,
-        non_volunteering_event=non_volunteering_event,
-        organising_event=organising_event,
-        other_events=other_events,
-        x=x,
-        participant_event=participant_event_2,
-        volunteer_event=volunteer_event,
-        details=details,
-    )
+    if url_encrypt == session['url_encrypt_global']:
+        return render_template(
+            "index.html",
+            fest_id=fest_id,
+            organise=organise,
+            student=student,
+            participating_event=participating_event,
+            non_participating_event=non_participating_event,
+            volunteering_event=volunteering_event,
+            non_volunteering_event=non_volunteering_event,
+            organising_event=organising_event,
+            other_events=other_events,
+            x=x,
+            participant_event=participant_event_2,
+            volunteer_event=volunteer_event,
+            details=details,
+            url_encrypt = url_encrypt
+        )
+    else:
+        abort(404)
 
 
 @app.route(
-    "/winner/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>/<winner_name>",
+    "/winner/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>/<winner_name>/<url_encrypt>",
     methods=["GET", "POST"],
 )
-def winner(fest_id, event_id, organise, student, winner_name):
+def winner(fest_id, event_id, organise, student, winner_name,url_encrypt):
     """Winner page"""
     cursor = conn.cursor()
     
@@ -382,14 +414,14 @@ def winner(fest_id, event_id, organise, student, winner_name):
         conn.rollback()
         
     cursor.close()
-    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=1))
+    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=1,url_encrypt=url_encrypt))
 
 
 @app.route(
-    "/participate/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>",
+    "/participate/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>/<url_encrypt>",
     methods=["GET", "POST"],
 )
-def participate(fest_id, event_id, organise, student):
+def participate(fest_id, event_id, organise, student,url_encrypt):
     """Participate page"""
     cursor = conn.cursor()
     if fest_id > 1000:
@@ -410,13 +442,13 @@ def participate(fest_id, event_id, organise, student):
             conn.rollback()
 
     cursor.close()
-    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=0))
+    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=0,url_encrypt=url_encrypt))
 
 @app.route(
-    "/volunteer/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>",
+    "/volunteer/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>/<url_encrypt>",
     methods=["GET", "POST"],
 )
-def volunteer(fest_id, event_id, organise, student):
+def volunteer(fest_id, event_id, organise, student,url_encrypt):
     """Volunteer page"""
     cursor = conn.cursor()
     try:
@@ -428,7 +460,7 @@ def volunteer(fest_id, event_id, organise, student):
         conn.rollback()
 
     cursor.close()
-    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=0))
+    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=0,url_encrypt=url_encrypt))
 
 
 @app.route("/register", methods=["GET", "POST"])
