@@ -52,7 +52,7 @@ def home():
         print(e)
         events = []
         conn.rollback()
-
+    
     return render_template("home.html", events=events)
 
 
@@ -142,6 +142,19 @@ def login():
 
     else:
         return render_template("login.html")
+    
+@app.route("/logout")
+def logout():
+    if session.get('admin') is not None:
+        session['admin'] = None
+    if session.get('url_encrypt_global') is not None:
+        session['url_encrypt_global'] = None
+    if session.get('organise') is not None:
+        session['organise'] = None
+    if session.get('student') is not None:
+        session['student'] = None
+    
+    return redirect(url_for("home"))
 
 @app.route("/admin/<url_encrypt>")
 def admin(url_encrypt):
