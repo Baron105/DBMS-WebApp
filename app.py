@@ -146,6 +146,43 @@ def admin():
         conn.rollback()
     return render_template("admin.html", events=events2)
 
+@app.route("/remove_participant")
+def remove_participant():
+    """Remove participant page"""
+    
+        
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT fest_id, name from ext_participant")
+    participants = cursor.fetchall()
+    cursor.close()
+    return render_template("remove_participant.html", participants = participants)
+    
+    
+
+@app.route("/remove_participant2/<int:fest_id>", methods=["GET", "POST"])
+def remove_participant2(fest_id):
+    """Remove participant page"""
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute(
+            f"SELECT acc_id from ext_participant where fest_id = {fest_id}"
+        )
+        acc_id = cursor.fetchone()
+        cursor.execute(
+            f"UPDATE accomodation SET capacity = capacity + 1 WHERE acc_id = {acc_id[0]}"
+        )
+        cursor.execute(
+            f"DELETE from ext_participant where fest_id = {fest_id}"
+        )
+        conn.commit()
+    except psycopg2.Error as e:
+        print(e)
+        conn.rollback()
+    
+    return redirect(url_for("remove_participant"))
+
 @app.route("/add_organiser/<int:event_id>", methods=["GET","POST"])
 def add_organiser(event_id):
     """Add organiser page"""
