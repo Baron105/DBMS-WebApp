@@ -1,3 +1,6 @@
+
+INSERT into admin VALUES ('admin', 'admin');
+
 INSERT INTO student (roll, fest_id, name, dept, pass) VALUES
 ('21CS10001', 1, 'Emma', 'CSE', 'bt21'),
 ('21EC10002', 2, 'Liam', 'ECE', 'bt21'),
