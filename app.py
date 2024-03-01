@@ -126,7 +126,7 @@ def admin():
     cursor = conn.cursor()
     try:
         cursor.execute(
-            "SELECT event_id,event_name, event_ venue, event_date, event_time from event"
+            "SELECT event_id,event_name, event_venue, event_date, event_time from event"
         )
         events = cursor.fetchall()
         organisers = []
@@ -137,33 +137,36 @@ def admin():
                 f"SELECT roll from organising NATURAL JOIN student where event_id = {event_id}"
             )
             organisers=cursor.fetchall()
+            
             events2.append((event,organisers))
-        
+            
     except psycopg2.Error as e:
         print(e)
         events2 = []
         conn.rollback()
     return render_template("admin.html", events=events2)
 
-@app.route("/add_organiser/<int:event_id>", methods=["GET", "POST"])
+@app.route("/add_organiser/<int:event_id>", methods=["GET","POST"])
 def add_organiser(event_id):
     """Add organiser page"""
     cursor = conn.cursor()
     if request.method == "POST":
         roll = request.form["roll"]
         cursor.execute(
-                f"SELECT fest_id from student where roll = {roll}"
+                f"SELECT fest_id from student where roll = '{roll}'"
             )
         fest_id = cursor.fetchone()
         try:
             
             cursor.execute(
-                f"INSERT into organising VALUES ({fest_id},{event_id})"
+                f"INSERT into organising VALUES ({fest_id[0]},{event_id})"
             )
             conn.commit()
         except psycopg2.Error as e:
             print(e)
             conn.rollback()
+    else:
+        return render_template("add_organiser.html", event_id = event_id)
     return redirect(url_for("admin"))
 
 @app.route("/remove_organiser/<int:event_id>", methods=["GET", "POST"])
@@ -173,18 +176,20 @@ def remove_organiser(event_id):
     if request.method == "POST":
         roll = request.form["roll"]
         cursor.execute(
-                f"SELECT fest_id from student where roll = {roll}"
+                f"SELECT fest_id from student where roll = '{roll}'"
             )
         fest_id = cursor.fetchone()
         try:
             
             cursor.execute(
-                f"DELETE from organising where fest_id = {fest_id} and event_id = {event_id}"
+                f"DELETE from organising where fest_id = {fest_id[0]} and event_id = {event_id}"
             )
             conn.commit()
         except psycopg2.Error as e:
             print(e)
             conn.rollback()
+    else:
+        return render_template("remove_organiser.html", event_id = event_id)
     return redirect(url_for("admin"))
 
 @app.route("/index/<int:fest_id>/<int:organise>/<int:student>/<int:x>", methods=["GET", "POST"])

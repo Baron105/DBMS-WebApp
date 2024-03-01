@@ -13,10 +13,10 @@
             </a>
         </div>
         <div class="register-form">
-            <form action="{{url_for('remove_organiser')}}" method="post">
+            <form action="{{url_for('remove_organiser',event_id=event_id)}}" method="post">
                 <div class="form-group>
                     <label for = "Roll No">Roll No</label>
-                    <input type="text" class="form-control" id="roll_no" name="roll_no" placeholder="Enter the roll no" required>
+                    <input type="text" class="form-control" id="roll" name="roll" placeholder="Enter the roll no" required>
                 </div>
                 <button type="submit" class="submit-button">Remove Organiser</button>
             </form>
