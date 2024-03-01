@@ -174,8 +174,8 @@ def admin(url_encrypt):
         abort(404)
 
 
-@app.route("/remove_participant")
-def remove_participant():
+@app.route("/remove_participant/<url_encrypt>")
+def remove_participant(url_encrypt):
     """Remove participant page"""
     
         
@@ -184,12 +184,14 @@ def remove_participant():
     cursor.execute(f"SELECT fest_id, name from ext_participant")
     participants = cursor.fetchall()
     cursor.close()
-    return render_template("remove_participant.html", participants = participants)
-    
+    if url_encrypt == session['admin']:
+        return render_template("remove_participant.html", participants = participants,url_encrypt=url_encrypt)
+    else :
+        abort(404)
     
 
-@app.route("/remove_participant2/<int:fest_id>", methods=["GET", "POST"])
-def remove_participant2(fest_id):
+@app.route("/remove_participant2/<int:fest_id>/<url_encrypt>", methods=["GET", "POST"])
+def remove_participant2(fest_id,url_encrypt):
     """Remove participant page"""
     cursor = conn.cursor()
     
@@ -208,8 +210,10 @@ def remove_participant2(fest_id):
     except psycopg2.Error as e:
         print(e)
         conn.rollback()
-    
-    return redirect(url_for("remove_participant"))
+    if url_encrypt == session['admin']:
+        return redirect(url_for("remove_participant",url_encrypt=url_encrypt))
+    else :
+        abort(404)
 
 
 @app.route("/add_organiser/<int:event_id>/<url_encrypt>", methods=["GET","POST"])
@@ -233,8 +237,14 @@ def add_organiser(event_id,url_encrypt):
             print(e)
             conn.rollback()
     else:
-        return render_template("add_organiser.html", event_id = event_id,url_encrypt=url_encrypt)
-    return redirect(url_for("admin",url_encrypt=url_encrypt))
+        if url_encrypt == session['admin']:
+            return render_template("add_organiser.html", event_id = event_id,url_encrypt=url_encrypt)
+        else:
+            abort(404)
+    if url_encrypt == session['admin']:
+        return redirect(url_for("admin",url_encrypt=url_encrypt))
+    else :
+        abort(404)
 
 @app.route("/remove_organiser/<int:event_id>/<url_encrypt>", methods=["GET", "POST"])
 def remove_organiser(event_id,url_encrypt):
@@ -256,8 +266,14 @@ def remove_organiser(event_id,url_encrypt):
             print(e)
             conn.rollback()
     else:
-        return render_template("remove_organiser.html", event_id = event_id,url_encrypt=url_encrypt)
-    return redirect(url_for("admin",url_encrypt=url_encrypt))
+        if url_encrypt == session['admin']:
+            return render_template("remove_organiser.html", event_id = event_id,url_encrypt=url_encrypt)
+        else :
+            abort(404)
+    if url_encrypt == session['admin']:
+        return redirect(url_for("admin",url_encrypt=url_encrypt))
+    else :
+        abort(404)
 
 @app.route("/index/<int:fest_id>/<int:organise>/<int:student>/<int:x>/<url_encrypt>", methods=["GET", "POST"])
 def index(fest_id, organise, student,x,url_encrypt):

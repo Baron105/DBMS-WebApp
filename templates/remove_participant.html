@@ -4,7 +4,7 @@
 {%endblock%}
 {%block body%}
 {%if participants%}
-<a href="{{url_for('admin')}}">
+<a href="{{url_for('admin',url_encrypt=url_encrypt)}}">
     <p class="go-back-btn">Go back</p>
 <h2>Participants</h2>
 <table style="width: 60%;">
@@ -17,7 +17,7 @@
     <tr>
         <td>{{participant[0]}}</td>
         <td>{{participant[1]}}</td>
-        <td><a href="{{url_for('remove_participant2',fest_id=participant[0])}}">Remove</a></td>
+        <td><a href="{{url_for('remove_participant2',fest_id=participant[0],url_encrypt=url_encrypt)}}">Remove</a></td>
     </tr>
     {%endfor%}
 </table>
