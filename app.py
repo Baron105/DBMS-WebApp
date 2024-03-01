@@ -270,14 +270,13 @@ def index(fest_id, organise, student,x):
         fest_id=fest_id,
         organise=organise,
         student=student,
-        participating_event=participating_event,
-        non_participating_event=non_participating_event,
-        volunteering_event=volunteering_event,
-        non_volunteering_event=non_volunteering_event,
-        organising_event=organising_event,
-        other_events=other_events,
-        participant_event=participant_event_2,
-        volunteer_event=volunteer_event,
+        participating_event=participating_event, # list of events this user is participating in
+        non_participating_event=non_participating_event,    # list of events an external is not participating in
+        volunteering_event=volunteering_event,  # events where student is volunteering
+        organising_event=organising_event,  # events organizer is organizing
+        other_events=other_events,  # other events = student neither organizing, participate, volunteer
+        participant_event=participant_event_2, # for organizer tab -> participant list  
+        volunteer_event=volunteer_event, # for organizer tab -> volunteer list
         details=details,
     )
 
