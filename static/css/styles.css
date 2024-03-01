@@ -667,3 +667,63 @@ a {
 .color-da {
     color: var(--da);
 }
+
+
+/* Organiser tab */
+
+.organiser-det-card {
+    background-color: #fff;
+    border-radius: 2rem;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.organiser-det-banner {
+    height: 10vh;
+    width: 100%;
+}
+
+.organiser-det-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.organiser-det-id {
+    font-size: 0.8rem;
+    font-style: italic;
+    margin-top: 0.2rem;
+    margin-bottom: 1rem;
+    color: var(--da);
+}
+
+.organiser-det-no {
+    font-size: 0.9rem;
+    margin-top: 0.2rem;
+    font-weight: bold;
+}
+
+.og-box-1 {
+    margin-top: 2rem;
+    display: flex;
+    gap: 3rem;
+}
+
+.og-col-1 {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex-grow: 2;
+}
+
+.og-col-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex-grow: 2;
+}

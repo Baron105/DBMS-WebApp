@@ -28,10 +28,11 @@
             <div id="organise-tab"></div>
             {% endif %}
 
-            <li id="edit-tab">
+            <!-- <li id="edit-tab">
                 <span class="material-symbols-outlined">edit</span>
                 <button class="tablinks" onclick="toggleDiv3()">Edit Profile</button>
-            </li>
+            </li> -->
+
             <li id="logout-tab">
                 <span class="material-symbols-outlined">logout</span>
                 <a class="tablinks" href="{{ url_for('home') }}">Logout</a>
@@ -52,6 +53,7 @@
                             <p class="profile-cd">{{details[3]}}</p>
                         </div>
                     </div>
+                    
                     <div class="small-card card">
                         <div class="small-body">
                             <h5 class="small-title">DESIGNATION</h5>
@@ -64,6 +66,30 @@
                         </div>
                         <span class="material-symbols-outlined">group</span>
                     </div>
+
+                    <div class="small-card card volunteer-bg">
+                        <div class="small-body">
+                            <h5 class="color-title small-title" >Events won</h5>
+                            <p class="small-content bold">{{ events_won|length }} <span class="spl-font">EVENT(S)</span></p>
+                        </div>
+                        <span class="material-symbols-outlined">celebration</span>
+                    </div>
+                    <div class="event-list-card">
+                        {% for event in events_won %}
+                        <div class="event-list-el">
+                            <div class="event-list-el-col1">
+                                <h4 class="e-name">{{event[1]}}</h4>
+                                <p class="e-venue">{{event[4]}}</p>
+                            </div>
+                            <div class="event-list-el-col2">
+                                <p class="e-date">{{event[2]}}</p>
+                                <p class="e-time">{{event[3]}}</p>
+                            </div>
+                        </div>
+                        <div class="event-list-hr"></div>
+                        {% endfor %}
+                    </div>
+
                 </div>
                 
                 <div class="pf-col-2">
@@ -205,12 +231,86 @@
             </div>
             
             <div id="organise-content">
-                <h1>Organise</h1>
+                <div class="organiser-det-card card">
+                    <img class="organiser-det-banner" src="{{ url_for('static', filename='images/abstract_bg.jpg') }}" alt="banner" class="banner-image">
+                    <div class="organiser-det-content">
+                        <h2 class="organiser-det-name">Organise</h2>
+                        <p class="organiser-det-id">Events you are organising</p>
+                        <p class="organiser-det-no">1 EVENT(S)</p>
+                    </div>
+                </div>
+
+                <div class="event-list-card">
+                    <div class="event-list-el">
+                        <div class="event-list-el-col1">
+                            <h4 class="e-name">{{organising_event[1]}}</h4>
+                            <p class="e-venue">{{organising_event[4]}}</p>
+                            <p class="e-winner">Winner: {{organising_event[5]}}</p>
+                        </div>
+                        <div class="event-list-el-col2">
+                            <p class="e-date">{{organising_event[2]}}</p>
+                            <p class="e-time">{{organising_event[3]}}</p>
+                        </div>
+                    </div>
+                    <div class="event-list-hr"></div>
+                </div>
+
+                <div class="og-box-1">
+                    <div class="og-col-1">
+                        <div class="small-card card participate-bg">
+                            <div class="small-body">
+                                <h5 class="color-title small-title" >Participant List</h5>
+                                <p class="small-content bold">{{ participant_event|length }} <span class="spl-font">PARTICIPANT(S)</span></p>
+                            </div>
+                            <span class="material-symbols-outlined">sports_score</span>
+                        </div>
+                        <div class="event-list-card">
+                            {% for participant in participant_event %}
+                            <div class="event-list-el">
+                                <div class="event-list-el-col1">
+                                    <h4 class="e-name">{{participant[1]}}</h4>
+                                    <p class="e-venue">{{participant[0]}}</p>
+                                </div>
+                                <div class="event-list-el-actions">
+                                    <a href="{{url_for('winner',fest_id=fest_id,event_id =organising_event[0],participant_id=participant[0],organise=organise,student=student,winner_name = participant[1] )}}">
+                                        <span class="material-symbols-outlined color-la">
+                                            add_circle
+                                        </span>
+                                        <p class="e-winner">SELECT WINNER</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="event-list-hr"></div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="og-col-2">
+                        <div class="small-card card volunteer-bg">
+                            <div class="small-body">
+                                <h5 class="color-title small-title" >Volunteer List</h5>
+                                <p class="small-content bold">{{ volunteer_event|length }} <span class="spl-font">VOLUNTEER(S)</span></p>
+                            </div>
+                            <span class="material-symbols-outlined">volunteer_activism</span>
+                        </div>
+                        <div class="event-list-card">
+                            {% for volunteer in volunteer_event %}
+                            <div class="event-list-el">
+                                <div class="event-list-el-col1">
+                                    <h4 class="e-name">{{volunteer[1]}}</h4>
+                                    <p class="e-venue">{{volunteer[0]}}</p>
+                                </div>
+                            </div>
+                            <div class="event-list-hr"></div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <div id="edit-content">
+            <!-- <div id="edit-content">
                 <h1>Edit Profile</h1>
-            </div>
+            </div> -->
         
         </div>
     </div>

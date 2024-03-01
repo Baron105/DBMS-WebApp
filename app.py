@@ -127,6 +127,7 @@ def index(fest_id, organise, student,x):
     participant_event = []
     volunteer_event = []
     participant_event_2 = []
+    events_won = []
     details = []
     if fest_id > 1000:
         # show details of user
@@ -265,6 +266,8 @@ def index(fest_id, organise, student,x):
                 
     cursor.close()
 
+    print(participant_event_2)
+
     return render_template(
         "index.html",
         fest_id=fest_id,
@@ -277,6 +280,7 @@ def index(fest_id, organise, student,x):
         other_events=other_events,  # other events = student neither organizing, participate, volunteer
         participant_event=participant_event_2, # for organizer tab -> participant list  
         volunteer_event=volunteer_event, # for organizer tab -> volunteer list
+        events_won = events_won, # list of events won by the participant
         details=details,
     )
 
