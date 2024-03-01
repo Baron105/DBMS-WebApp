@@ -212,13 +212,13 @@
                             </div>
                             <div class="event-list-el-actions">
                                 {% if organise == 1 or student == 1 %}
-                                <a href="{{url_for('volunteer',fest_id=fest_id,event_id =event[0],organise=organise,student=student)}}">
+                                <a href="{{url_for('volunteer',fest_id=fest_id,event_id =event[0],organise=organise,student=student,url_encrypt = url_encrypt)}}">
                                     <span class="material-symbols-outlined color-la">
                                         add_circle
                                     </span>
                                 </a>
                                 {% endif %}
-                                <a href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student )}}">
+                                <a href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student,url_encrypt = url_encrypt )}}">
                                     <span class="material-symbols-outlined color-da">
                                         person_add
                                     </span>
