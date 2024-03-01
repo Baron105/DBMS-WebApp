@@ -186,6 +186,40 @@ def admin(url_encrypt):
     else:
         abort(404)
 
+@app.route("/add_event/<url_encrypt>", methods=["GET", "POST"])
+def add_event(url_encrypt):
+    """Add event page"""
+    cursor = conn.cursor()
+    if request.method == "POST":
+        event_name = request.form["event_name"]
+        event_venue = request.form["event_venue"]
+        event_date = request.form["event_date"]
+        event_time = request.form["event_time"]
+        event_type = request.form["event_type"]
+        event_description = request.form["event_description"]
+        cursor.execute(
+            "SELECT event_id from event order by event_id desc limit 1"
+        )
+        event_id = cursor.fetchone()
+        event_id = event_id[0] + 1
+        try:
+            cursor.execute(
+                f"INSERT into event (event_id,event_name, event_venue, event_date, event_time, event_type, event_description) VALUES ('{event_id}','{event_name}','{event_venue}','{event_date}','{event_time}','{event_type}','{event_description}')"
+            )
+            conn.commit()
+        except psycopg2.Error as e:
+            print(e)
+            conn.rollback()
+    else:
+        if url_encrypt == session['admin']:
+            return render_template("add_event.html",url_encrypt=url_encrypt)
+        else:
+            abort(404)
+    if url_encrypt == session['admin']:
+        return redirect(url_for("admin",url_encrypt=url_encrypt))
+    else:
+        abort(404)
+
 
 @app.route("/remove_participant/<url_encrypt>")
 def remove_participant(url_encrypt):
@@ -234,21 +268,31 @@ def add_organiser(event_id,url_encrypt):
 
     """Add organiser page"""
     cursor = conn.cursor()
+    flag = 0
+
     if request.method == "POST":
         roll = request.form["roll"]
         cursor.execute(
                 f"SELECT fest_id from student where roll = '{roll}'"
             )
         fest_id = cursor.fetchone()
-        try:
-            
-            cursor.execute(
-                f"INSERT into organising VALUES ({fest_id[0]},{event_id})"
+        cursor.execute(
+                f"SELECT * from participating_int where fest_id = {fest_id[0]} and event_id = {event_id}"
             )
-            conn.commit()
-        except psycopg2.Error as e:
-            print(e)
-            conn.rollback()
+        fest_id2 = cursor.fetchone()
+        if fest_id2 is not None:
+            flag=1
+            return render_template("add_organiser.html", event_id = event_id,url_encrypt=url_encrypt,flag=flag)
+        else:
+            try:
+                
+                cursor.execute(
+                    f"INSERT into organising VALUES ({fest_id[0]},{event_id})"
+                )
+                conn.commit()
+            except psycopg2.Error as e:
+                print(e)
+                conn.rollback()
     else:
         if url_encrypt == session['admin']:
             return render_template("add_organiser.html", event_id = event_id,url_encrypt=url_encrypt)
