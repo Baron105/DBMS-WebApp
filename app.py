@@ -363,18 +363,18 @@ def index(fest_id, organise, student, x, url_encrypt):
 
     cursor = conn.cursor()
 
+    details = []
     participating_event = []
     non_participating_event = []
     volunteering_event = []
     non_volunteering_event = []
     other_events = []
-    organising_event = []
-    participant_event = []
-    volunteer_event = []
-    participant_event_2 = []
     events_won = []
-    details = []
-    url_encrypt = sha256_hash(str(rsa_hash_encrypt(str(fest_id), key)))
+    
+    events_organised = []
+    event_org_details = {}
+    
+    url_encrypt = sha256_hash(str(rsa_hash_encrypt(str(fest_id),key)))
 
     if student != session["student"] or organise != session["organise"]:
         abort(404)
@@ -486,55 +486,35 @@ def index(fest_id, organise, student, x, url_encrypt):
 
         if organise == 1:
             try:
+                # list of events organised
                 cursor.execute(
-                    f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event where event_id in (select event_id from organising where fest_id = {fest_id})"
+                    f"SELECT * FROM event WHERE event_id in (select event_id from organising where fest_id = {fest_id})"
                 )
-                organising_event = cursor.fetchone()
+                events_organised = cursor.fetchall()
 
-            except psycopg2.Error as e:
-                print(e)
-                organising_event = []
-                conn.rollback()
+                for event in events_organised:
+                    event_id = event[0]
+                    
+                    temp = dict()
+                    
+                    # participants of event_id
+                    cursor.execute(
+                        f"SELECT fest_id, name from participating_ext natural join ext_participant where event_id = {event_id} UNION SELECT fest_id, name from participating_int natural join student where event_id = {event_id}"
+                    )
+                    temp["participants"] = cursor.fetchall()
 
-            try:
-                cursor.execute(
-                    f"SELECT fest_id, name from participating_ext natural join ext_participant where event_id = {organising_event[0]}"
-                )
-                participant_event = cursor.fetchall()
+                    # volunteers of event_id
+                    cursor.execute(f"SELECT roll, name from volunteering natural join student where event_id = {event_id}")
+                    temp["volunteers"] = cursor.fetchall()
 
-            except psycopg2.Error as e:
-                print(e)
-                participant_event = []
-                conn.rollback()
-
-            try:
-                cursor.execute(
-                    f"SELECT fest_id, name from participating_int natural join student where event_id = {organising_event[0]}"
-                )
-                participant_event += cursor.fetchall()
-
-            except psycopg2.Error as e:
-                print(e)
-                participant_event = []
-                conn.rollback()
-
-            try:
-                cursor.execute(
-                    f"SELECT roll, name from volunteering natural join student where event_id = {organising_event[0]}"
-                )
-                volunteer_event = cursor.fetchall()
-
-            except psycopg2.Error as e:
-                print(e)
-                volunteer_event = []
-                conn.rollback()
-
-            for participant in participant_event:
-                participant2 = list(participant)
-                participant2[0] = "24FEST" + str(participant[0]).zfill(4)
-                participant_event_2.append(participant2)
+                    event_org_details[event_id] = temp
                 
-        
+                print(event_org_details)
+
+            except psycopg2.Error as e:
+                print(e)
+                participant_grouped_by_event_id = []
+                conn.rollback()
 
     cursor.close()
 
@@ -548,12 +528,10 @@ def index(fest_id, organise, student, x, url_encrypt):
             non_participating_event=non_participating_event,
             volunteering_event=volunteering_event,
             non_volunteering_event=non_volunteering_event,
-            organising_event=organising_event,
+            events_organised=events_organised,
+            event_org_details=event_org_details,
             other_events=other_events,
-            x=x,
-            participant_event=participant_event_2,
-            volunteer_event=volunteer_event,
-            events_won=events_won,
+            events_won = events_won,
             details=details,
             url_encrypt=url_encrypt,
         )
