@@ -281,6 +281,7 @@
                                     <h4 class="e-name">{{participant[1]}}</h4>
                                     <p class="e-venue">{{'21FEST' + '%04d'|format(participant[0])}}</p>
                                 </div>
+
                                 <div class="event-list-el-actions select-winner-action">
                                     <a href="{{url_for('winner', fest_id=fest_id, event_id = event[0], participant_id=participant[0], organise=organise, student=student, winner_name = participant[1], url_encrypt=url_encrypt )}}">
                                         <span class="material-symbols-outlined color-la">
