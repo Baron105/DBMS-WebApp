@@ -1,16 +1,23 @@
-"""imports from the flask module"""
-from flask import Flask, render_template, redirect, request, url_for,session,abort
-import psycopg2
-
+"""imports"""
 import hashlib
 
+from flask import Flask, render_template, redirect, request, url_for, session, abort
+
+import psycopg2
+
+
 key = 23
+
+
 def sha256_hash(input_string):
+    """Hash the input string using SHA-256 algorithm and return the first 19 characters of the hash value."""
     sha256_hash_object = hashlib.sha256()
     sha256_hash_object.update(input_string.encode())
     return sha256_hash_object.hexdigest()[0:19]
 
+
 def rsa_hash_encrypt(message, key):
+    """Encrypt the message using RSA algorithm"""
     # Hash the message using SHA-256
     hashed_message = hashlib.sha256(message.encode()).hexdigest()
 
@@ -22,16 +29,17 @@ def rsa_hash_encrypt(message, key):
 
     return encrypted_value
 
-conn = psycopg2.connect(
-    dbname="21CS30032", user="21CS30032", password="21CS30032", host="10.5.18.70"
-)
 
 # conn = psycopg2.connect(
-#     dbname="21CS10014",
-#     user="21CS10014",
-#     password="21CS10014",
-#     host="10.5.18.68"
+#     dbname="21CS30032", user="21CS30032", password="21CS30032", host="10.5.18.70"
 # )
+
+conn = psycopg2.connect(
+    dbname="21CS10014",
+    user="21CS10014",
+    password="21CS10014",
+    host="10.5.18.68"
+)
 
 app = Flask(__name__)
 
@@ -47,12 +55,12 @@ def home():
             "select event_id,event_name,event_venue,event_description,event_date,event_time,event_type from event order by random() limit 3;"
         )
         events = cursor.fetchall()
-    
+
     except psycopg2.Error as e:
         print(e)
         events = []
         conn.rollback()
-    
+
     return render_template("home.html", events=events)
 
 
@@ -69,19 +77,21 @@ def login():
         cursor = conn.cursor()
         username = request.form["username"]
         password = request.form["password"]
-        cursor.execute(f"SELECT * from admin where username = '{username}' and pass = '{password}'")
+        cursor.execute(
+            f"SELECT * from admin where username = '{username}' and pass = '{password}'"
+        )
         admin = cursor.fetchone()
-        
-        if(admin is not None):
+
+        if admin is not None:
             print(admin)
-            session['admin'] = sha256_hash(str(rsa_hash_encrypt(username,key)))
-            return redirect(url_for("admin",url_encrypt=session['admin']))
-        
+            session["admin"] = sha256_hash(str(rsa_hash_encrypt(username, key)))
+            return redirect(url_for("admin", url_encrypt=session["admin"]))
+
         username = username[6:]
 
         try:
             username = int(username)
-        except:
+        except(ValueError, TypeError):
             flag = 1
             return render_template("login.html", flag=flag)
 
@@ -111,7 +121,7 @@ def login():
                 print(e)
                 fest_id = 0
                 conn.rollback()
-                
+
             try:
                 cursor.execute(
                     f"SELECT fest_id from organising where fest_id = '{username}'"
@@ -130,11 +140,20 @@ def login():
         cursor.close()
         if fest_id is not None:
             fest_id = fest_id[0]
-            session['url_encrypt_global'] = sha256_hash(str(rsa_hash_encrypt(str(fest_id),key)))
-            session['organise'] = organise
-            session['student'] = student
+            session["url_encrypt_global"] = sha256_hash(
+                str(rsa_hash_encrypt(str(fest_id), key))
+            )
+            session["organise"] = organise
+            session["student"] = student
             return redirect(
-                url_for("index", fest_id=fest_id, organise=organise, student=student,x=2,url_encrypt=session['url_encrypt_global'])
+                url_for(
+                    "index",
+                    fest_id=fest_id,
+                    organise=organise,
+                    student=student,
+                    x=2,
+                    url_encrypt=session["url_encrypt_global"],
+                )
             )
         else:
             flag = 1
@@ -142,19 +161,22 @@ def login():
 
     else:
         return render_template("login.html")
-    
+
+
 @app.route("/logout")
 def logout():
-    if session.get('admin') is not None:
-        session['admin'] = None
-    if session.get('url_encrypt_global') is not None:
-        session['url_encrypt_global'] = None
-    if session.get('organise') is not None:
-        session['organise'] = None
-    if session.get('student') is not None:
-        session['student'] = None
-    
+    """Logout page"""
+    if session.get("admin") is not None:
+        session["admin"] = None
+    if session.get("url_encrypt_global") is not None:
+        session["url_encrypt_global"] = None
+    if session.get("organise") is not None:
+        session["organise"] = None
+    if session.get("student") is not None:
+        session["student"] = None
+
     return redirect(url_for("home"))
+
 
 @app.route("/admin/<url_encrypt>")
 def admin(url_encrypt):
@@ -173,18 +195,19 @@ def admin(url_encrypt):
             cursor.execute(
                 f"SELECT roll from organising NATURAL JOIN student where event_id = {event_id}"
             )
-            organisers=cursor.fetchall()
-            
-            events2.append((event,organisers))
-            
+            organisers = cursor.fetchall()
+
+            events2.append((event, organisers))
+
     except psycopg2.Error as e:
         print(e)
         events2 = []
         conn.rollback()
-    if url_encrypt == session['admin']:
-        return render_template("admin.html", events=events2,url_encrypt=url_encrypt)
+    if url_encrypt == session["admin"]:
+        return render_template("admin.html", events=events2, url_encrypt=url_encrypt)
     else:
         abort(404)
+
 
 @app.route("/add_event/<url_encrypt>", methods=["GET", "POST"])
 def add_event(url_encrypt):
@@ -197,9 +220,7 @@ def add_event(url_encrypt):
         event_time = request.form["event_time"]
         event_type = request.form["event_type"]
         event_description = request.form["event_description"]
-        cursor.execute(
-            "SELECT event_id from event order by event_id desc limit 1"
-        )
+        cursor.execute("SELECT event_id from event order by event_id desc limit 1")
         event_id = cursor.fetchone()
         event_id = event_id[0] + 1
         try:
@@ -211,81 +232,79 @@ def add_event(url_encrypt):
             print(e)
             conn.rollback()
     else:
-        if url_encrypt == session['admin']:
-            return render_template("add_event.html",url_encrypt=url_encrypt)
-        else:
-            abort(404)
-    if url_encrypt == session['admin']:
-        return redirect(url_for("admin",url_encrypt=url_encrypt))
-    else:
+        if url_encrypt == session["admin"]:
+            return render_template("add_event.html", url_encrypt=url_encrypt)
         abort(404)
+    if url_encrypt == session["admin"]:
+        return redirect(url_for("admin", url_encrypt=url_encrypt))
+    abort(404)
 
 
 @app.route("/remove_participant/<url_encrypt>")
 def remove_participant(url_encrypt):
     """Remove participant page"""
-    
-        
+
     cursor = conn.cursor()
 
-    cursor.execute(f"SELECT fest_id, name from ext_participant")
+    cursor.execute("SELECT fest_id, name from ext_participant")
     participants = cursor.fetchall()
     cursor.close()
-    if url_encrypt == session['admin']:
-        return render_template("remove_participant.html", participants = participants,url_encrypt=url_encrypt)
-    else :
+    if url_encrypt == session["admin"]:
+        return render_template(
+            "remove_participant.html",
+            participants=participants,
+            url_encrypt=url_encrypt,
+        )
+    else:
         abort(404)
-    
+
 
 @app.route("/remove_participant2/<int:fest_id>/<url_encrypt>", methods=["GET", "POST"])
-def remove_participant2(fest_id,url_encrypt):
+def remove_participant2(fest_id, url_encrypt):
     """Remove participant page"""
     cursor = conn.cursor()
-    
+
     try:
-        cursor.execute(
-            f"SELECT acc_id from ext_participant where fest_id = {fest_id}"
-        )
+        cursor.execute(f"SELECT acc_id from ext_participant where fest_id = {fest_id}")
         acc_id = cursor.fetchone()
         cursor.execute(
             f"UPDATE accomodation SET capacity = capacity + 1 WHERE acc_id = {acc_id[0]}"
         )
-        cursor.execute(
-            f"DELETE from ext_participant where fest_id = {fest_id}"
-        )
+        cursor.execute(f"DELETE from ext_participant where fest_id = {fest_id}")
         conn.commit()
     except psycopg2.Error as e:
         print(e)
         conn.rollback()
-    if url_encrypt == session['admin']:
-        return redirect(url_for("remove_participant",url_encrypt=url_encrypt))
-    else :
+    if url_encrypt == session["admin"]:
+        return redirect(url_for("remove_participant", url_encrypt=url_encrypt))
+    else:
         abort(404)
 
 
-@app.route("/add_organiser/<int:event_id>/<url_encrypt>", methods=["GET","POST"])
-def add_organiser(event_id,url_encrypt):
-
+@app.route("/add_organiser/<int:event_id>/<url_encrypt>", methods=["GET", "POST"])
+def add_organiser(event_id, url_encrypt):
     """Add organiser page"""
     cursor = conn.cursor()
     flag = 0
 
     if request.method == "POST":
         roll = request.form["roll"]
-        cursor.execute(
-                f"SELECT fest_id from student where roll = '{roll}'"
-            )
+        cursor.execute(f"SELECT fest_id from student where roll = '{roll}'")
         fest_id = cursor.fetchone()
         cursor.execute(
-                f"SELECT * from participating_int where fest_id = {fest_id[0]} and event_id = {event_id}"
-            )
+            f"SELECT * from participating_int where fest_id = {fest_id[0]} and event_id = {event_id}"
+        )
         fest_id2 = cursor.fetchone()
         if fest_id2 is not None:
-            flag=1
-            return render_template("add_organiser.html", event_id = event_id,url_encrypt=url_encrypt,flag=flag)
+            flag = 1
+            return render_template(
+                "add_organiser.html",
+                event_id=event_id,
+                url_encrypt=url_encrypt,
+                flag=flag,
+            )
         else:
             try:
-                
                 cursor.execute(
                     f"INSERT into organising VALUES ({fest_id[0]},{event_id})"
                 )
@@ -294,27 +313,27 @@ def add_organiser(event_id,url_encrypt):
                 print(e)
                 conn.rollback()
     else:
-        if url_encrypt == session['admin']:
-            return render_template("add_organiser.html", event_id = event_id,url_encrypt=url_encrypt)
+        if url_encrypt == session["admin"]:
+            return render_template(
+                "add_organiser.html", event_id=event_id, url_encrypt=url_encrypt
+            )
         else:
             abort(404)
-    if url_encrypt == session['admin']:
-        return redirect(url_for("admin",url_encrypt=url_encrypt))
-    else :
+    if url_encrypt == session["admin"]:
+        return redirect(url_for("admin", url_encrypt=url_encrypt))
+    else:
         abort(404)
 
+
 @app.route("/remove_organiser/<int:event_id>/<url_encrypt>", methods=["GET", "POST"])
-def remove_organiser(event_id,url_encrypt):
+def remove_organiser(event_id, url_encrypt):
     """Remove organiser page"""
     cursor = conn.cursor()
     if request.method == "POST":
         roll = request.form["roll"]
-        cursor.execute(
-                f"SELECT fest_id from student where roll = '{roll}'"
-            )
+        cursor.execute(f"SELECT fest_id from student where roll = '{roll}'")
         fest_id = cursor.fetchone()
         try:
-            
             cursor.execute(
                 f"DELETE from organising where fest_id = {fest_id[0]} and event_id = {event_id}"
             )
@@ -323,17 +342,23 @@ def remove_organiser(event_id,url_encrypt):
             print(e)
             conn.rollback()
     else:
-        if url_encrypt == session['admin']:
-            return render_template("remove_organiser.html", event_id = event_id,url_encrypt=url_encrypt)
-        else :
+        if url_encrypt == session["admin"]:
+            return render_template(
+                "remove_organiser.html", event_id=event_id, url_encrypt=url_encrypt
+            )
+        else:
             abort(404)
-    if url_encrypt == session['admin']:
-        return redirect(url_for("admin",url_encrypt=url_encrypt))
-    else :
+    if url_encrypt == session["admin"]:
+        return redirect(url_for("admin", url_encrypt=url_encrypt))
+    else:
         abort(404)
 
-@app.route("/index/<int:fest_id>/<int:organise>/<int:student>/<int:x>/<url_encrypt>", methods=["GET", "POST"])
-def index(fest_id, organise, student,x,url_encrypt):
+
+@app.route(
+    "/index/<int:fest_id>/<int:organise>/<int:student>/<int:x>/<url_encrypt>",
+    methods=["GET", "POST"],
+)
+def index(fest_id, organise, student, x, url_encrypt):
     """INDEX page"""
 
     cursor = conn.cursor()
@@ -349,9 +374,9 @@ def index(fest_id, organise, student,x,url_encrypt):
     participant_event_2 = []
     events_won = []
     details = []
-    url_encrypt = sha256_hash(str(rsa_hash_encrypt(str(fest_id),key)))
+    url_encrypt = sha256_hash(str(rsa_hash_encrypt(str(fest_id), key)))
 
-    if student!=session['student'] or organise!=session['organise']:
+    if student != session["student"] or organise != session["organise"]:
         abort(404)
     if fest_id > 1000:
         # show details of user
@@ -360,7 +385,7 @@ def index(fest_id, organise, student,x,url_encrypt):
                 f"SELECT fest_id, ext_participant.name, college, accomodation.name from ext_participant, accomodation where fest_id = {fest_id} and accomodation.acc_id = ext_participant.acc_id"
             )
             details = cursor.fetchone()
-            
+
         except psycopg2.Error as e:
             print(e)
             details = []
@@ -371,7 +396,7 @@ def index(fest_id, organise, student,x,url_encrypt):
                 f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_ext where fest_id = {fest_id}"
             )
             participating_event = cursor.fetchall()
-            
+
         except psycopg2.Error as e:
             print(e)
             participating_event = []
@@ -387,16 +412,37 @@ def index(fest_id, organise, student,x,url_encrypt):
             print(e)
             non_participating_event = []
             conn.rollback()
+            
+        # get the events won by the participant
+        try:
+            cursor.execute(
+                f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id in (select event_id from participating_ext where fest_id = {fest_id} and event_winner = {fest_id})"
+            )
+            events_won = cursor.fetchall()
+
+        except psycopg2.Error as e:
+            print(e)
+            events_won = []
+            conn.rollback()
 
     else:
+        # events won by the student
+        try:
+            cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id in (select event_id from participating_int where fest_id = {fest_id} and event_winner = {fest_id})")
+            events_won = cursor.fetchall()
+            
+        except psycopg2.Error as e:
+            print(e)
+            events_won = []
+            conn.rollback()
+        
         # show details of user
-
         try:
             cursor.execute(
                 f"SELECT fest_id, name, roll, dept from student where fest_id = {fest_id}"
             )
             details = cursor.fetchone()
-            
+
         except psycopg2.Error as e:
             print(e)
             details = []
@@ -407,7 +453,7 @@ def index(fest_id, organise, student,x,url_encrypt):
                 f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_int where fest_id = {fest_id}"
             )
             participating_event = cursor.fetchall()
-            
+
         except psycopg2.Error as e:
             print(e)
             participating_event = []
@@ -418,7 +464,7 @@ def index(fest_id, organise, student,x,url_encrypt):
                 f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event where event_id in (select event_id from volunteering where fest_id = {fest_id})"
             )
             volunteering_event = cursor.fetchall()
-            
+
         except psycopg2.Error as e:
             print(e)
             volunteering_event = []
@@ -430,7 +476,7 @@ def index(fest_id, organise, student,x,url_encrypt):
                 f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_int where fest_id = {fest_id}) and event_id not in (select event_id from volunteering where fest_id = {fest_id}) and event_id not in (select event_id from organising where fest_id = {fest_id})"
             )
             other_events = cursor.fetchall()
-            
+
         except psycopg2.Error as e:
             print(e)
             other_events = []
@@ -444,18 +490,18 @@ def index(fest_id, organise, student,x,url_encrypt):
                     f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event where event_id in (select event_id from organising where fest_id = {fest_id})"
                 )
                 organising_event = cursor.fetchone()
-            
+
             except psycopg2.Error as e:
                 print(e)
                 organising_event = []
                 conn.rollback()
-            
+
             try:
                 cursor.execute(
                     f"SELECT fest_id, name from participating_ext natural join ext_participant where event_id = {organising_event[0]}"
                 )
                 participant_event = cursor.fetchall()
-            
+
             except psycopg2.Error as e:
                 print(e)
                 participant_event = []
@@ -466,18 +512,18 @@ def index(fest_id, organise, student,x,url_encrypt):
                     f"SELECT fest_id, name from participating_int natural join student where event_id = {organising_event[0]}"
                 )
                 participant_event += cursor.fetchall()
-                
+
             except psycopg2.Error as e:
                 print(e)
                 participant_event = []
                 conn.rollback()
-                
+
             try:
                 cursor.execute(
                     f"SELECT roll, name from volunteering natural join student where event_id = {organising_event[0]}"
                 )
                 volunteer_event = cursor.fetchall()
-                
+
             except psycopg2.Error as e:
                 print(e)
                 volunteer_event = []
@@ -488,9 +534,11 @@ def index(fest_id, organise, student,x,url_encrypt):
                 participant2[0] = "24FEST" + str(participant[0]).zfill(4)
                 participant_event_2.append(participant2)
                 
+        
+
     cursor.close()
 
-    if url_encrypt == session['url_encrypt_global']:
+    if url_encrypt == session["url_encrypt_global"]:
         return render_template(
             "index.html",
             fest_id=fest_id,
@@ -505,9 +553,9 @@ def index(fest_id, organise, student,x,url_encrypt):
             x=x,
             participant_event=participant_event_2,
             volunteer_event=volunteer_event,
-          events_won = events_won,
+            events_won=events_won,
             details=details,
-            url_encrypt = url_encrypt
+            url_encrypt=url_encrypt,
         )
     else:
         abort(404)
@@ -517,68 +565,104 @@ def index(fest_id, organise, student,x,url_encrypt):
     "/winner/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>/<winner_name>/<url_encrypt>",
     methods=["GET", "POST"],
 )
-def winner(fest_id, event_id, organise, student, winner_name,url_encrypt):
+def winner(fest_id, event_id, organise, student, winner_name, url_encrypt):
     """Winner page"""
     cursor = conn.cursor()
     
+    # extract 24FEST from the winner_name
+    winner_name = winner_name[6:]
+    winner_name = int(winner_name)
+
     try:
         cursor.execute(
             f"UPDATE event SET event_winner = '{winner_name}' WHERE event_id = {event_id}"
         )
         conn.commit()
-        
+
     except psycopg2.Error as e:
         print(e)
         conn.rollback()
-        
+
     cursor.close()
-    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=1,url_encrypt=url_encrypt))
+    return redirect(
+        url_for(
+            "index",
+            fest_id=fest_id,
+            organise=organise,
+            student=student,
+            x=1,
+            url_encrypt=url_encrypt,
+        )
+    )
 
 
 @app.route(
     "/participate/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>/<url_encrypt>",
     methods=["GET", "POST"],
 )
-def participate(fest_id, event_id, organise, student,url_encrypt):
+def participate(fest_id, event_id, organise, student, url_encrypt):
     """Participate page"""
     cursor = conn.cursor()
     if fest_id > 1000:
         try:
-            cursor.execute(f"INSERT INTO participating_ext VALUES ({fest_id},{event_id})")
+            cursor.execute(
+                f"INSERT INTO participating_ext VALUES ({fest_id},{event_id})"
+            )
             conn.commit()
-            
+
         except psycopg2.Error as e:
             print(e)
             conn.rollback()
     else:
         try:
-            cursor.execute(f"INSERT INTO participating_int VALUES ({fest_id},{event_id})")
+            cursor.execute(
+                f"INSERT INTO participating_int VALUES ({fest_id},{event_id})"
+            )
             conn.commit()
-            
+
         except psycopg2.Error as e:
             print(e)
             conn.rollback()
 
     cursor.close()
-    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=0,url_encrypt=url_encrypt))
+    return redirect(
+        url_for(
+            "index",
+            fest_id=fest_id,
+            organise=organise,
+            student=student,
+            x=0,
+            url_encrypt=url_encrypt,
+        )
+    )
+
 
 @app.route(
     "/volunteer/<int:fest_id>/<int:event_id>/<int:organise>/<int:student>/<url_encrypt>",
     methods=["GET", "POST"],
 )
-def volunteer(fest_id, event_id, organise, student,url_encrypt):
+def volunteer(fest_id, event_id, organise, student, url_encrypt):
     """Volunteer page"""
     cursor = conn.cursor()
     try:
         cursor.execute(f"INSERT INTO volunteering VALUES ({fest_id},{event_id})")
         conn.commit()
-    
+
     except psycopg2.Error as e:
         print(e)
         conn.rollback()
 
     cursor.close()
-    return redirect(url_for("index", fest_id=fest_id, organise=organise, student = student,x=0,url_encrypt=url_encrypt))
+    return redirect(
+        url_for(
+            "index",
+            fest_id=fest_id,
+            organise=organise,
+            student=student,
+            x=0,
+            url_encrypt=url_encrypt,
+        )
+    )
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -596,7 +680,7 @@ def register():
             fest_id = 0
             fest_id = cursor.fetchone()
             fest_id = fest_id[0]
-            
+
         except psycopg2.Error as e:
             print(e)
             fest_id = None
@@ -627,7 +711,7 @@ def register():
                     f"UPDATE accomodation SET capacity = capacity - 1 WHERE acc_id = {acc_id}"
                 )
                 conn.commit()
-                
+
             except psycopg2.Error as e:
                 print(e)
                 conn.rollback()
