@@ -72,3 +72,23 @@ function toggleDiv3() {
     div2.style.color = "inherit";
     organise.style.display = "none";
 }
+
+function toggleReadDesc(eventId) {
+    var more = document.getElementById("expand-more-"+eventId);
+    var less = document.getElementById("expand-less-"+eventId);
+    var desc = document.getElementById("event-desc-"+eventId);
+    var details = document.getElementById("event-handling-"+eventId);
+
+    if (desc.style.display === 'none' || desc.style.display === '') {
+        desc.style.display = 'inline';
+        more.style.display = 'none';
+        less.style.display = 'inline';
+        details.style.display = 'flex';
+    }
+    else {
+        desc.style.display = 'none';
+        more.style.display = 'inline';
+        less.style.display = 'none';
+        details.style.display = 'none';
+    }
+}

@@ -238,43 +238,51 @@
                     <div class="organiser-det-content">
                         <h2 class="organiser-det-name">Organise</h2>
                         <p class="organiser-det-id">Events you are organising</p>
-                        <p class="organiser-det-no">1 EVENT(S)</p>
+                        <p class="organiser-det-no">{{ events_organised|length }} EVENT(S)</p>
                     </div>
                 </div>
-
-                <div class="event-list-card">
+                
+                {% for event in events_organised %}
+                <div class="event-list-card bottom-margin-8">
                     <div class="event-list-el">
                         <div class="event-list-el-col1">
-                            <h4 class="e-name">{{organising_event[1]}}</h4>
-                            <p class="e-venue">{{organising_event[4]}}</p>
-                            <p class="e-winner">Winner: {{organising_event[5]}}</p>
+                            <h4 class="e-name big-text">{{event[1]}}<span class="hash-event-id"> #{{event[0]}}</span></h4>
+                            <p class="e-venue">{{event[4]}}</p>
+                            <p class="e-winner">Winner: {{event[7]}}</p>
                         </div>
-                        <div class="event-list-el-col2">
-                            <p class="e-date">{{organising_event[2]}}</p>
-                            <p class="e-time">{{organising_event[3]}}</p>
+                        <div class="event-list-el-col2 bolder">
+                            <p class="e-date">{{event[2]}}</p>
+                            <p class="e-time">{{event[3]}}</p>
+                        </div>
+                        <div class="event-list-el-actions action-btn" id="read-desc-btn-{{event[0]}}" onclick="toggleReadDesc('{{ event[0] }}')">
+                            <div class="expand-more" id="expand-more-{{event[0]}}" ><span class="material-symbols-outlined">expand_more</span></div>
+                            <div class="expand-less" id="expand-less-{{event[0]}}"><span class="material-symbols-outlined">expand_less</span></div>
                         </div>
                     </div>
-                    <div class="event-list-hr"></div>
+                    <div class="event-org-desc" id="event-desc-{{event[0]}}">
+                        <p class="e-desc">{{event[6]}}</p>
+                    </div>
+                    
                 </div>
 
-                <div class="og-box-1">
+                <div class="og-box-1 hide bottom-margin-8" id="event-handling-{{event[0]}}">
                     <div class="og-col-1">
                         <div class="small-card card participate-bg">
                             <div class="small-body">
                                 <h5 class="color-title small-title" >Participant List</h5>
-                                <p class="small-content bold">{{ participant_event|length }} <span class="spl-font">PARTICIPANT(S)</span></p>
+                                <p class="small-content bold">{{ event_org_details[event[0]]['participants']|length }} <span class="spl-font">PARTICIPANT(S)</span></p>
                             </div>
                             <span class="material-symbols-outlined">sports_score</span>
                         </div>
                         <div class="event-list-card">
-                            {% for participant in participant_event %}
+                            {% for participant in event_org_details[event[0]]['participants'] %}
                             <div class="event-list-el">
                                 <div class="event-list-el-col1">
                                     <h4 class="e-name">{{participant[1]}}</h4>
-                                    <p class="e-venue">{{participant[0]}}</p>
+                                    <p class="e-venue">{{'21FEST' + '%04d'|format(participant[0])}}</p>
                                 </div>
-                                <div class="event-list-el-actions">
-                                    <a href="{{url_for('winner',fest_id=fest_id,event_id =organising_event[0],participant_id=participant[0],organise=organise,student=student,winner_name = participant[1],url_encrypt=url_encrypt )}}">
+                                <div class="event-list-el-actions select-winner-action">
+                                    <a href="{{url_for('winner', fest_id=fest_id, event_id = event[0], participant_id=participant[0], organise=organise, student=student, winner_name = participant[1], url_encrypt=url_encrypt )}}">
                                         <span class="material-symbols-outlined color-la">
                                             add_circle
                                         </span>
@@ -291,12 +299,12 @@
                         <div class="small-card card volunteer-bg">
                             <div class="small-body">
                                 <h5 class="color-title small-title" >Volunteer List</h5>
-                                <p class="small-content bold">{{ volunteer_event|length }} <span class="spl-font">VOLUNTEER(S)</span></p>
+                                <p class="small-content bold">{{ event_org_details[event[0]]['volunteers']|length }} <span class="spl-font">VOLUNTEER(S)</span></p>
                             </div>
                             <span class="material-symbols-outlined">volunteer_activism</span>
                         </div>
                         <div class="event-list-card">
-                            {% for volunteer in volunteer_event %}
+                            {% for volunteer in event_org_details[event[0]]['volunteers'] %}
                             <div class="event-list-el">
                                 <div class="event-list-el-col1">
                                     <h4 class="e-name">{{volunteer[1]}}</h4>
@@ -308,6 +316,8 @@
                         </div>
                     </div>
                 </div>
+                {% endfor %}
+            
             </div>
             
             <!-- <div id="edit-content">
