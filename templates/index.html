@@ -106,7 +106,12 @@
                             <div class="event-list-el-col1">
                                 <h4 class="e-name">{{event[1]}}</h4>
                                 <p class="e-venue">{{event[4]}}</p>
-                                <p class="e-winner">Winner: {{event[5]}}</p>
+                                <p class="e-winner">Winner: {% if event[5] %}
+                                {{'21FEST' + '%04d'|format(event[5])}}
+                                {% else %}
+                                {{ event[5] }}
+                                {% endif %}
+                                </p>
                             </div>
                             <div class="event-list-el-col2">
                                 <p class="e-date">{{event[2]}}</p>
@@ -133,7 +138,12 @@
                             <div class="event-list-el-col1">
                                 <h4 class="e-name">{{event[1]}}</h4>
                                 <p class="e-venue">{{event[4]}}</p>
-                                <p class="e-winner">Winner: {{event[5]}}</p>
+                                <p class="e-winner">Winner: {% if event[5] %}
+                                {{'21FEST' + '%04d'|format(event[5])}}
+                                {% else %}
+                                {{ event[5] }}
+                                {% endif %}
+                                </p>
                             </div>
                             <div class="event-list-el-col2">
                                 <p class="e-date">{{event[2]}}</p>
@@ -172,7 +182,12 @@
                             <div class="event-list-el-col1">
                                 <h4 class="e-name">{{event[1]}}</h4>
                                 <p class="e-venue">{{event[4]}}</p>
-                                <p class="e-winner">Winner: {{event[5]}}</p>
+                                <p class="e-winner">Winner: {% if event[5] %}
+                                {{'21FEST' + '%04d'|format(event[5])}}
+                                {% else %}
+                                {{ event[5] }}
+                                {% endif %}
+                                </p>
                             </div>
                             <div class="event-list-el-col2">
                                 <p class="e-date">{{event[2]}}</p>
@@ -204,7 +219,12 @@
                             <div class="event-list-el-col1">
                                 <h4 class="e-name">{{event[1]}}</h4>
                                 <p class="e-venue">{{event[4]}}</p>
-                                <p class="e-winner">Winner: {{event[5]}}</p>
+                                <p class="e-winner">Winner: {% if event[7] %}
+                                {{'21FEST' + '%04d'|format(event[7])}}
+                                {% else %}
+                                {{ event[7] }}
+                                {% endif %}
+                                </p>
                             </div>
                             <div class="event-list-el-col2">
                                 <p class="e-date">{{event[2]}}</p>
@@ -248,7 +268,12 @@
                         <div class="event-list-el-col1">
                             <h4 class="e-name big-text">{{event[1]}}<span class="hash-event-id"> #{{event[0]}}</span></h4>
                             <p class="e-venue">{{event[4]}}</p>
-                            <p class="e-winner">Winner: {{'21FEST' + '%04d'|format(event[7])}}</p>
+                            <p class="e-winner">Winner: {% if event[7] %}
+                                {{'21FEST' + '%04d'|format(event[7])}}
+                                {% else %}
+                                {{ event[7] }}
+                                {% endif %}
+                            </p>
                         </div>
                         <div class="event-list-el-col2 bolder">
                             <p class="e-date">{{event[2]}}</p>
