@@ -508,8 +508,6 @@ def index(fest_id, organise, student, x, url_encrypt):
                     temp["volunteers"] = cursor.fetchall()
 
                     event_org_details[event_id] = temp
-                
-                print(event_org_details)
 
             except psycopg2.Error as e:
                 print(e)
@@ -548,8 +546,6 @@ def winner(fest_id, event_id, organise, student, winner_name, url_encrypt):
     cursor = conn.cursor()
     
     # extract 24FEST from the winner_name
-    winner_name = winner_name[6:]
-    winner_name = int(winner_name)
 
     try:
         cursor.execute(

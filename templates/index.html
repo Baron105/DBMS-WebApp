@@ -248,7 +248,7 @@
                         <div class="event-list-el-col1">
                             <h4 class="e-name big-text">{{event[1]}}<span class="hash-event-id"> #{{event[0]}}</span></h4>
                             <p class="e-venue">{{event[4]}}</p>
-                            <p class="e-winner">Winner: {{event[7]}}</p>
+                            <p class="e-winner">Winner: {{'21FEST' + '%04d'|format(event[7])}}</p>
                         </div>
                         <div class="event-list-el-col2 bolder">
                             <p class="e-date">{{event[2]}}</p>
@@ -283,7 +283,7 @@
                                 </div>
 
                                 <div class="event-list-el-actions select-winner-action">
-                                    <a href="{{url_for('winner', fest_id=fest_id, event_id = event[0], participant_id=participant[0], organise=organise, student=student, winner_name = participant[1], url_encrypt=url_encrypt )}}">
+                                    <a href="{{url_for('winner', fest_id=fest_id, event_id = event[0], participant_id=participant[0], organise=organise, student=student, winner_name = participant[0], url_encrypt=url_encrypt )}}">
                                         <span class="material-symbols-outlined color-la">
                                             add_circle
                                         </span>
