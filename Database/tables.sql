@@ -23,7 +23,7 @@ CREATE TABLE event
     event_venue VARCHAR(50) NOT NULL,
     event_type VARCHAR(50) NOT NULL,
     event_description VARCHAR(200),
-    event_winner VARCHAR(50)
+    event_winner NUMERIC(5)
 );
 
 CREATE TABLE accomodation
