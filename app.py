@@ -206,7 +206,7 @@ def admin(url_encrypt):
     if url_encrypt == session["admin"]:
         return render_template("admin.html", events=events2, url_encrypt=url_encrypt)
     else:
-        abort(404)
+        return render_template("error.html")
 
 
 @app.route("/add_event/<url_encrypt>", methods=["GET", "POST"])
@@ -234,10 +234,10 @@ def add_event(url_encrypt):
     else:
         if url_encrypt == session["admin"]:
             return render_template("add_event.html", url_encrypt=url_encrypt)
-        abort(404)
+        return render_template("error.html")
     if url_encrypt == session["admin"]:
         return redirect(url_for("admin", url_encrypt=url_encrypt))
-    abort(404)
+    return render_template("error.html")
 
 
 @app.route("/remove_participant/<url_encrypt>")
@@ -256,7 +256,7 @@ def remove_participant(url_encrypt):
             url_encrypt=url_encrypt,
         )
     else:
-        abort(404)
+        return render_template("error.html")
 
 
 @app.route("/remove_participant2/<int:fest_id>/<url_encrypt>", methods=["GET", "POST"])
@@ -278,7 +278,7 @@ def remove_participant2(fest_id, url_encrypt):
     if url_encrypt == session["admin"]:
         return redirect(url_for("remove_participant", url_encrypt=url_encrypt))
     else:
-        abort(404)
+        return render_template("error.html")
 
 
 @app.route("/add_organiser/<int:event_id>/<url_encrypt>", methods=["GET", "POST"])
@@ -318,11 +318,11 @@ def add_organiser(event_id, url_encrypt):
                 "add_organiser.html", event_id=event_id, url_encrypt=url_encrypt
             )
         else:
-            abort(404)
+            return render_template("error.html")
     if url_encrypt == session["admin"]:
         return redirect(url_for("admin", url_encrypt=url_encrypt))
     else:
-        abort(404)
+        return render_template("error.html")
 
 
 @app.route("/remove_organiser/<int:event_id>/<url_encrypt>", methods=["GET", "POST"])
@@ -347,11 +347,11 @@ def remove_organiser(event_id, url_encrypt):
                 "remove_organiser.html", event_id=event_id, url_encrypt=url_encrypt
             )
         else:
-            abort(404)
+            return render_template("error.html")
     if url_encrypt == session["admin"]:
         return redirect(url_for("admin", url_encrypt=url_encrypt))
     else:
-        abort(404)
+        return render_template("error.html")
 
 
 @app.route(
@@ -378,7 +378,7 @@ def index(fest_id, organise, student, x, url_encrypt):
     url_encrypt = sha256_hash(str(rsa_hash_encrypt(str(fest_id),key)))
 
     if student != session["student"] or organise != session["organise"]:
-        abort(404)
+        return render_template("error.html")
     if fest_id > 1000:
         # show details of user
         try:
@@ -555,7 +555,7 @@ def index(fest_id, organise, student, x, url_encrypt):
 
         )
     else:
-        abort(404)
+        return render_template("error.html")
 
 
 @app.route(
@@ -724,10 +724,10 @@ def register():
     else:
         return render_template("register.html")
 
-
 if __name__ == "__main__":
     # connect to the database
 
     app.secret_key = "secret"
 
     app.run(debug=True)
+
