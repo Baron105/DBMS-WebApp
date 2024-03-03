@@ -20,6 +20,7 @@
                     <span class="material-symbols-outlined">Person</span>
                     <button class="tablinks" onclick="toggleDiv1()">Profile</button>
                 </li>
+                
     
                 {% if organise == 1 %}
                 <li id="organise-tab">
@@ -106,19 +107,24 @@
                             {% for event in participating_event %}
                             <div class="event-list-el">
                                 <div class="event-list-el-col1">
-                                    <h4 class="e-name">{{event[1]}}</h4>
-                                    <p class="e-venue">{{event[4]}}</p>
+                                    <h4 class="e-name">{{event[0][1]}}</h4>
+                                    <p class="e-venue">{{event[0][4]}}</p>
+                                    <p> Organisers:<br>
+                                        {% for organiser in event[1] %}
+                                        {{organiser[0]}}<br>
+                                        {% endfor %}
+                                    </p>
                                     <p class="e-winner">Winner: 
-                                        {% if event[5] %}
-                                        {{'21FEST' + '%04d'|format(event[5])}}
+                                        {% if event[0][5] %}
+                                        {{'21FEST' + '%04d'|format(event[0][5])}}
                                         {% else %}
                                         None
                                         {% endif %}
                                     </p>
                                 </div>
                                 <div class="event-list-el-col2">
-                                    <p class="e-date">{{event[2]}}</p>
-                                    <p class="e-time">{{event[3]}}</p>
+                                    <p class="e-date">{{event[0][2]}}</p>
+                                    <p class="e-time">{{event[0][3]}}</p>
                                 </div>
                             </div>
                             <div class="event-list-hr"></div>
@@ -139,19 +145,24 @@
                             {% for event in volunteering_event %}
                             <div class="event-list-el">
                                 <div class="event-list-el-col1">
-                                    <h4 class="e-name">{{event[1]}}</h4>
-                                    <p class="e-venue">{{event[4]}}</p>
+                                    <h4 class="e-name">{{event[0][1]}}</h4>
+                                    <p class="e-venue">{{event[0][4]}}</p>
+                                    <p> Organisers:<br>
+                                        {% for organiser in event[1] %}
+                                        {{organiser[0]}}<br>
+                                        {% endfor %}
+                                    </p>
                                     <p class="e-winner">Winner: 
-                                        {% if event[5] %}
-                                        {{'21FEST' + '%04d'|format(event[5])}}
+                                        {% if event[0][5] %}
+                                        {{'21FEST' + '%04d'|format(event[0][5])}}
                                         {% else %}
                                         None
                                         {% endif %}
                                     </p>
                                 </div>
                                 <div class="event-list-el-col2">
-                                    <p class="e-date">{{event[2]}}</p>
-                                    <p class="e-time">{{event[3]}}</p>
+                                    <p class="e-date">{{event[0][2]}}</p>
+                                    <p class="e-time">{{event[0][3]}}</p>
                                 </div>
                             </div>
                             <div class="event-list-hr"></div>
