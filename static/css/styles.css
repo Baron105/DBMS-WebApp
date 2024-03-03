@@ -428,7 +428,7 @@ a {
     gap: 1rem;
 }
 
-#profile-tab {
+/* #profile-tab {
     background-color: var(--ls);
     color: var(--da);
 }
@@ -439,7 +439,7 @@ a {
 
 #edit-content {
     display: none;
-}
+} */
 
 .tablinks {
     border: none;
