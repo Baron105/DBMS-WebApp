@@ -104,12 +104,18 @@
                         {% for event in participating_event %}
                         <div class="event-list-el">
                             <div class="event-list-el-col1">
-                                <h4 class="e-name">{{event[1]}}</h4>
-                                <p class="e-venue">{{event[4]}}</p>
-                                <p class="e-winner">Winner: {% if event[5] %}
-                                {{'21FEST' + '%04d'|format(event[5])}}
+                                <h4 class="e-name">{{event[0][1]}}</h4>
+                                <p class="e-venue">{{event[0][4]}}</p>
+                                <p class="organiser">Organisers:<br> 
+                                    {% for organiser in event[1] %}
+                                    {{organiser[0]}}<br>
+
+                                    {% endfor %}
+                                </p>
+                                <p class="e-winner">Winner: {% if event[0][5] %}
+                                {{'21FEST' + '%04d'|format(event[0][5])}}
                                 {% else %}
-                                {{ event[5] }}
+                                {{ event[0][5] }}
                                 {% endif %}
                                 </p>
                             </div>
@@ -136,12 +142,17 @@
                         {% for event in volunteering_event %}
                         <div class="event-list-el">
                             <div class="event-list-el-col1">
-                                <h4 class="e-name">{{event[1]}}</h4>
-                                <p class="e-venue">{{event[4]}}</p>
-                                <p class="e-winner">Winner: {% if event[5] %}
-                                {{'21FEST' + '%04d'|format(event[5])}}
+                                <h4 class="e-name">{{event[0][1]}}</h4>
+                                <p class="e-venue">{{event[0][4]}}</p>
+                                <p class="organiser">Organisers:<br> 
+                                    {% for organiser in event[1] %}
+                                    {{organiser[0]}}<br>
+
+                                    {% endfor %}
+                                <p class="e-winner">Winner: {% if event[0][5] %}
+                                {{'21FEST' + '%04d'|format(event[0][5])}}
                                 {% else %}
-                                {{ event[5] }}
+                                {{ event[0][5] }}
                                 {% endif %}
                                 </p>
                             </div>

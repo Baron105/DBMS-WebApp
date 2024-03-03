@@ -370,9 +370,10 @@ def index(fest_id, organise, student, x, url_encrypt):
     non_volunteering_event = []
     other_events = []
     events_won = []
-    
+    participating_event_2 = []
     events_organised = []
     event_org_details = {}
+    volunteering_event_2 = []
     
     url_encrypt = sha256_hash(str(rsa_hash_encrypt(str(fest_id),key)))
 
@@ -396,6 +397,12 @@ def index(fest_id, organise, student, x, url_encrypt):
                 f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_ext where fest_id = {fest_id}"
             )
             participating_event = cursor.fetchall()
+            for event in participating_event:
+                event_id = event[0]
+                cursor.execute(
+                    f"SELECT roll, name from organising NATURAL JOIN student where event_id = {event_id}"
+                )
+                participating_event_2.append((event, cursor.fetchall()))
 
         except psycopg2.Error as e:
             print(e)
@@ -453,7 +460,13 @@ def index(fest_id, organise, student, x, url_encrypt):
                 f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event NATURAL JOIN participating_int where fest_id = {fest_id}"
             )
             participating_event = cursor.fetchall()
-
+            for event in participating_event:
+                event_id = event[0]
+                cursor.execute(
+                    f"SELECT roll, name from organising NATURAL JOIN student where event_id = {event_id}"
+                )
+                participating_event_2.append((event, cursor.fetchall()))
+            print(participating_event_2)
         except psycopg2.Error as e:
             print(e)
             participating_event = []
@@ -464,6 +477,12 @@ def index(fest_id, organise, student, x, url_encrypt):
                 f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event where event_id in (select event_id from volunteering where fest_id = {fest_id})"
             )
             volunteering_event = cursor.fetchall()
+            for event in volunteering_event:
+                event_id = event[0]
+                cursor.execute(
+                    f"SELECT roll, name from organising NATURAL JOIN student where event_id = {event_id}"
+                )
+                volunteering_event_2.append((event, cursor.fetchall()))
 
         except psycopg2.Error as e:
             print(e)
@@ -523,9 +542,9 @@ def index(fest_id, organise, student, x, url_encrypt):
             organise=organise,
             student=student,
             state=x,
-            participating_event=participating_event,
+            participating_event=participating_event_2,
             non_participating_event=non_participating_event,
-            volunteering_event=volunteering_event,
+            volunteering_event=volunteering_event_2,
             non_volunteering_event=non_volunteering_event,
             events_organised=events_organised,
             event_org_details=event_org_details,
@@ -533,6 +552,7 @@ def index(fest_id, organise, student, x, url_encrypt):
             events_won = events_won,
             details=details,
             url_encrypt=url_encrypt,
+
         )
     else:
         abort(404)
