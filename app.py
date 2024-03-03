@@ -151,7 +151,7 @@ def login():
                     fest_id=fest_id,
                     organise=organise,
                     student=student,
-                    x=2,
+                    x=0,
                     url_encrypt=session["url_encrypt_global"],
                 )
             )
@@ -473,7 +473,7 @@ def index(fest_id, organise, student, x, url_encrypt):
         # merge the tables of participating, volunteering and organising events and return all the events not in these tables such that the student can participate in them
         try:
             cursor.execute(
-                f"SELECT event_id,event_name,event_date,event_time,event_venue,event_winner from event where event_id not in (select event_id from participating_int where fest_id = {fest_id}) and event_id not in (select event_id from volunteering where fest_id = {fest_id}) and event_id not in (select event_id from organising where fest_id = {fest_id})"
+                f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id not in (select event_id from participating_int where fest_id = {fest_id}) and event_id not in (select event_id from volunteering where fest_id = {fest_id}) and event_id not in (select event_id from organising where fest_id = {fest_id})"
             )
             other_events = cursor.fetchall()
 
@@ -522,6 +522,7 @@ def index(fest_id, organise, student, x, url_encrypt):
             fest_id=fest_id,
             organise=organise,
             student=student,
+            state=x,
             participating_event=participating_event,
             non_participating_event=non_participating_event,
             volunteering_event=volunteering_event,
