@@ -151,7 +151,7 @@ def login():
                     fest_id=fest_id,
                     organise=organise,
                     student=student,
-                    x=2,
+                    x=0,
                     url_encrypt=session["url_encrypt_global"],
                 )
             )
@@ -522,6 +522,7 @@ def index(fest_id, organise, student, x, url_encrypt):
             fest_id=fest_id,
             organise=organise,
             student=student,
+            state=x,
             participating_event=participating_event,
             non_participating_event=non_participating_event,
             volunteering_event=volunteering_event,
