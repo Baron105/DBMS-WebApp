@@ -21,7 +21,6 @@
                     <button class="tablinks" onclick="toggleDiv1()">Profile</button>
                 </li>
                 
-    
                 {% if organise == 1 %}
                 <li id="organise-tab">
                     <span class="material-symbols-outlined">sort</span>
@@ -54,6 +53,123 @@
                                 <p class="profile-id">{{'21FEST' + '%04d'|format(details[0])}}</p>
                                 <p class="profile-ra">{{details[2]}}</p>
                                 <p class="profile-cd">{{details[3]}}</p>
+
+                <div class="pf-col-2">
+                    <div class="small-card card participate-bg">
+                        <div class="small-body">
+                            <h5 class="color-title small-title" >Participating in</h5>
+                            <p class="small-content bold">{{ participating_event|length }} <span class="spl-font">EVENT(S)</span></p>
+                        </div>
+                        <span class="material-symbols-outlined">sports_score</span>
+                    </div>
+                    <div class="event-list-card">
+                        {% for event in participating_event %}
+                        <div class="event-list-el">
+                            <div class="event-list-el-col1">
+                                <h4 class="e-name">{{event[1]}}</h4>
+                                <p class="e-venue">{{event[4]}}</p>
+                                <p class="e-winner">Winner: {% if event[5] %}
+                                {{'21FEST' + '%04d'|format(event[5])}}
+                                {% else %}
+                                {{ event[5] }}
+                                {% endif %}
+                                </p>
+                            </div>
+                            <div class="event-list-el-col2">
+                                <p class="e-date">{{event[2]}}</p>
+                                <p class="e-time">{{event[3]}}</p>
+                            </div>
+                        </div>
+                        <div class="event-list-hr"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% if organise == 1 or student == 1 %}
+                <div class="pf-col-3">
+                    <div class="small-card card volunteer-bg">
+                        <div class="small-body">
+                            <h5 class="color-title small-title" >Volunteering in</h5>
+                            <p class="small-content bold">{{ volunteering_event|length }} <span class="spl-font">EVENT(S)</span></p>
+                        </div>
+                        <span class="material-symbols-outlined">volunteer_activism</span>
+                    </div>
+                    <div class="event-list-card">
+                        {% for event in volunteering_event %}
+                        <div class="event-list-el">
+                            <div class="event-list-el-col1">
+                                <h4 class="e-name">{{event[1]}}</h4>
+                                <p class="e-venue">{{event[4]}}</p>
+                                <p class="e-winner">Winner: {% if event[5] %}
+                                {{'21FEST' + '%04d'|format(event[5])}}
+                                {% else %}
+                                {{ event[5] }}
+                                {% endif %}
+                                </p>
+                            </div>
+                            <div class="event-list-el-col2">
+                                <p class="e-date">{{event[2]}}</p>
+                                <p class="e-time">{{event[3]}}</p>
+                            </div>
+                        </div>
+                        <div class="event-list-hr"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="pf-col-4">
+                    <div class="small-card card all-events-bg">
+                        <div class="small-body">
+                            <h5 class="color-title small-title" >Upcoming Events</h5>
+                            <p class="small-content bold">
+                                {% if organise == 1 or student == 1 %}{{ other_events|length }}
+                                {% else %}{{ non_participating_event|length }}
+                                {% endif %}
+                                <span class="spl-font">EVENT(S)</span>
+                            </p>
+                        </div>
+                        <span class="material-symbols-outlined">calendar_month</span>
+                        <div class="event-list-actions">
+                            <p class="small-content bold spl-font">
+                                {% if organise == 1 or student == 1 %}VOLUNTEER{% endif %}
+                            </p>
+                            <p class="small-content bold spl-font">PARTICIPATE</p>
+                        </div>
+                    </div>
+                    <div class="event-list-card">
+                        {% if student == 1 or organise == 1 %}
+                        {% for event in other_events %}
+                        <div class="event-list-el tri-grid">
+                            <div class="event-list-el-col1">
+                                <h4 class="e-name">{{event[1]}}</h4>
+                                <p class="e-venue">{{event[4]}}</p>
+                                <p class="e-winner">Winner: {% if event[5] %}
+                                {{'21FEST' + '%04d'|format(event[5])}}
+                                {% else %}
+                                {{ event[5] }}
+                                {% endif %}
+                                </p>
+                            </div>
+                            <div class="event-list-el-col2">
+                                <p class="e-date">{{event[2]}}</p>
+                                <p class="e-time">{{event[3]}}</p>
+                            </div>
+                            <div class="event-list-el-actions">
+
+                                {% if organise == 1 or student == 1 %}
+                                <a href="{{url_for('volunteer',fest_id=fest_id,event_id =event[0],organise=organise,student=student,url_encrypt=url_encrypt)}}">
+                                    <span class="material-symbols-outlined color-la">
+                                        add_circle
+                                    </span>
+                                </a>
+
+                                {% endif %}
+                                <a href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student, url_encrypt=url_encrypt )}}">
+                                    <span class="material-symbols-outlined color-da">
+                                        person_add
+                                    </span>
+                                </a>
                             </div>
                         </div>
                         
@@ -66,9 +182,41 @@
                                     {% else %}External
                                     {% endif %}
                                 </p>
+                              
+                        {% else %}
+                        {% for event in non_participating_event %}
+                        <div class="event-list-el tri-grid">
+                            <div class="event-list-el-col1">
+                                <h4 class="e-name">{{event[1]}}</h4>
+                                <p class="e-venue">{{event[4]}}</p>
+                                <p class="e-winner">Winner: {% if event[7] %}
+                                {{'21FEST' + '%04d'|format(event[7])}}
+                                {% else %}
+                                {{ event[7] }}
+                                {% endif %}
+                                </p>
+                            </div>
+                            <div class="event-list-el-col2">
+                                <p class="e-date">{{event[2]}}</p>
+                                <p class="e-time">{{event[3]}}</p>
+                            </div>
+                            <div class="event-list-el-actions">
+                                {% if organise == 1 or student == 1 %}
+                                <a href="{{url_for('volunteer',fest_id=fest_id,event_id =event[0],organise=organise,student=student,url_encrypt = url_encrypt)}}">
+                                    <span class="material-symbols-outlined color-la">
+                                        add_circle
+                                    </span>
+                                </a>
+                                {% endif %}
+                                <a href="{{url_for('participate',fest_id=fest_id,event_id =event[0],organise=organise,student=student,url_encrypt = url_encrypt )}}">
+                                    <span class="material-symbols-outlined color-da">
+                                        person_add
+                                    </span>
+                                </a>
                             </div>
                             <span class="material-symbols-outlined">group</span>
                         </div>
+
     
                         <div class="small-card card volunteer-bg">
                             <div class="small-body">
@@ -76,6 +224,40 @@
                                 <p class="small-content bold">{{ events_won|length }} <span class="spl-font">EVENT(S)</span></p>
                             </div>
                             <span class="material-symbols-outlined">celebration</span>
+
+                        <div class="event-list-hr"></div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div id="organise-content">
+                <div class="organiser-det-card card">
+                    <img class="organiser-det-banner" src="{{ url_for('static', filename='images/abstract_bg.jpg') }}" alt="banner" class="banner-image">
+                    <div class="organiser-det-content">
+                        <h2 class="organiser-det-name">Organise</h2>
+                        <p class="organiser-det-id">Events you are organising</p>
+                        <p class="organiser-det-no">{{ events_organised|length }} EVENT(S)</p>
+                    </div>
+                </div>
+                
+                {% for event in events_organised %}
+                <div class="event-list-card bottom-margin-8">
+                    <div class="event-list-el">
+                        <div class="event-list-el-col1">
+                            <h4 class="e-name big-text">{{event[1]}}<span class="hash-event-id"> #{{event[0]}}</span></h4>
+                            <p class="e-venue">{{event[4]}}</p>
+                            <p class="e-winner">Winner: {% if event[7] %}
+                                {{'21FEST' + '%04d'|format(event[7])}}
+                                {% else %}
+                                {{ event[7] }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="event-list-el-col2 bolder">
+                            <p class="e-date">{{event[2]}}</p>
+                            <p class="e-time">{{event[3]}}</p>
                         </div>
                         <div class="event-list-card">
                             {% for event in events_won %}
@@ -309,7 +491,6 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        
     
                         <div class="og-col-2">
                             <div class="small-card card volunteer-bg">

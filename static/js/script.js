@@ -92,14 +92,3 @@ function toggleReadDesc(eventId) {
         details.style.display = 'none';
     }
 }
-
-function loadState(state) {
-    switch(state) {
-        case 0:
-            toggleDiv1();
-            break;
-        case 1:
-            toggleDiv2();
-            break;
-    }
-}
