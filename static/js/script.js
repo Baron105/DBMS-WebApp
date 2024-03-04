@@ -1,17 +1,17 @@
 function changeReadMore(eventId) {
-    
-    const myButton = document.getElementById('read-more-btn-'+eventId);
-    const threeDots = document.getElementById('three-dots-'+eventId);
-    const fullDesc = document.getElementById('full-desc-'+eventId);
-    const eventTiming = document.getElementById('event-timings-'+eventId);
+
+    const myButton = document.getElementById('read-more-btn-' + eventId);
+    const threeDots = document.getElementById('three-dots-' + eventId);
+    const fullDesc = document.getElementById('full-desc-' + eventId);
+    const eventTiming = document.getElementById('event-timings-' + eventId);
 
     if (fullDesc.style.display === 'none' || fullDesc.style.display === '') {
         fullDesc.style.display = 'inline';
         threeDots.style.display = 'none';
         myButton.textContent = 'Read Less';
         eventTiming.style.display = 'none';
-    } 
-    
+    }
+
     else {
         fullDesc.style.display = 'none';
         threeDots.style.display = 'inline';
@@ -74,10 +74,10 @@ function toggleDiv3() {
 }
 
 function toggleReadDesc(eventId) {
-    var more = document.getElementById("expand-more-"+eventId);
-    var less = document.getElementById("expand-less-"+eventId);
-    var desc = document.getElementById("event-desc-"+eventId);
-    var details = document.getElementById("event-handling-"+eventId);
+    var more = document.getElementById("expand-more-" + eventId);
+    var less = document.getElementById("expand-less-" + eventId);
+    var desc = document.getElementById("event-desc-" + eventId);
+    var details = document.getElementById("event-handling-" + eventId);
 
     if (desc.style.display === 'none' || desc.style.display === '') {
         desc.style.display = 'inline';
@@ -94,7 +94,7 @@ function toggleReadDesc(eventId) {
 }
 
 function loadState(state) {
-    switch(state) {
+    switch (state) {
         case 0:
             toggleDiv1();
             break;

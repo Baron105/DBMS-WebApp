@@ -12,9 +12,10 @@
         <ul class="dash-tabs">
             <li id="logout-tab">
                 <span class="material-symbols-outlined">person_remove</span>
-                <a class="tablinks" href="{{url_for('remove_participant',url_encrypt=url_encrypt)}}">Remove Participant</a>
+                <a class="tablinks" href="{{url_for('remove_participant',url_encrypt=url_encrypt)}}">Remove
+                    Participant</a>
             </li>
-            
+
 
             <li id="logout-tab">
                 <span class="material-symbols-outlined">calendar_month</span>
@@ -34,7 +35,7 @@
                 <div class="pf-col-4">
                     <div class="small-card card all-events-bg">
                         <div class="small-body">
-                            <h5 class="color-title small-title" >Events</h5>
+                            <h5 class="color-title small-title">Events</h5>
                             <p class="small-content bold">
                                 {{ events|length }}
                                 <span class="spl-font">EVENT(S)</span>
