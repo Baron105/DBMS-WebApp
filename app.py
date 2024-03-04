@@ -31,15 +31,8 @@ def rsa_hash_encrypt(message, key):
 
 
 # conn = psycopg2.connect(
-#     dbname="21CS30032", user="21CS30032", password="21CS30032", host="10.5.18.70"
+#     dbname="dbname", user="user", password="password", host="ip_addr"
 # )
-
-conn = psycopg2.connect(
-    dbname="21CS10014",
-    user="21CS10014",
-    password="21CS10014",
-    host="10.5.18.68"
-)
 
 app = Flask(__name__)
 
