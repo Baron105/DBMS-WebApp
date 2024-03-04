@@ -8,6 +8,10 @@
 <div class="error-page">
     <img class="error-img" src="{{ url_for('static', filename='images/error.png') }}" alt="error icon">
     <h1>Error 404</h1>
+    {% if flag %}
+    <p>Sorry! We don't like you, Get Lost! Bye! ;\</p>
+    {%else%}
     <p>Trying to be smart ;)</p>
+    {%endif%}
 </div>
 {% endblock %}
