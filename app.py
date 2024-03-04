@@ -84,7 +84,7 @@ def login():
 
         try:
             username = int(username)
-        except(ValueError, TypeError):
+        except (ValueError, TypeError):
             flag = 1
             return render_template("login.html", flag=flag)
 
@@ -367,7 +367,7 @@ def index(fest_id, organise, student, x, url_encrypt):
     events_organised = []
     event_org_details = {}
     volunteering_event_2 = []
-    
+
     # url_encrypt = sha256_hash(str(rsa_hash_encrypt(str(fest_id),key)))
 
     if student != session["student"] or organise != session["organise"]:
@@ -412,7 +412,7 @@ def index(fest_id, organise, student, x, url_encrypt):
             print(e)
             non_participating_event = []
             conn.rollback()
-            
+
         # get the events won by the participant
         try:
             cursor.execute(
@@ -428,14 +428,16 @@ def index(fest_id, organise, student, x, url_encrypt):
     else:
         # events won by the student
         try:
-            cursor.execute(f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id in (select event_id from participating_int where fest_id = {fest_id} and event_winner = {fest_id})")
+            cursor.execute(
+                f"SELECT event_id,event_name,event_date,event_time,event_venue from event where event_id in (select event_id from participating_int where fest_id = {fest_id} and event_winner = {fest_id})"
+            )
             events_won = cursor.fetchall()
-            
+
         except psycopg2.Error as e:
             print(e)
             events_won = []
             conn.rollback()
-        
+
         # show details of user
         try:
             cursor.execute(
@@ -506,9 +508,9 @@ def index(fest_id, organise, student, x, url_encrypt):
 
                 for event in events_organised:
                     event_id = event[0]
-                    
+
                     temp = dict()
-                    
+
                     # participants of event_id
                     cursor.execute(
                         f"SELECT fest_id, name from participating_ext natural join ext_participant where event_id = {event_id} UNION SELECT fest_id, name from participating_int natural join student where event_id = {event_id}"
@@ -516,7 +518,9 @@ def index(fest_id, organise, student, x, url_encrypt):
                     temp["participants"] = cursor.fetchall()
 
                     # volunteers of event_id
-                    cursor.execute(f"SELECT roll, name from volunteering natural join student where event_id = {event_id}")
+                    cursor.execute(
+                        f"SELECT roll, name from volunteering natural join student where event_id = {event_id}"
+                    )
                     temp["volunteers"] = cursor.fetchall()
 
                     event_org_details[event_id] = temp
@@ -542,10 +546,9 @@ def index(fest_id, organise, student, x, url_encrypt):
             events_organised=events_organised,
             event_org_details=event_org_details,
             other_events=other_events,
-            events_won = events_won,
+            events_won=events_won,
             details=details,
             url_encrypt=url_encrypt,
-
         )
     else:
         return render_template("error.html")
@@ -558,7 +561,7 @@ def index(fest_id, organise, student, x, url_encrypt):
 def winner(fest_id, event_id, organise, student, winner_name, url_encrypt):
     """Winner page"""
     cursor = conn.cursor()
-    
+
     # extract 24FEST from the winner_name
 
     try:
@@ -717,10 +720,10 @@ def register():
     else:
         return render_template("register.html")
 
+
 if __name__ == "__main__":
     # connect to the database
 
     app.secret_key = "secret"
 
     app.run(debug=True)
-
