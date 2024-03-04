@@ -375,7 +375,7 @@ def index(fest_id, organise, student, x, url_encrypt):
     event_org_details = {}
     volunteering_event_2 = []
     
-    url_encrypt = sha256_hash(str(rsa_hash_encrypt(str(fest_id),key)))
+    # url_encrypt = sha256_hash(str(rsa_hash_encrypt(str(fest_id),key)))
 
     if student != session["student"] or organise != session["organise"]:
         return render_template("error.html")
